@@ -1,4 +1,8 @@
 /** @type {import('tailwindcss').Config} */
+
+import aspectRatio from '@tailwindcss/aspect-ratio';
+import forms from '@tailwindcss/forms';
+
 export default {
   content: ['./index.html', './src/**/*.{vue,js,ts,jsx,tsx}'],
   theme: {
@@ -22,6 +26,9 @@ export default {
         }
       }
     },
-    plugins: []
+    plugins: [
+      aspectRatio,
+      forms,
+    ]
   }
 }
