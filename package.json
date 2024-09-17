@@ -15,10 +15,14 @@
     "test-cover": "vitest run --coverage"
   },
   "dependencies": {
+    "@eslint/config-array": "^0.18.0",
     "@vitest/coverage-v8": "^2.0.5",
     "axios": "^1.7.7",
+    "glob": "^11.0.0",
+    "inflight": "^1.0.6",
     "p3-digital-academy-project-funkoshop-frontend": "file:",
     "pinia": "^2.1.7",
+    "rimraf": "^6.0.1",
     "vue": "^3.4.29",
     "vue-router": "^4.3.3"
   },
