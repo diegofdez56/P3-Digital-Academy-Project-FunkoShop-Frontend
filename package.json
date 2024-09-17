@@ -1,0 +1,40 @@
+{
+  "name": "p3-digital-academy-project-funkoshop-frontend",
+  "version": "0.0.0",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "predeploy": "npm run build",
+    "deploy": "gh-pages -d dist",
+    "dev": "vite",
+    "build": "vite build",
+    "preview": "vite preview",
+    "test": "vitest run",
+    "test-w": "vitest",
+    "test:unit": "vitest --environment jsdom",
+    "test-cover": "vitest run --coverage"
+  },
+  "dependencies": {
+    "@vitest/coverage-v8": "^2.0.5",
+    "axios": "^1.7.7",
+    "p3-digital-academy-project-funkoshop-frontend": "file:",
+    "pinia": "^2.1.7",
+    "vue": "^3.4.29",
+    "vue-router": "^4.3.3"
+  },
+  "devDependencies": {
+    "@rushstack/eslint-patch": "^1.8.0",
+    "@vitejs/plugin-vue": "^5.0.5",
+    "@vue/eslint-config-prettier": "^9.0.0",
+    "@vue/test-utils": "^2.4.6",
+    "autoprefixer": "^10.4.20",
+    "eslint": "^8.57.0",
+    "eslint-plugin-vue": "^9.23.0",
+    "jsdom": "^25.0.0",
+    "postcss": "^8.4.47",
+    "prettier": "^3.2.5",
+    "tailwindcss": "^3.4.11",
+    "vite": "^5.3.1",
+    "vitest": "^2.1.1"
+  }
+}
