@@ -1,7 +1,10 @@
 <script setup>
+import CarrouselBanner from '@/components/HomePage/CarrouselBanner.vue';
+
 </script>
 
 <template>
-  <main>
-  </main>
+  <header>
+  <CarrouselBanner />
+</header>
 </template>

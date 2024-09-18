@@ -21,8 +21,8 @@ import LanguageSelector from './LanguageSelector.vue';
 const navigation = {
     categories: [
         {
-            id: 'women',
-            name: 'Women',
+            id: 'Categories',
+            name: 'Categories',
             featured: [
                 {
                     name: 'New Arrivals',
@@ -39,18 +39,13 @@ const navigation = {
             ],
             sections: [
                 {
-                    id: 'clothing',
-                    name: 'Clothing',
+                    id: 'Funkos by...',
+                    name: 'Funkos by...',
                     items: [
-                        { name: 'Tops', href: '#' },
-                        { name: 'Dresses', href: '#' },
-                        { name: 'Pants', href: '#' },
-                        { name: 'Denim', href: '#' },
-                        { name: 'Sweaters', href: '#' },
-                        { name: 'T-Shirts', href: '#' },
-                        { name: 'Jackets', href: '#' },
-                        { name: 'Activewear', href: '#' },
-                        { name: 'Browse All', href: '#' },
+                        { name: 'Animation', href: '#' },
+                        { name: 'Anime & Manga', href: '#' },
+                        { name: 'Marvel', href: '#' },
+                        { name: 'DC Comics', href: '#' },
                     ],
                 },
                 {
@@ -78,66 +73,9 @@ const navigation = {
                 },
             ],
         },
-        {
-            id: 'men',
-            name: 'Men',
-            featured: [
-                {
-                    name: 'New Arrivals',
-                    href: '#',
-                    imageSrc: 'https://tailwindui.com/img/ecommerce-images/product-page-04-detail-product-shot-01.jpg',
-                    imageAlt: 'Drawstring top with elastic loop closure and textured interior padding.',
-                },
-                {
-                    name: 'Artwork Tees',
-                    href: '#',
-                    imageSrc: 'https://tailwindui.com/img/ecommerce-images/category-page-02-image-card-06.jpg',
-                    imageAlt:
-                        'Three shirts in gray, white, and blue arranged on table with same line drawing of hands and shapes overlapping on front of shirt.',
-                },
-            ],
-            sections: [
-                {
-                    id: 'clothing',
-                    name: 'Clothing',
-                    items: [
-                        { name: 'Tops', href: '#' },
-                        { name: 'Pants', href: '#' },
-                        { name: 'Sweaters', href: '#' },
-                        { name: 'T-Shirts', href: '#' },
-                        { name: 'Jackets', href: '#' },
-                        { name: 'Activewear', href: '#' },
-                        { name: 'Browse All', href: '#' },
-                    ],
-                },
-                {
-                    id: 'accessories',
-                    name: 'Accessories',
-                    items: [
-                        { name: 'Watches', href: '#' },
-                        { name: 'Wallets', href: '#' },
-                        { name: 'Bags', href: '#' },
-                        { name: 'Sunglasses', href: '#' },
-                        { name: 'Hats', href: '#' },
-                        { name: 'Belts', href: '#' },
-                    ],
-                },
-                {
-                    id: 'brands',
-                    name: 'Brands',
-                    items: [
-                        { name: 'Re-Arranged', href: '#' },
-                        { name: 'Counterfeit', href: '#' },
-                        { name: 'Full Nelson', href: '#' },
-                        { name: 'My Way', href: '#' },
-                    ],
-                },
-            ],
-        },
     ],
     pages: [
-        { name: 'Company', href: '#' },
-        { name: 'Stores', href: '#' },
+        { name: 'Products', href: '#' },
     ],
 }
 
@@ -201,7 +139,7 @@ const open = ref(false)
                                         </div>
                                         <div v-for="section in category.sections" :key="section.name">
                                             <p :id="`${category.id}-${section.id}-heading-mobile`"
-                                                class="font-medium text-white">{{ section.name }}</p>
+                                                class="font-medium text-blueFunko-300">{{ section.name }}</p>
                                             <ul role="list"
                                                 :aria-labelledby="`${category.id}-${section.id}-heading-mobile`"
                                                 class="mt-6 flex flex-col space-y-6">
@@ -251,12 +189,15 @@ const open = ref(false)
                         <div class="ml-4 flex lg:ml-0">
                             <a href="#">
                                 <span class="sr-only">Your Company</span>
-                                <img class="h-10 w-auto" src="../assets/img/logos/WhiteLogo.svg" alt="" />
+                                <img class="h-10 w-auto" src="../../assets/img/logos/WhiteLogo.svg" alt="" />
                             </a>
                         </div>
 
                         <PopoverGroup class="hidden lg:ml-8 lg:block lg:self-stretch">
                             <div class="flex h-full space-x-8">
+                                <a v-for="page in navigation.pages" :key="page.name" :href="page.href"
+                                    class="flex items-center text-sm font-medium text-white hover:text-blueFunko-300">{{
+                                        page.name }}</a>
                                 <Popover v-for="category in navigation.categories" :key="category.name" class="flex"
                                     v-slot="{ open }">
                                     <div class="relative flex">
@@ -269,7 +210,7 @@ const open = ref(false)
                                         enter-from-class="opacity-0" enter-to-class="opacity-100"
                                         leave-active-class="transition ease-in duration-150"
                                         leave-from-class="opacity-100" leave-to-class="opacity-0">
-                                        <PopoverPanel class="absolute inset-x-0 top-full text-sm text-white">
+                                        <PopoverPanel class="absolute inset-x-0 z-10 top-full text-sm text-white">
                                             <div class="absolute inset-0 top-1/2 bg-white shadow" aria-hidden="true" />
 
                                             <div class="relative bg-slate-950">
@@ -318,16 +259,14 @@ const open = ref(false)
                                     </transition>
                                 </Popover>
 
-                                <a v-for="page in navigation.pages" :key="page.name" :href="page.href"
-                                    class="flex items-center text-sm font-medium text-white hover:text-blueFunko-300">{{
-                                        page.name }}</a>
+                                
                             </div>
                         </PopoverGroup>
 
                         <div class="ml-auto flex items-center">
                             <LanguageSelector />
 
-                            <div class="flex lg:ml-6 p-1">
+                            <div class="ml-4 flex lg:ml-6 p-1">
                                 <a href="#" class="p-1 inline-flex gap-x-2 items-center">
                                     <span class="sr-only">Profile</span>
                                     <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor"
@@ -336,9 +275,6 @@ const open = ref(false)
                                             d="M7.5 6a4.5 4.5 0 1 1 9 0 4.5 4.5 0 0 1-9 0ZM3.751 20.105a8.25 8.25 0 0 1 16.498 0 .75.75 0 0 1-.437.695A18.683 18.683 0 0 1 12 22.5c-2.786 0-5.433-.608-7.812-1.7a.75.75 0 0 1-.437-.695Z"
                                             clip-rule="evenodd" />
                                     </svg>
-                                    <p class="text-white text-xs font-semibold">
-                                        SIGN IN
-                                    </p>
                                 </a>
                             </div>
 
