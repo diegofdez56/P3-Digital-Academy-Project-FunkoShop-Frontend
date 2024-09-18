@@ -1,9 +1,10 @@
 <script setup>
-import TheWelcome from '../components/TheWelcome.vue'
+import CarrouselBanner from '@/components/HomePage/CarrouselBanner.vue';
+
 </script>
 
 <template>
-  <main>
-    <TheWelcome />
-  </main>
+  <header>
+  <CarrouselBanner />
+</header>
 </template>
