@@ -1,3 +1,35 @@
+<script>
+import FunkoCard from './FunkoCard.vue'
+
+export default {
+  name: 'ScrollableCarousel',
+  components: { FunkoCard },
+  data() {
+    return {
+      funkoList: [
+        { id: 1 },
+        { id: 2 },
+        { id: 3 },
+        { id: 4 },
+        { id: 5 },
+        { id: 6 },
+        { id: 7 },
+        { id: 8 }
+      ]
+    }
+  },
+  methods: {
+    scrollLeft() {
+      const carousel = this.$refs.carousel
+      carousel.scrollBy({ left: -carousel.clientWidth / 4, behavior: 'smooth' })
+    },
+    scrollRight() {
+      const carousel = this.$refs.carousel
+      carousel.scrollBy({ left: carousel.clientWidth / 4, behavior: 'smooth' })
+    }
+  }
+}
+</script>
 <template>
   <div class="container mx-auto relative">
     <button
@@ -51,39 +83,6 @@
     </div>
   </div>
 </template>
-
-<script>
-import FunkoCard from './FunkoCard.vue'
-
-export default {
-  name: 'ScrollableCarousel',
-  components: { FunkoCard },
-  data() {
-    return {
-      funkoList: [
-        { id: 1 },
-        { id: 2 },
-        { id: 3 },
-        { id: 4 },
-        { id: 5 },
-        { id: 6 },
-        { id: 7 },
-        { id: 8 }
-      ]
-    }
-  },
-  methods: {
-    scrollLeft() {
-      const carousel = this.$refs.carousel
-      carousel.scrollBy({ left: -carousel.clientWidth / 4, behavior: 'smooth' })
-    },
-    scrollRight() {
-      const carousel = this.$refs.carousel
-      carousel.scrollBy({ left: carousel.clientWidth / 4, behavior: 'smooth' })
-    }
-  }
-}
-</script>
 
 <style scoped>
 .scrollbar-hide::-webkit-scrollbar {
