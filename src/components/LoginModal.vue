@@ -1,14 +1,14 @@
 <script setup>
 import { ref } from 'vue'
-import { useRoute, useRouter } from 'vue-router'
+/* import { useRoute, useRouter } from 'vue-router' */
 import { useAuthStore } from '@/stores/auth.js'
 
 const username = ref('')
 const password = ref('')
 const textAlert = ref("")
 
-const route = useRoute()
-const router = useRouter()
+/* const route = useRoute()
+const router = useRouter() */
 
 const store = useAuthStore()
 
@@ -75,6 +75,12 @@ async function login() {
               class="flex w-full justify-center rounded-md bg-blueFunko-700 px-3 py-2 text-sm font-semibold leading-6 text-white shadow-sm hover:bg-blueFunko-800 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-blueFunko-800 easy-in-out duration-150 hover:scale-105 hover:delay-150">
               Sign in
             </button>
+          </div>
+
+          <div v-if="textAlert != ''"
+            class="mt-4 font-regular relative block w-full rounded-lg bg-red-500 p-4 text-base leading-5 text-white opacity-100"
+            data-dismissible="alert">
+            <div class="mr-12">{{ textAlert }}</div>
           </div>
         </form>
         <p class="text-sm text-center mt-10 text-gray-400">——— Connect With ———</p>
