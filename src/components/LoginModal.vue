@@ -1,3 +1,7 @@
+<script setup>
+
+</script>
+
 <template>
   <div class="flex h-screen justify-center items-center backdrop-blur-sm bg-white/30">
     <div
