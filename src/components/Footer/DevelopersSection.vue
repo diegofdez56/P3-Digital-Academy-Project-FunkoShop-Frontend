@@ -4,32 +4,32 @@ import Icon from './DeveloperIcon.vue'
 const developers = [
   {
     name: 'Aitor',
-    icon: new URL('@/assets/img/DevevlopersIcons/aitor.jpeg', import.meta.url).href,
-    link: 'https://github.com/aitorgarciafernandez'
+    icon: new URL('@/assets/img/DevelopersIcons/aitor.jpeg', import.meta.url).href,
+    link: 'https://github.com/aitorgarciadev'
   },
   {
     name: 'Bego',
-    icon: new URL('@/assets/img/DevevlopersIcons/bego.jpeg', import.meta.url).href,
+    icon: new URL('@/assets/img/DevelopersIcons/bego.jpeg', import.meta.url).href,
     link: 'https://github.com/begoblanco'
   },
   {
     name: 'Diego',
-    icon: new URL('@/assets/img/DevevlopersIcons/diego.jpeg', import.meta.url).href,
+    icon: new URL('@/assets/img/DevelopersIcons/diego.jpeg', import.meta.url).href,
     link: 'https://github.com/diegofdez56'
   },
   {
     name: 'Javier',
-    icon: new URL('@/assets/img/DevevlopersIcons/javier.jpeg', import.meta.url).href,
+    icon: new URL('@/assets/img/DevelopersIcons/javier.jpeg', import.meta.url).href,
     link: 'https://github.com/devjmv'
   },
   {
     name: 'Olena',
-    icon: new URL('@/assets/img/DevevlopersIcons/olena.jpeg', import.meta.url).href,
+    icon: new URL('@/assets/img/DevelopersIcons/olena.jpeg', import.meta.url).href,
     link: 'https://github.com/OlenaAndrushchenko'
   },
   {
     name: 'Vero',
-    icon: new URL('@/assets/img/DevevlopersIcons/vero.jpeg', import.meta.url).href,
+    icon: new URL('@/assets/img/DevelopersIcons/vero.jpeg', import.meta.url).href,
     link: 'https://github.com/Miharu669'
   }
 ]
