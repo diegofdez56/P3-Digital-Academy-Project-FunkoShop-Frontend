@@ -3,13 +3,6 @@ import axios from 'axios';
 
 const BASE_URL = import.meta.env.VITE_API_ENDPOINT
 
-const api = axios.create({
-    baseURL: BASE_URL,
-    headers: {
-      "Content-Type": "application/json",
-      "Authorization": "Basic " + localStorage.getItem("token")
-    },
-  });
 
 export const useOrderStore = defineStore('orderStore', {
   state: () => ({
@@ -24,7 +17,7 @@ export const useOrderStore = defineStore('orderStore', {
       this.loading = true;
       this.error = null;
       try {
-        const response = await api.get("/orders");
+        const response = await axios.get(`${BASE_URL}/orders`);	
         this.orders = response.data;
         this.error = null;
       } catch (error) {
@@ -38,7 +31,7 @@ export const useOrderStore = defineStore('orderStore', {
       this.loading = true;
       this.error = null;
       try {
-        const response = await api.get(`/orders/${id}`);
+        const response = await axios.get(`${BASE_URL}/orders/${id}`);
         this.order = response.data;
         this.error = null;
       } catch (error) {
@@ -52,7 +45,7 @@ export const useOrderStore = defineStore('orderStore', {
       this.loading = true;
       this.error = null;
       try {
-        const response = await api.post("/orders", orderData);
+        const response = await axios.post(`${BASE_URL}/orders`, orderData);
         this.orders.push(response.data);
         this.error = null;
       } catch (error) {
@@ -66,7 +59,7 @@ export const useOrderStore = defineStore('orderStore', {
       this.loading = true;
       this.error = null;
       try {
-        const response = await api.put(`/orders/${id}`, orderData);
+        const response = await axios.put(`${BASE_URL}/orders/${id}`, orderData);
         const index = this.orders.findIndex(order => order.id === id);
         if (index !== -1) {
           this.orders[index] = response.data;
@@ -83,7 +76,7 @@ export const useOrderStore = defineStore('orderStore', {
       this.loading = true;
       this.error = null;
       try {
-        await api.delete(`/orders/${id}`);
+        await axios.delete(`${BASE_URL}/orders/${id}`);
         this.orders = this.orders.filter(order => order.id !== id);
         this.error = null;
       } catch (error) {
@@ -96,7 +89,7 @@ export const useOrderStore = defineStore('orderStore', {
     async fetchOrdersByUser(userId) {
       this.loading = true;
       try {
-        const response = await api.get(`/orders/user/${userId}`);
+        const response = await axios.get(`${BASE_URL}/orders/user/${userId}`);
         this.orders = response.data;
         this.error = null;
       } catch (error) {
@@ -112,7 +105,7 @@ export const useOrderStore = defineStore('orderStore', {
       this.loading = true;
       this.error = null;
       try {
-        const response = await api.post(`/orders/${orderId}/items`, orderItemData);
+        const response = await axios.post(`${BASE_URL}/orders/${orderId}/items`, orderItemData);
         const index = this.orders.findIndex(order => order.id === orderId);
         if (index !== -1) {
           this.orders[index].items.push(response.data); 
@@ -129,7 +122,7 @@ export const useOrderStore = defineStore('orderStore', {
       this.loading = true;
       this.error = null;
       try {
-        await api.delete(`/orders/${orderId}/items/${orderItemId}`);
+        await axios.delete(`${BASE_URL}/orders/${orderId}/items/${orderItemId}`);
         const index = this.orders.findIndex(order => order.id === orderId);
         if (index !== -1) {
           this.orders[index].items = this.orders[index].items.filter(item => item.id !== orderItemId);
