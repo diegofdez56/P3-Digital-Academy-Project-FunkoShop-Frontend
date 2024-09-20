@@ -6,23 +6,23 @@ import { XMarkIcon, ShoppingBagIcon } from '@heroicons/vue/24/outline'
 const products = [
   {
     id: 1,
-    name: 'Throwback Hip Bag',
+    name: 'Product Title',
     href: '#',
-    color: 'Salmon',
-    price: '$90.00',
+    category: 'Category',
+    price: '90.00€',
     quantity: 1,
-    imageSrc: 'https://tailwindui.com/img/ecommerce-images/shopping-cart-page-04-product-01.jpg',
+    imageSrc: '/src/assets/img/CardImage/Groot.png',
     imageAlt:
       'Salmon orange fabric pouch with match zipper, gray zipper pull, and adjustable hip belt.'
   },
   {
     id: 2,
-    name: 'Medium Stuff Satchel',
+    name: 'Product Title',
     href: '#',
-    color: 'Blue',
-    price: '$32.00',
+    category: 'Category',
+    price: '32.00€',
     quantity: 1,
-    imageSrc: 'https://tailwindui.com/img/ecommerce-images/shopping-cart-page-04-product-02.jpg',
+    imageSrc: '/src/assets/img/CardImage/Groot.png',
     imageAlt:
       'Front of satchel with blue canvas body, black straps and handle, drawstring top, and front zipper pouch.'
   }
@@ -108,7 +108,7 @@ const open = ref(false)
                                   </h3>
                                   <p class="ml-4">{{ product.price }}</p>
                                 </div>
-                                <p class="mt-1 text-sm text-gray-500">{{ product.color }}</p>
+                                <p class="mt-1 text-sm text-gray-500">{{ product.category }}</p>
                               </div>
                               <div class="flex flex-1 items-end justify-between text-sm">
                                 <p class="text-gray-500">Qty {{ product.quantity }}</p>
@@ -116,7 +116,7 @@ const open = ref(false)
                                 <div class="flex">
                                   <button
                                     type="button"
-                                    class="font-medium text-indigo-600 hover:text-indigo-500"
+                                    class="font-medium text-red-500 hover:text-red-600"
                                   >
                                     Remove
                                   </button>
@@ -132,7 +132,7 @@ const open = ref(false)
                   <div class="border-t border-gray-200 px-4 py-6 sm:px-6">
                     <div class="flex justify-between text-base font-medium text-gray-900">
                       <p>Subtotal</p>
-                      <p>$262.00</p>
+                      <p>262.00€</p>
                     </div>
                     <p class="mt-0.5 text-sm text-gray-500">
                       Shipping and taxes calculated at checkout.
@@ -140,7 +140,7 @@ const open = ref(false)
                     <div class="mt-6">
                       <a
                         href="#"
-                        class="flex items-center justify-center rounded-md border border-transparent bg-indigo-600 px-6 py-3 text-base font-medium text-white shadow-sm hover:bg-indigo-700"
+                        class="flex items-center justify-center rounded-md border border-transparent bg-blueFunko-700 px-6 py-3 text-base font-medium text-white shadow-sm hover:bg-blueFunko-800"
                         >Checkout</a
                       >
                     </div>
@@ -149,7 +149,7 @@ const open = ref(false)
                         or{{ ' ' }}
                         <button
                           type="button"
-                          class="font-medium text-indigo-600 hover:text-indigo-500"
+                          class="font-medium text-blueFunko-500 hover:text-blueFunko-600"
                           @click="open = false"
                         >
                           Continue Shopping
