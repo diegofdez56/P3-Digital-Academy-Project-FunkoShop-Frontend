@@ -23,10 +23,10 @@ const handlePageChange = (newPage) => {
 
 <template>
   <div>
-    <div v-if="isLoading" class="text-center mt-8">
+    <div v-if="isLoading" class="text-center mt-2">
       <p>Loading products...</p>
     </div>
-    <div v-else-if="error" class="text-center mt-8 text-red-500">
+    <div v-else-if="error" class="text-center mt-2 text-red-500">
       <p>Error: {{ error }}</p>
     </div>
     <div v-else>

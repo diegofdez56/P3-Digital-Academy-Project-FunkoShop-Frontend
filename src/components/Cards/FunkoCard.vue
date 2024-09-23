@@ -2,7 +2,8 @@
 import ReviewIcon from './ReviewIcon.vue';
 import FavoriteIcon from './FavoriteIcon.vue';
 import BadgeCard from './BadgeCard.vue';
-import { useModal } from '/src/composables/useProduct.js';
+import { ProductModal } from '/src/components/ProductDetail/ProductModal.vue';
+
 
 defineProps({
   product: {
@@ -11,7 +12,6 @@ defineProps({
   },
 });
 
-const { openModal } = useModal();
 
 // import { computed } from 'vue';
 
@@ -44,15 +44,7 @@ const { openModal } = useModal();
       </div>
       <div class="flex justify-between items-center">
         <p class="text-black text-sm font-semibold"> ${{ product.price ? product.price.toFixed(2) : '0.00' }}</p>
-        <button
-          class="rounded-md bg-gray-200 py-1 px-2 border border-transparent text-center text-sm text-white transition-all shadow-md hover:shadow-lg focus:bg-gray-300 focus:shadow-none active:bg-gray-300 hover:bg-gray-300 active:shadow-none disabled:pointer-events-none disabled:opacity-50 disabled:shadow-none"
-          type="button" @click="openModal">
-          <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.8" stroke="black"
-            class="size-6">
-            <path stroke-linecap="round" stroke-linejoin="round"
-              d="M15.75 10.5V6a3.75 3.75 0 1 0-7.5 0v4.5m11.356-1.993 1.263 12c.07.665-.45 1.243-1.119 1.243H4.25a1.125 1.125 0 0 1-1.12-1.243l1.264-12A1.125 1.125 0 0 1 5.513 7.5h12.974c.576 0 1.059.435 1.119 1.007ZM8.625 10.5a.375.375 0 1 1-.75 0 .375.375 0 0 1 .75 0Zm7.5 0a.375.375 0 1 1-.75 0 .375.375 0 0 1 .75 0Z" />
-          </svg>
-        </button>
+        <ProductModal />
       </div>
     </div>
   </div>
