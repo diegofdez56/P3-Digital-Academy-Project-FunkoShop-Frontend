@@ -1,5 +1,10 @@
 <script setup>
+import { useAuthStore } from '@/stores/auth';
+import { perfilStore } from '@/stores/perfil/perfilStore';
 import { ref } from 'vue';
+
+const store = perfilStore()
+const auth = useAuthStore()
 
 const firstName = ref('');
 const lastName = ref('');
@@ -10,23 +15,26 @@ const region = ref('');
 const postalCode = ref('');
 const country = ref('');
 
-const subscribed = ref('');
-const shipping = ref('');
+const address = ref(null);
+const subscribed = ref(false);
+const shipping = ref(false);
 
 const countryCode = ref('+34');
 const rigthNumber = ref('');
-const phoneNumber = ref(`${countryCode.value}-${rigthNumber.value}`);
 
-const form = () => {
-    
+async function setPerfil() {
+    const response = await store.setPerfil(firstName.value, lastName.value, (countryCode.value + '-' + rigthNumber.value), street.value, city.value, region.value, postalCode.value, country.value, address.value, subscribed.value, shipping.value, auth.user.access_token);
+    console.log(response);
 }
+
+
 </script>
 
 <template>
-    <form class="w-full max-w-2xl px-4 py-8 mx-auto" @submit.prevent="form">
+    <form class="w-full max-w-2xl px-4 py-8 mx-auto" @submit.prevent="setPerfil">
         <div class="space-y-12">
             <div class="border-b border-gray-900/10 pb-12">
-                <h2 class="text-base font-semibold leading-7 text-gray-900">Personal Information</h2>
+                <h2 class="text-base font-semibold leading-7 text-gray-900">Personal Information {{ rigthNumber }}</h2>
                 <p class="mt-1 text-sm leading-6 text-gray-600">Use a permanent address where you can receive mail.</p>
 
                 <div class="mt-10 grid grid-cols-1 gap-x-6 gap-y-8 sm:grid-cols-6">
@@ -236,8 +244,7 @@ const form = () => {
                     </div>
 
                     <div class="col-span-6 sm:col-span-2">
-                        <label for="country" class="block text-sm font-medium leading-6 text-gray-900">Country
-                            Code</label>
+                        <label for="country" class="block text-sm font-medium leading-6 text-gray-900">Country</label>
                         <div class="mt-2">
                             <select v-model="country" id="country"
                                 class="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6">
