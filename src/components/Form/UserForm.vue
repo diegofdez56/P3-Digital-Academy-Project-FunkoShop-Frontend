@@ -22,9 +22,9 @@ const shipping = ref(false);
 const countryCode = ref('+34');
 const rigthNumber = ref('');
 
+
 async function setPerfil() {
-    const response = await store.setPerfil(firstName.value, lastName.value, (countryCode.value + '-' + rigthNumber.value), street.value, city.value, region.value, postalCode.value, country.value, address.value, subscribed.value, shipping.value, auth.user.access_token);
-    console.log(response);
+    const response = await store.setPerfil(firstName.value, lastName.value, (countryCode.value + '-' + rigthNumber.value), street.value, city.value, region.value, postalCode.value, country.value, address.value, subscribed.value, shipping.value, auth.user.access_token, auth.user.id);
 }
 
 

@@ -31,7 +31,7 @@ export default class PerfilRepository {
             
 
             let reqOptions = {
-                url: this.baseUrl + '/profiles/3' ,
+                url: this.baseUrl + '/profiles/' + profile.getUserId(),
                 method: "PUT",
                 headers: headersList,
                 data: bodyContent,
