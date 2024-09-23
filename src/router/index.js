@@ -1,3 +1,4 @@
+import ProductView from '@/components/ProductView.vue';
 import { useAuthStore } from '@/stores/auth';
 import AboutView from '@/views/AboutView.vue';
 import { createRouter, createWebHistory } from 'vue-router'
@@ -14,6 +15,16 @@ const router = createRouter({
       path: '/about',
       name: 'about',
       component: AboutView
+    },
+    {
+      path: '/checkout',
+      name: 'checkout',
+      component: () => import('../views/CheckoutView.vue')
+    },
+    {
+      path: '/products',
+      name: 'products',
+      component: ProductView
     }
   ]
 })
