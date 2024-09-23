@@ -1,10 +1,26 @@
 <script setup>
-import ReviewIcon from './ReviewIcon.vue'
-import FavoriteIcon from './FavoriteIcon.vue'
-import BadgeCard from './BadgeCard.vue'
-import { useModal } from '/src/composables/useProduct.js'
+import ReviewIcon from './ReviewIcon.vue';
+import FavoriteIcon from './FavoriteIcon.vue';
+import BadgeCard from './BadgeCard.vue';
+import { useModal } from '/src/composables/useProduct.js';
+
+defineProps({
+  product: {
+    type: Object,
+    required: true,
+  },
+});
 
 const { openModal } = useModal();
+
+// import { computed } from 'vue';
+
+// const productImage = computed(() => {
+//   if (!props.product.image) return '';
+//   return props.product.image.startsWith('http')
+//     ? props.product.image
+//     : new URL(`../assets/img/CardImage/${props.product.image}`, import.meta.url).href;
+// });
 </script>
 
 <template>
@@ -15,17 +31,19 @@ const { openModal } = useModal();
     </div>
     <div class="relative p-2 h-60 overflow-hidden rounded-xl bg-clip-border">
       <img src="/src/assets/img/CardImage/Groot.png" alt="card-image" class="h-full w-full object-cover rounded-md" />
+      <!-- <img src="productImage" alt="product image" class="h-full w-full object-cover rounded-md" /> -->
+
     </div>
     <div>
       <ReviewIcon />
     </div>
     <div class="p-3">
-      <p class="text-slate-600 leading-normal font-light text-xs">CATEGORY</p>
+      <p class="text-slate-600 leading-normal font-light text-xs">{{ product.category?.name || 'Category' }}</p>
       <div class="mb-2 flex items-center justify-between">
-        <p class="text-slate-800 text-md font-semibold">PRODUCT TITLE</p>
+        <p class="text-slate-800 text-md font-semibold">{{ product.name }}</p>
       </div>
       <div class="flex justify-between items-center">
-        <p class="text-black text-sm font-semibold">$95.00</p>
+        <p class="text-black text-sm font-semibold"> ${{ product.price ? product.price.toFixed(2) : '0.00' }}</p>
         <button
           class="rounded-md bg-gray-200 py-1 px-2 border border-transparent text-center text-sm text-white transition-all shadow-md hover:shadow-lg focus:bg-gray-300 focus:shadow-none active:bg-gray-300 hover:bg-gray-300 active:shadow-none disabled:pointer-events-none disabled:opacity-50 disabled:shadow-none"
           type="button" @click="openModal">
@@ -39,3 +57,5 @@ const { openModal } = useModal();
     </div>
   </div>
 </template>
+
+
