@@ -2,7 +2,7 @@
 import ReviewIcon from './ReviewIcon.vue';
 import FavoriteIcon from './FavoriteIcon.vue';
 import BadgeCard from './BadgeCard.vue';
-import { ProductModal } from '/src/components/ProductDetail/ProductModal.vue';
+import ProductModal from '/src/components/ProductDetail/ProductModal.vue';
 
 
 defineProps({
