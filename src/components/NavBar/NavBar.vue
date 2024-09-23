@@ -77,7 +77,7 @@ const navigation = {
       ]
     }
   ],
-  pages: [{ name: 'Products', href: '#' }]
+  pages: [{ name: 'Products', href: '/products' }]
 }
 
 const open = ref(false)
