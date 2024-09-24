@@ -1,23 +1,26 @@
 <script setup>
-import { defineProps, computed } from 'vue';
+import { computed, defineProps } from 'vue';
 import ReviewIcon from './ReviewIcon.vue';
 import FavoriteIcon from './FavoriteIcon.vue';
 import BadgeCard from './BadgeCard.vue';
 import ProductModal from './../ProductDetail/ProductModal.vue';
+import { useProductModal } from '/src/composables/useProductModal.js';
 
-const props = defineProps({
+defineProps({
   product: {
     type: Object,
-    required: true,
-  },
+    required: true
+  }
 });
 
-// const productImage = computed(() => {
-//   if (!props.product.image) return '';
-//   return props.product.image.startsWith('http')
-//     ? props.product.image
-//     : new URL(`../assets/img/CardImage/${props.product.image}`, import.meta.url).href;
-// });
+const { isModalOpen, openModal, closeModal } = useProductModal();
+
+/* const productImage = computed(() => {
+  if (!props.product.image) return '';
+  return props.product.image.startsWith('http')
+    ? props.product.image
+    : new URL(`../assets/img/CardImage/${props.product.image}`, import.meta.url).href;
+}); */
 
 const discountedPrice = computed(() => {
   if (props.product.discount && props.product.discount.isActive) {
@@ -41,7 +44,7 @@ const discountedPrice = computed(() => {
     <div class="relative p-2 h-60 overflow-hidden rounded-xl bg-clip-border">
       <!-- <img
         :src="productImage"
-        alt="product image"
+        alt="card-image"
         class="h-full w-full object-cover rounded-md"
       /> -->
       <img src='../../assets/img/CardImage/Groot.png' alt="product image"
@@ -67,8 +70,12 @@ const discountedPrice = computed(() => {
           <p v-else class="text-black text-sm font-semibold">
             ${{ product.price.toFixed(2) }}
           </p>
-        <ProductModal :product="product" />
+        <button @click="openModal" class="px-4 py-2 bg-blue-500 text-white rounded hover:bg-blue-600">
+          Ver Detalles
+        </button>
       </div>
     </div>
+
+    <ProductModal :isOpen="isModalOpen" @close="closeModal" :product="product" />
   </div>
 </template>
