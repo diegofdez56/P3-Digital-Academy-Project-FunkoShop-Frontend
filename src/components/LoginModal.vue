@@ -5,7 +5,7 @@ import { useAuthStore } from '@/stores/auth.js'
 
 const username = ref('')
 const password = ref('')
-const textAlert = ref("")
+const textAlert = ref('')
 
 /* const route = useRoute()
 const router = useRouter() */
@@ -32,8 +32,9 @@ async function login() {
         localStorage.setItem('access_token', response['access_token'])
         localStorage.setItem('refresh_token', response['refresh_token'])
 
-        //const redirectPath = route.query.redirect || '/'
-        //router.push(redirectPath)
+        username.value = '';
+        password.value = '';
+        textAlert.value = '';
       }
       else
         textAlert.value = "Incorrect username or password!";
