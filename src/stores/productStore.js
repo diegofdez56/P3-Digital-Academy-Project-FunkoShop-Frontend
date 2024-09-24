@@ -81,6 +81,20 @@ export const useProductStore = defineStore('products', {
         this.isLoading = false
       }
     },
+    async fetchDiscountedProducts() {
+      this.isLoading = true;
+      this.error = null;
+      try {
+        const response = await axios.get(`${BASE_URL}/discounted`);
+        this.products = response.data;
+        this.currentPage = 0; 
+        this.totalPages = 1;  
+      } catch (error) {
+        this.handleError(error);
+      } finally {
+        this.isLoading = false;
+      }
+    },
 
     async updateProduct(id, product) {
       this.isLoading = true

@@ -1,7 +1,7 @@
 <script setup>
 import CarrouselBanner from '@/components/HomePage/CarrouselBanner.vue'
 import CardsCarrousel from '@/components/Cards/CardsCarrousel.vue'
-import ProductModal from '@/components/ProductDetail/ProductModal.vue'
+
 </script>
 
 <template>
@@ -16,6 +16,6 @@ import ProductModal from '@/components/ProductDetail/ProductModal.vue'
       </p>
     </div>
     <CardsCarrousel> </CardsCarrousel>
-    <ProductModal />
+    
   </main>
 </template>

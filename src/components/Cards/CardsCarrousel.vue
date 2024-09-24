@@ -30,7 +30,8 @@ const scrollRight = () => {
 };
 
 onMounted(() => {
-  productStore.fetchAllProducts(0, 8);
+  productStore.fetchDiscountedProducts();
+  // productStore.fetchAllProducts(0, 8);
 });
 </script>
 
