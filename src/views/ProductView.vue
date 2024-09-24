@@ -38,7 +38,7 @@ const handleCategoryChange = (category) => {
 </script>
 
 <template>
-  <div>
+  <div class="min-h-screen">
     <div v-if="!categoryLoading && !categoryError" class="flex flex-wrap justify-center my-4">
       <button
         v-for="category in categories"
