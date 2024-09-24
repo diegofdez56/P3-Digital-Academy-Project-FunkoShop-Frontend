@@ -1,41 +1,42 @@
 <script setup>
-import ReviewIcon from './ReviewIcon.vue'
-import FavoriteIcon from './FavoriteIcon.vue'
-import BadgeCard from './BadgeCard.vue'
-import ProductModal from './../ProductDetail/ProductModal.vue'
+import { computed } from 'vue';
+import ReviewIcon from './ReviewIcon.vue';
+import FavoriteIcon from './FavoriteIcon.vue';
+import BadgeCard from './BadgeCard.vue';
+import ProductModal from './../ProductDetail/ProductModal.vue';
+import { useProductModal } from '/src/composables/useProductModal.js'; // Importa el composable
 
-defineProps({
+const props = defineProps({
   product: {
     type: Object,
     required: true
   }
-})
+});
 
-// import { computed } from 'vue';
+// Usa el composable para gestionar el estado del modal
+const { isModalOpen, openModal, closeModal } = useProductModal();
 
-// const productImage = computed(() => {
-//   if (!props.product.image) return '';
-//   return props.product.image.startsWith('http')
-//     ? props.product.image
-//     : new URL(`../assets/img/CardImage/${props.product.image}`, import.meta.url).href;
-// });
+// Computed para manejar la imagen del producto
+const productImage = computed(() => {
+  if (!props.product.image) return '';
+  return props.product.image.startsWith('http')
+    ? props.product.image
+    : new URL(`../assets/img/CardImage/${props.product.image}`, import.meta.url).href;
+});
 </script>
 
 <template>
-  <div
-    class="relative flex flex-col my-6 bg-white shadow-sm border border-slate-200 rounded-lg w-64"
-  >
+  <div class="relative flex flex-col my-6 bg-white shadow-sm border border-slate-200 rounded-lg w-64">
     <div class="flex justify-between pt-3 px-3">
       <BadgeCard />
       <FavoriteIcon />
     </div>
     <div class="relative p-2 h-60 overflow-hidden rounded-xl bg-clip-border">
       <img
-        src="/src/assets/img/CardImage/Groot.png"
+        :src="productImage"
         alt="card-image"
         class="h-full w-full object-cover rounded-md"
       />
-      <!-- <img src="productImage" alt="product image" class="h-full w-full object-cover rounded-md" /> -->
     </div>
     <div>
       <ReviewIcon />
@@ -51,8 +52,13 @@ defineProps({
         <p class="text-black text-sm font-semibold">
           ${{ product.price ? product.price.toFixed(2) : '0.00' }}
         </p>
-        <ProductModal />
+        <button @click="openModal" class="px-4 py-2 bg-blue-500 text-white rounded hover:bg-blue-600">
+          Ver Detalles
+        </button>
       </div>
     </div>
+
+    <!-- Componente del modal para ver detalles del producto -->
+    <ProductModal :isOpen="isModalOpen" @close="closeModal" :product="product" />
   </div>
 </template>
