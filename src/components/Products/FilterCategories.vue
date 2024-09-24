@@ -33,7 +33,6 @@ const selectCategory = (category) => {
 <style scoped>
 .button-active {
     background-color: #2563eb;
-    /* Tailwind CSS blue-600 */
     color: white;
 }
 </style>

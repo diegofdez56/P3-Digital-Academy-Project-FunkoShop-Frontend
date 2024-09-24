@@ -28,17 +28,12 @@ const handleCategoryChange = (category) => {
 <template>
   <div>
     <div class="flex flex-wrap justify-center my-4">
-      <button
-        v-for="category in categories"
-        :key="category.id"
-        @click="handleCategoryChange(category)"
-        :class="[
-          'px-4 py-2 m-2 rounded',
-          category.id === selectedCategory.id
-            ? 'bg-blue-600 text-white'
-            : 'bg-gray-200 text-gray-700'
-        ]"
-      >
+      <button v-for="category in categories" :key="category.id" @click="handleCategoryChange(category)" :class="[
+        'px-4 py-2 m-2 rounded',
+        category.id === selectedCategory.id
+          ? 'bg-blue-600 text-white'
+          : 'bg-gray-200 text-gray-700'
+      ]">
         {{ category.name }}
       </button>
     </div>
@@ -50,12 +45,8 @@ const handleCategoryChange = (category) => {
       <p>Error: {{ error }}</p>
     </div>
     <div v-else>
-      <ProductList
-        :products="products"
-        :currentPage="currentPage"
-        :totalPages="totalPages"
-        @changePage="handlePageChange"
-      />
+      <ProductList :products="products" :currentPage="currentPage" :totalPages="totalPages"
+        @changePage="handlePageChange" />
     </div>
   </div>
 </template>

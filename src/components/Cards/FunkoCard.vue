@@ -1,5 +1,5 @@
 <script setup>
-import { computed } from 'vue';
+import { computed, defineProps } from 'vue';
 import ReviewIcon from './ReviewIcon.vue';
 import FavoriteIcon from './FavoriteIcon.vue';
 import BadgeCard from './BadgeCard.vue';
@@ -32,11 +32,13 @@ const productImage = computed(() => {
       <FavoriteIcon />
     </div>
     <div class="relative p-2 h-60 overflow-hidden rounded-xl bg-clip-border">
-      <img
+      <!-- <img
         :src="productImage"
         alt="card-image"
         class="h-full w-full object-cover rounded-md"
-      />
+      /> -->
+      <img src='../../assets/img/CardImage/Groot.png' alt="product image"
+        class="h-full w-full object-cover rounded-md" />
     </div>
     <div>
       <ReviewIcon />
