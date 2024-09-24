@@ -6,7 +6,7 @@ import BadgeCard from './BadgeCard.vue';
 import ProductModal from './../ProductDetail/ProductModal.vue';
 import { useProductModal } from '/src/composables/useProductModal.js';
 
-defineProps({
+const props = defineProps({
   product: {
     type: Object,
     required: true
