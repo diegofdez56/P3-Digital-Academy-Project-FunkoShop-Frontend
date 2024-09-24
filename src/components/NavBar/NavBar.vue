@@ -188,10 +188,10 @@ const open = ref(false)
             </button>
 
             <div class="ml-4 flex lg:ml-0">
-              <a href="#">
-                <span class="sr-only">Your Company</span>
-                <img class="h-10 w-auto" src="../../assets/img/logos/WhiteLogo.svg" alt="" />
-              </a>
+              <RouterLink to="/">
+                <span class="sr-only">FunkoShop</span>
+                <img class="h-10 w-auto" src="../../assets/img/logos/WhiteLogo.svg" alt=""  />
+              </RouterLink>
             </div>
 
             <PopoverGroup class="hidden lg:ml-8 lg:block lg:self-stretch">

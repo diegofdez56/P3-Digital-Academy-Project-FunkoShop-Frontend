@@ -1,4 +1,4 @@
-import ProductView from '@/components/ProductView.vue';
+import ProductView from './../views/ProductView.vue';
 import { useAuthStore } from '@/stores/auth';
 import { createRouter, createWebHistory } from 'vue-router'
 
