@@ -1,3 +1,4 @@
+import ProductView from '@/components/ProductView.vue';
 import { useAuthStore } from '@/stores/auth';
 import { createRouter, createWebHistory } from 'vue-router'
 
@@ -23,7 +24,12 @@ const router = createRouter({
       // route level code-splitting
       // this generates a separate chunk (About.[hash].js) for this route
       // which is lazy-loaded when the route is visited.
-    }
+    },
+    {
+      path: '/products',
+      name: 'products',
+      component: ProductView
+    },
   ]
 })
 
