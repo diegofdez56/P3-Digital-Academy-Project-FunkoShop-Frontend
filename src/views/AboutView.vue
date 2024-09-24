@@ -4,6 +4,7 @@ import UserForm from '@/components/Form/UserForm.vue';
 
 <template>
   <div class="about">
+    
     <h1>This is an about page</h1>
     <UserForm />
   </div>

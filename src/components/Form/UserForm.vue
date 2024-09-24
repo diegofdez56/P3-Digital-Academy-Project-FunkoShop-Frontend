@@ -13,7 +13,7 @@ const street = ref('');
 const city = ref('');
 const region = ref('');
 const postalCode = ref('');
-const country = ref('');
+const country = ref('IL');
 
 const address = ref(null);
 const subscribed = ref(false);
@@ -22,36 +22,37 @@ const shipping = ref(false);
 const countryCode = ref('+34');
 const rigthNumber = ref('');
 
-async function setPerfil() {
-    const response = await store.setPerfil(firstName.value, lastName.value, (countryCode.value + '-' + rigthNumber.value), street.value, city.value, region.value, postalCode.value, country.value, address.value, subscribed.value, shipping.value, auth.user.access_token);
-    console.log(response);
+async function setProfile() {
+    const response = await store.setProfile(firstName.value, lastName.value, (countryCode.value + '-' + rigthNumber.value), street.value, city.value, region.value, postalCode.value, country.value, address.value, subscribed.value, shipping.value, auth.user.access_token);
 }
 
 async function getPerfil() {
     const response = await store.getProfile(auth.user.access_token);
-    console.log(response);
-    
-    //rigthNumber.value = store.perfil.phone_number;//sacar los datos
-    //countryCode.value = store.perfil.phone_number;//sacar los datos
-    //firstName.value = store.perfil.first_name;
-    //lastName.value = store.perfil.last_name;
-    //email.value = store.perfil.email;
-    //street.value = store.perfil.street;
-    //city.value = store.perfil.city;
-    //region.value = store.perfil.region;
-    //postalCode.value = store.perfil.postal_code;
-    //country.value = store.perfil.country;
-    //address.value = store.perfil.address;
-    //subscribed.value = store.perfil.subscribed;
-    //shipping.value = store.perfil.shipping;
+
+    const splitPjoneNumber = response.phoneNumber.split('-');
+    const countryCodeResponse = splitPjoneNumber[0];
+    const rigthNumberResponse = splitPjoneNumber[1];
+    rigthNumber.value = rigthNumberResponse;
+    countryCode.value = countryCodeResponse;
+    firstName.value = response.firstName;
+    lastName.value = response.lastName;
+    //email.value = response.email;
+    street.value = response.street;
+    city.value = response.city;
+    region.value = response.region;
+    postalCode.value = response.postalCode;
+    country.value = response.country;
+    address.value = response.address;
+    subscribed.value = response.subscribed;
+    shipping.value = response.shipping;
 }
 
-
+getPerfil()
 
 </script>
 
 <template>
-    <form class="w-full max-w-2xl px-4 py-8 mx-auto" @submit.prevent="setPerfil">
+    <form class="w-full max-w-2xl px-4 py-8 mx-auto" @submit.prevent="setProfile">
         <div class="space-y-12">
             <div class="border-b border-gray-900/10 pb-12">
                 <h2 class="text-base font-semibold leading-7 text-gray-900">Personal Information {{ rigthNumber }}</h2>
@@ -385,7 +386,7 @@ async function getPerfil() {
         </div>
 
         <div class="mt-6 flex items-center justify-end gap-x-6">
-            <button @click="getPerfil" type="button" class="text-sm font-semibold leading-6 text-gray-900">Cancel</button>
+            <button type="button" class="text-sm font-semibold leading-6 text-gray-900">Cancel</button>
             <button type="submit"
                 class="rounded-md bg-indigo-600 px-3 py-2 text-sm font-semibold text-white shadow-sm hover:bg-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600">Save</button>
         </div>
