@@ -6,7 +6,7 @@ export default class PerfilRepository {
         this.baseUrl = import.meta.env.VITE_API_ENDPOINT
     }
 
-    async setPerfil(profile) {
+    async setProfile(profile) {
         try {
             let headersList = {
                 "Accept": "*/*",
@@ -27,14 +27,37 @@ export default class PerfilRepository {
                 "subscribed": profile.getSubscribed(),
                 "shipping": profile.getShipping()
             });
-            console.log(headersList.Authorization);
-            
 
             let reqOptions = {
-                url: this.baseUrl + '/profiles/' + profile.getUserId(),
+                url: this.baseUrl + '/profiles/user',
                 method: "PUT",
                 headers: headersList,
                 data: bodyContent,
+            }
+
+            const response = await axios.request(reqOptions);
+
+            const data = await response.data
+
+            return data;
+
+        } catch (error) {
+            return error.toJSON()
+        }
+    }
+
+    async getProfile(accessToken) {
+        try {
+            let headersList = {
+                "Accept": "*/*",
+                "Authorization": "Bearer " + accessToken,
+                "Content-Type": "application/json"
+            }
+
+            let reqOptions = {
+                url: this.baseUrl + '/profiles/user',
+                method: "GET",
+                headers: headersList
             }
 
             const response = await axios.request(reqOptions);

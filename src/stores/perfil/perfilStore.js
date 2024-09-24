@@ -8,7 +8,6 @@ export const perfilStore = defineStore('perfil', () => {
 
     const perfil = ref(
         {
-            id: '',
             firstName : '',
             lastName : '',
             street : '',
@@ -20,18 +19,22 @@ export const perfilStore = defineStore('perfil', () => {
             shipping : false,
             address : '',
             phoneNumber : '',
-            userAccesToken : '',
-            userId : ''
+            userAccesToken : ''
         }
     )
 
-    function setPerfil(firstName, lastName, phoneNumber, street, city, region, postalCode, country, address, subscribed, shipping, userAccesToken, userId) {
+    function setProfile(firstName, lastName, phoneNumber, street, city, region, postalCode, country, address, subscribed, shipping, userAccesToken) {
 
-         const perfil = new Perfil(firstName, lastName, phoneNumber, street, city, region, postalCode, country, address, subscribed, shipping, userAccesToken, userId)
+         const perfil = new Perfil(firstName, lastName, phoneNumber, street, city, region, postalCode, country, address, subscribed, shipping, userAccesToken)
           const service = new PerfilService(perfil)
-          return service.setPerfil()
+          return service.setProfile()
 
     }
 
-    return { perfil, setPerfil };
+    function getProfile(accessToken) {
+        const service = new PerfilService()
+          return service.getProfile(accessToken)
+    }
+
+    return { perfil, setProfile, getProfile };
 });

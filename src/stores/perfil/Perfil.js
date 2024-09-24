@@ -12,9 +12,8 @@ export default class Perfil {
     #address
     #phoneNumber
     #accessToken
-    #userId
 
-    constructor(firstName, lastName, phoneNumber, street, city, region, postalCode, country, address, subscribed, shipping, accessToken, userId) {
+    constructor(firstName, lastName, phoneNumber, street, city, region, postalCode, country, address, subscribed, shipping, accessToken) {
         this.#firstName = firstName
         this.#lastName = lastName
         this.#street = street
@@ -27,7 +26,6 @@ export default class Perfil {
         this.#address = address
         this.#phoneNumber = phoneNumber
         this.#accessToken = accessToken
-        this.#userId = userId
     }
 
     getFirstName() {
@@ -76,10 +74,6 @@ export default class Perfil {
 
     getAccessToken() {
         return this.#accessToken
-    }
-
-    getUserId() {
-        return this.#userId
     }
 
 }

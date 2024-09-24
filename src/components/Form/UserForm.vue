@@ -22,10 +22,30 @@ const shipping = ref(false);
 const countryCode = ref('+34');
 const rigthNumber = ref('');
 
-
 async function setPerfil() {
-    const response = await store.setPerfil(firstName.value, lastName.value, (countryCode.value + '-' + rigthNumber.value), street.value, city.value, region.value, postalCode.value, country.value, address.value, subscribed.value, shipping.value, auth.user.access_token, auth.user.id);
+    const response = await store.setPerfil(firstName.value, lastName.value, (countryCode.value + '-' + rigthNumber.value), street.value, city.value, region.value, postalCode.value, country.value, address.value, subscribed.value, shipping.value, auth.user.access_token);
+    console.log(response);
 }
+
+async function getPerfil() {
+    const response = await store.getProfile(auth.user.access_token);
+    console.log(response);
+    
+    //rigthNumber.value = store.perfil.phone_number;//sacar los datos
+    //countryCode.value = store.perfil.phone_number;//sacar los datos
+    //firstName.value = store.perfil.first_name;
+    //lastName.value = store.perfil.last_name;
+    //email.value = store.perfil.email;
+    //street.value = store.perfil.street;
+    //city.value = store.perfil.city;
+    //region.value = store.perfil.region;
+    //postalCode.value = store.perfil.postal_code;
+    //country.value = store.perfil.country;
+    //address.value = store.perfil.address;
+    //subscribed.value = store.perfil.subscribed;
+    //shipping.value = store.perfil.shipping;
+}
+
 
 
 </script>
@@ -365,7 +385,7 @@ async function setPerfil() {
         </div>
 
         <div class="mt-6 flex items-center justify-end gap-x-6">
-            <button type="button" class="text-sm font-semibold leading-6 text-gray-900">Cancel</button>
+            <button @click="getPerfil" type="button" class="text-sm font-semibold leading-6 text-gray-900">Cancel</button>
             <button type="submit"
                 class="rounded-md bg-indigo-600 px-3 py-2 text-sm font-semibold text-white shadow-sm hover:bg-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600">Save</button>
         </div>

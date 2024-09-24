@@ -10,8 +10,13 @@ export default class PerfilService {
         this.#perfil = perfil
     }
 
-    async setPerfil() {
-        const response = await this.#repo.setPerfil(this.#perfil)
+    async setProfile() {
+        const response = await this.#repo.setProfile(this.#perfil)
+        return response
+    }
+
+    async getProfile(accessToken) {
+        const response = await this.#repo.getProfile(accessToken)
         return response
     }
 
