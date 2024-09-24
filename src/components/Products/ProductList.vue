@@ -1,34 +1,36 @@
 <script setup>
-import { defineProps, defineEmits } from 'vue';
-import FunkoCard from './Cards/FunkoCard.vue';
+import { defineProps, defineEmits } from 'vue'
+import FunkoCard from './../Cards/FunkoCard.vue'
 
-const props = defineProps({
+defineProps({
   products: {
     type: Array,
-    required: true,
+    required: true
   },
   currentPage: {
     type: Number,
-    required: true,
+    required: true
   },
   totalPages: {
     type: Number,
-    required: true,
-  },
-});
+    required: true
+  }
+})
 
-const emits = defineEmits(['changePage']);
+const emits = defineEmits(['changePage'])
 
 const goToPage = (page) => {
-  emits('changePage', page);
-};
+  emits('changePage', page)
+}
 </script>
 
 <template>
   <div class="mx-auto max-w-2xl px-4 pt-4 sm:px-6 sm:pt-4 lg:max-w-7xl lg:px-8">
-    <div class="pt-4 grid justify-items-center grid-cols-1 gap-x-6 gap-y-10 sm:grid-cols-2 lg:grid-cols-4 xl:gap-x-8 ">
-        <FunkoCard
-        v-for="product in props.products"
+    <div
+      class="pt-4 grid justify-items-center grid-cols-1 gap-x-6 gap-y-4 sm:grid-cols-2 lg:grid-cols-4 xl:gap-x-8"
+    >
+      <FunkoCard
+        v-for="product in products"
         :key="product.productId"
         :product="product"
         class="mx-auto"
