@@ -1,17 +1,16 @@
 <script setup>
-import ReviewIcon from './ReviewIcon.vue'
-import FavoriteIcon from './FavoriteIcon.vue'
-import BadgeCard from './BadgeCard.vue'
-import ProductModal from './../ProductDetail/ProductModal.vue'
+import { defineProps } from 'vue';
+import ReviewIcon from './ReviewIcon.vue';
+import FavoriteIcon from './FavoriteIcon.vue';
+import BadgeCard from './BadgeCard.vue';
+import ProductModal from './../ProductDetail/ProductModal.vue';
 
 defineProps({
   product: {
     type: Object,
-    required: true
-  }
-})
-
-// import { computed } from 'vue';
+    required: true,
+  },
+});
 
 // const productImage = computed(() => {
 //   if (!props.product.image) return '';
@@ -22,20 +21,19 @@ defineProps({
 </script>
 
 <template>
-  <div
-    class="relative flex flex-col my-6 bg-white shadow-sm border border-slate-200 rounded-lg w-64"
-  >
+  <div class="relative flex flex-col my-6 bg-white shadow-sm border border-slate-200 rounded-lg w-64">
     <div class="flex justify-between pt-3 px-3">
       <BadgeCard />
       <FavoriteIcon />
     </div>
     <div class="relative p-2 h-60 overflow-hidden rounded-xl bg-clip-border">
-      <img
-        src="/src/assets/img/CardImage/Groot.png"
-        alt="card-image"
+      <!-- <img
+        :src="productImage"
+        alt="product image"
         class="h-full w-full object-cover rounded-md"
-      />
-      <!-- <img src="productImage" alt="product image" class="h-full w-full object-cover rounded-md" /> -->
+      /> -->
+      <img src='../../assets/img/CardImage/Groot.png' alt="product image"
+        class="h-full w-full object-cover rounded-md" />
     </div>
     <div>
       <ReviewIcon />
@@ -51,7 +49,7 @@ defineProps({
         <p class="text-black text-sm font-semibold">
           ${{ product.price ? product.price.toFixed(2) : '0.00' }}
         </p>
-        <ProductModal />
+        <ProductModal :product="product" />
       </div>
     </div>
   </div>
