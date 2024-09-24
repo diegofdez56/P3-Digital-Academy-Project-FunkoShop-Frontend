@@ -18,7 +18,7 @@ const props = defineProps({
 });
 const emit = defineEmits(['close']);
 
-const quantity = ref(1); // Inicializa la cantidad como un ref
+const quantity = ref(1);
 
 const incrementQuantity = () => {
   quantity.value++;

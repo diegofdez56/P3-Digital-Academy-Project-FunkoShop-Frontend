@@ -4,7 +4,7 @@ import ReviewIcon from './ReviewIcon.vue';
 import FavoriteIcon from './FavoriteIcon.vue';
 import BadgeCard from './BadgeCard.vue';
 import ProductModal from './../ProductDetail/ProductModal.vue';
-import { useProductModal } from '/src/composables/useProductModal.js'; // Importa el composable
+import { useProductModal } from '/src/composables/useProductModal.js';
 
 const props = defineProps({
   product: {
@@ -13,16 +13,14 @@ const props = defineProps({
   }
 });
 
-// Usa el composable para gestionar el estado del modal
 const { isModalOpen, openModal, closeModal } = useProductModal();
 
-// Computed para manejar la imagen del producto
-const productImage = computed(() => {
+/* const productImage = computed(() => {
   if (!props.product.image) return '';
   return props.product.image.startsWith('http')
     ? props.product.image
     : new URL(`../assets/img/CardImage/${props.product.image}`, import.meta.url).href;
-});
+}); */
 </script>
 
 <template>
@@ -60,7 +58,6 @@ const productImage = computed(() => {
       </div>
     </div>
 
-    <!-- Componente del modal para ver detalles del producto -->
     <ProductModal :isOpen="isModalOpen" @close="closeModal" :product="product" />
   </div>
 </template>
