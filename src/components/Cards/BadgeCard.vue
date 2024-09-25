@@ -3,7 +3,7 @@ const props = defineProps({
   isAvailable: Boolean,
   isNew: Boolean,
   isDiscount: Boolean,
-  discount: Number
+  discount: Object
 });
 
 </script>

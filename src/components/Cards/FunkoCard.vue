@@ -12,9 +12,6 @@ const props = defineProps({
     required: true
   }
 });
-console.log(
-  props.product.discount
-);
 
 const { isModalOpen, openModal, closeModal } = useProductModal();
 
@@ -37,7 +34,7 @@ const discountedPrice = computed(() => {
 <template>
   <div class="relative flex flex-col my-6 bg-white shadow-sm border border-slate-200 rounded-lg w-64">
     <div class="flex justify-between pt-3 px-3">
-      <BadgeCard :id="props.product.name" :isAvailable="product.available"
+      <BadgeCard :id="product.name" :isAvailable="product.available"
         :isDiscount="product.discount == null ? false : true" :isNew="product.new" :discount="product.discount == null ? null : product.discount" />
       <FavoriteIcon />
     </div>
@@ -62,13 +59,13 @@ const discountedPrice = computed(() => {
       </div>
       <div class="flex justify-between items-center">
         <p v-if="product.discount && product.discount.isActive" class="text-red-500 text-sm font-semibold">
-            ${{ discountedPrice }}
+            {{ discountedPrice }}
           </p>
           <p v-if="product.discount && product.discount.isActive" class="line-through text-gray-500 text-xs">
-            ${{ product.price.toFixed(2) }}
+            {{ product.price.toFixed(2) }}
           </p>
           <p v-else class="text-black text-sm font-semibold">
-            ${{ product.price.toFixed(2) }}
+            {{ product.price.toFixed(2) }}
           </p>
         <button @click="openModal" class="px-4 py-2 bg-blue-500 text-white rounded hover:bg-blue-600">
           Ver Detalles
