@@ -4,6 +4,7 @@ import FavoriteIcon from './FavoriteIcon.vue';
 import BadgeCard from './BadgeCard.vue';
 import ProductModal from './../ProductDetail/ProductModal.vue';
 import { useProductModal } from '/src/composables/useProductModal.js';
+import { computed } from 'vue';
 
 const props = defineProps({
   product: {
