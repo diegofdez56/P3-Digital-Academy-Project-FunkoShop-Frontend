@@ -1,5 +1,4 @@
 <script setup>
-import { computed, defineProps } from 'vue';
 import ReviewIcon from './ReviewIcon.vue';
 import FavoriteIcon from './FavoriteIcon.vue';
 import BadgeCard from './BadgeCard.vue';

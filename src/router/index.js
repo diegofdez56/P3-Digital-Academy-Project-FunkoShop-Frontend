@@ -1,6 +1,9 @@
 import ProductView from './../views/ProductView.vue';
 import { useAuthStore } from '@/stores/auth';
 import AboutView from '@/views/AboutView.vue';
+import CheckoutView from '@/views/CheckoutView.vue';
+import HomeView from '@/views/HomeView.vue';
+import ProfileView from '@/views/user/ProfileView.vue';
 import { createRouter, createWebHistory } from 'vue-router'
 
 const router = createRouter({
@@ -8,8 +11,12 @@ const router = createRouter({
   routes: [
     {
       path: '/',
+      redirect: "/home",
+    },
+    {
+      path: '/home',
       name: 'home',
-      component: () => import('../views/HomeView.vue')
+      component: HomeView
     },
     {
       path: '/about',
@@ -19,7 +26,7 @@ const router = createRouter({
     {
       path: '/checkout',
       name: 'checkout',
-      component: () => import('../views/CheckoutView.vue')
+      component: CheckoutView
     },
     {
       path: '/products',
@@ -27,10 +34,15 @@ const router = createRouter({
       component: ProductView
     },
     {
+      path: '/profile',
+      name: 'profile',
+      component: ProfileView,
+      meta: { requiresAuth: true },
+    },
+    {
       path: '/admin',
       component: () => import('@/views/admin/AdminLayout.vue'),
-      // TODO uncomment later when login works
-      // meta: { requiresAdmin: true },
+      meta: { requiresAdmin: true },
       children: [
         {
           path: 'products',
@@ -52,7 +64,7 @@ const router = createRouter({
   ]
 })
 
-router.beforeEach((to, from, next) => {
+router.beforeEach((to, from) => {
   const store = useAuthStore();
 
   if (localStorage.getItem("id") && store.user.id == "") {
@@ -64,16 +76,17 @@ router.beforeEach((to, from, next) => {
     store.user.refresh_token = localStorage.getItem("refresh_token");
   }
 
-    if (to.matched.some(record => record.meta.requiresAdmin)) {
-      if (store.user.isAuthenticated && store.user.role === 'ROLE_ADMIN') {
-        next();
-      } else {
-        next({ path: '/', query: { redirect: to.fullPath } });
-      }
-    } else {
-      next();
-    }
+  if (to.meta.requiresAdmin && !(store.user.role == "ADMIN")) {
+    return {
+      path: "/home",
+    };
+  }
 
+  if (to.meta.requiresAuth && !store.user.isAuthenticated && !(store.user.role == "USER")) {
+    return {
+      path: "/home",
+    };
+  }
 });
 
 export default router

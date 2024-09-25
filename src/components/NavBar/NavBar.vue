@@ -179,7 +179,7 @@ const open = ref(false)
 
     <header class="relative bg-slate-950">
       <nav aria-label="Top" class="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
-        <div class="border-b border-gray-200">
+        <div>
           <div class="flex h-16 items-center">
             <button type="button" class="relative rounded-md bg-white p-1 text-black lg:hidden" @click="open = true">
               <span class="absolute -inset-0.5" />
