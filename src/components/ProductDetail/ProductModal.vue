@@ -3,8 +3,6 @@ import { computed, ref } from 'vue'; // Asegúrate de importar ref aquí
 import { Dialog, DialogPanel, TransitionChild, TransitionRoot } from '@headlessui/vue';
 import { XMarkIcon } from '@heroicons/vue/24/outline';
 import { StarIcon } from '@heroicons/vue/20/solid';
-import { useProductStore } from './../../stores/productStore.js';
-import { storeToRefs } from 'pinia';
 
 const props = defineProps({
   isOpen: {
