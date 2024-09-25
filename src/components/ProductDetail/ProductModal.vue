@@ -1,10 +1,8 @@
 <script setup>
-import { computed, ref } from 'vue'; // Asegúrate de importar ref aquí
+import { computed, ref } from 'vue';
 import { Dialog, DialogPanel, TransitionChild, TransitionRoot } from '@headlessui/vue';
 import { XMarkIcon } from '@heroicons/vue/24/outline';
 import { StarIcon } from '@heroicons/vue/20/solid';
-import { useProductStore } from './../../stores/productStore.js';
-import { storeToRefs } from 'pinia';
 
 const props = defineProps({
   isOpen: {
@@ -69,12 +67,13 @@ const productImage = computed(() => {
                       class="object-cover object-center" />
                   </div>
                   <div class="sm:col-span-8 lg:col-span-7">
+                    <p class="text-sm text-gray-900"> {{ product.category?.name || 'Category' }}</p>
                     <h2 class="text-2xl font-bold text-gray-900 sm:pr-12">
                       {{ props.product.name || 'Product Name' }}
                     </h2>
 
-                    <section aria-labelledby="information-heading" class="mt-2">
-                      <div class="mt-6">
+                    <section aria-labelledby="information-heading">
+                      <div class="py-4">
                         <h4 class="sr-only">Reviews</h4>
                         <div class="flex items-center">
                           <div class="flex items-center">
@@ -95,17 +94,17 @@ const productImage = computed(() => {
                       <h3 class="text-2xl text-gray-900 font-semibold">
                         ${{ props.product.price ? props.product.price.toFixed(2) : '0.00' }}
                       </h3>
-                      <div>
-                        <h4 class="text-xl text-gray-900 font-semibold">Descripción</h4>
-                        <p class="text-md text-gray-900">
+                      <div class="py-4">
+                        <h4 class="text-lg text-gray-900 font-semibold">Description</h4>
+                        <p class="text-sm text-gray-900">
                           {{ props.product.description || 'No hay descripción disponible.' }}
                         </p>
                       </div>
                     </section>
-                    <section aria-labelledby="options-heading" class="mt-10">
+                    <section aria-labelledby="options-heading">
                       <h3 id="options-heading" class="sr-only">Opciones de producto</h3>
                       <div class="mt-4">
-                        <label for="quantity" class="block text-sm font-medium text-gray-700">Cantidad</label>
+                        <label for="quantity" class="block text-sm font-semibold text-gray-900">Qty.</label>
                         <div class="flex mt-1">
                           <button @click="decrementQuantity" class="px-2 py-1 border rounded-l-md bg-gray-200 hover:bg-gray-300">-</button>
                           <input type="text" id="quantity" class="border-t border-b border-gray-300 w-16 text-center" 
@@ -114,8 +113,8 @@ const productImage = computed(() => {
                         </div>
                       </div>
                       <div class="mt-6">
-                        <button type="button" class="w-full rounded-md border border-transparent bg-blue-600 px-4 py-2 text-base font-medium text-white hover:bg-blue-700 focus:outline-none">
-                          Añadir al carrito
+                        <button type="button" class="w-full rounded-md border border-transparent bg-blueFunko-700 px-4 py-2 text-base font-medium text-white transition-all hover:bg-blueFunko-600 focus:outline-none">
+                          Add to Cart
                         </button>
                       </div>
                     </section>
