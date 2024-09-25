@@ -1,10 +1,10 @@
 <script setup>
 import { useAuthStore } from '@/stores/auth';
-import { perfilStore } from '@/stores/perfil/perfilStore';
+import { ProfileStore } from '@/stores/Profile/ProfileStore';
 import { ref } from 'vue';
 
 const TIME_DISMISSED = import.meta.env.VITE_TIME_DISMISSED
-const store = perfilStore()
+const store = ProfileStore()
 const auth = useAuthStore()
 
 const firstName = ref('');
@@ -37,7 +37,7 @@ async function setProfile() {
     }, TIME_DISMISSED);
 }
 
-async function getPerfil() {
+async function getProfile() {
     const response = await store.getProfile(auth.user.access_token);
 
     if (response.phoneNumber) {
@@ -62,7 +62,7 @@ async function getPerfil() {
     shipping.value = response.shipping;
 }
 
-getPerfil()
+getProfile()
 
 </script>
 
