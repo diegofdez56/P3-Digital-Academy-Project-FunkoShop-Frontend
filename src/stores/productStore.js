@@ -1,139 +1,174 @@
-import axios from 'axios'
-import { defineStore } from 'pinia'
+import { ref, computed } from 'vue';
+import { defineStore } from 'pinia';
+import axios from 'axios';
 
-const BASE_URL = import.meta.env.VITE_API_ENDPOINT + '/products'
+const BASE_URL = import.meta.env.VITE_API_ENDPOINT + '/products';
 
-export const useProductStore = defineStore('products', {
-  state: () => ({
-    products: [],
-    product: null,
-    isLoading: false,
-    error: null,
-    currentPage: 0,
-    size: 8,
-    totalPages: 0,
-    selectedCategory: { id: null, name: 'All' }
-  }),
+export const useProductStore = defineStore('products', () => {
+ 
+  const products = ref([]);
+  const productsNew = ref([]);
+  const product = ref(null);
+  const isLoading = ref(false);
+  const error = ref(null);
+  const currentPage = ref(0);
+  const size = ref(8);
+  const totalPages = ref(0);
+  const selectedCategory = ref({ id: null, name: 'All' });
 
-  actions: {
-    async fetchAllProducts(page = 0, size = 8, sortBy = 'name', sortOrder = 'asc') {
-      this.isLoading = true
-      this.error = null
-      try {
-        const params = { page, size, sort: `${sortBy},${sortOrder}` }
-        let url = BASE_URL
+  const totalProducts = computed(() => products.value.length);
 
-        if (this.selectedCategory && this.selectedCategory.id !== null) {
-          url = `${BASE_URL}/category/${this.selectedCategory.id}`
-        }
+  
+  const fetchAllProducts = async (page = 0, sizeValue = 8, sortBy = 'name', sortOrder = 'asc') => {
+    isLoading.value = true;
+    error.value = null;
+    try {
+      const params = { page, size: sizeValue, sort: `${sortBy},${sortOrder}` };
+      let url = BASE_URL;
 
-        const response = await axios.get(url, { params })
-        this.products = response.data.content
-        this.currentPage = response.data.number
-        this.size = response.data.size
-        this.totalPages = response.data.totalPages
-      } catch (error) {
-        this.handleError(error)
-      } finally {
-        this.isLoading = false
+      if (selectedCategory.value && selectedCategory.value.id !== null) {
+        url = `${BASE_URL}/category/${selectedCategory.value.id}`;
       }
-    },
 
-    async setCategory(category) {
-      this.selectedCategory = category
-      this.currentPage = 0
-      await this.fetchAllProducts(0, this.size)
-    },
-
-    async fetchProductById(id) {
-      this.isLoading = true
-      this.error = null
-      try {
-        const response = await axios.get(`${BASE_URL}/${id}`)
-        this.product = response.data
-      } catch (error) {
-        this.handleError(error)
-      } finally {
-        this.isLoading = false
-      }
-    },
-
-    async searchProductsByKeyword(
-      keyword,
-      page = 0,
-      size = 8,
-      sortBy = 'categoryId,name',
-      sortOrder = 'asc'
-    ) {
-      this.isLoading = true
-      this.error = null
-      try {
-        const response = await axios.get(`${BASE_URL}/keyword/${keyword}`, {
-          params: { page, size, sort: `${sortBy},${sortOrder}` }
-        })
-        this.products = response.data.content
-        this.currentPage = response.data.number
-        this.size = response.data.size
-        this.totalPages = response.data.totalPages
-      } catch (error) {
-        this.handleError(error)
-      } finally {
-        this.isLoading = false
-      }
-    },
-    async fetchDiscountedProducts() {
-      this.isLoading = true;
-      this.error = null;
-      try {
-        const response = await axios.get(`${BASE_URL}/discounted`);
-        this.products = response.data;
-        this.currentPage = 0; 
-        this.totalPages = 1;  
-      } catch (error) {
-        this.handleError(error);
-      } finally {
-        this.isLoading = false;
-      }
-    },
-
-    async updateProduct(id, product) {
-      this.isLoading = true
-      this.error = null
-      try {
-        const response = await axios.put(`${BASE_URL}/${id}`, product)
-        this.product = response.data
-        const index = this.products.findIndex((p) => p.id === id)
-        if (index !== -1) {
-          this.products[index] = response.data
-        }
-      } catch (error) {
-        this.handleError(error)
-      } finally {
-        this.isLoading = false
-      }
-    },
-
-    async deleteProduct(id) {
-      this.isLoading = true
-      this.error = null
-      try {
-        await axios.delete(`${BASE_URL}/${id}`)
-        this.products = this.products.filter((product) => product.id !== id)
-      } catch (error) {
-        this.handleError(error)
-      } finally {
-        this.isLoading = false
-      }
-    },
-
-    handleError(error) {
-      this.error = error.response
-        ? `Server Error: ${error.response.status} - ${
-            error.response.data.message || error.response.statusText
-          }`
-        : error.request
-          ? 'No response from server. Please check your network or server status.'
-          : `Error: ${error.message}`
+      const response = await axios.get(url, { params });
+      products.value = response.data.content;
+      currentPage.value = response.data.number;
+      size.value = response.data.size;
+      totalPages.value = response.data.totalPages;
+    } catch (err) {
+      handleError(err);
+    } finally {
+      isLoading.value = false;
     }
-  }
-})
+  };
+
+  const setCategory = async (category) => {
+    selectedCategory.value = category;
+    currentPage.value = 0;
+    await fetchAllProducts(0, size.value);
+  };
+
+  const fetchProductById = async (id) => {
+    isLoading.value = true;
+    error.value = null;
+    try {
+      const response = await axios.get(`${BASE_URL}/${id}`);
+      product.value = response.data;
+    } catch (err) {
+      handleError(err);
+    } finally {
+      isLoading.value = false;
+    }
+  };
+
+  const searchProductsByKeyword = async (keyword, page = 0, sizeValue = 8, sortBy = 'categoryId,name', sortOrder = 'asc') => {
+    isLoading.value = true;
+    error.value = null;
+    try {
+      const response = await axios.get(`${BASE_URL}/keyword/${keyword}`, {
+        params: { page, size: sizeValue, sort: `${sortBy},${sortOrder}` }
+      });
+      products.value = response.data.content;
+      currentPage.value = response.data.number;
+      size.value = response.data.size;
+      totalPages.value = response.data.totalPages;
+    } catch (err) {
+      handleError(err);
+    } finally {
+      isLoading.value = false;
+    }
+  };
+
+  const fetchDiscountedProducts = async () => {
+    isLoading.value = true;
+    error.value = null;
+    try {
+      const response = await axios.get(`${BASE_URL}/discounted`);
+      products.value = response.data;
+      currentPage.value = 0;
+      totalPages.value = 1;
+    } catch (err) {
+      handleError(err);
+    } finally {
+      isLoading.value = false;
+    }
+  };
+
+  const fetchNewProducts = async () => {
+    isLoading.value = true;
+    error.value = null;
+    try {
+      const response = await axios.get(`${BASE_URL}/new`);
+      console.log('Fetched products:', response.data); 
+      productsNew.value = response.data;
+      console.log('Products in store:', productsNew.value); 
+      currentPage.value = 0;
+      totalPages.value = 1;
+    } catch (err) {
+      handleError(err);
+    } finally {
+      isLoading.value = false;
+    }
+  };
+  
+  
+
+  const updateProduct = async (id, productData) => {
+    isLoading.value = true;
+    error.value = null;
+    try {
+      const response = await axios.put(`${BASE_URL}/${id}`, productData);
+      product.value = response.data;
+      const index = products.value.findIndex((p) => p.id === id);
+      if (index !== -1) {
+        products.value[index] = response.data;
+      }
+    } catch (err) {
+      handleError(err);
+    } finally {
+      isLoading.value = false;
+    }
+  };
+
+  const deleteProduct = async (id) => {
+    isLoading.value = true;
+    error.value = null;
+    try {
+      await axios.delete(`${BASE_URL}/${id}`);
+      products.value = products.value.filter((product) => product.id !== id);
+    } catch (err) {
+      handleError(err);
+    } finally {
+      isLoading.value = false;
+    }
+  };
+
+  const handleError = (err) => {
+    error.value = err.response
+      ? `Server Error: ${err.response.status} - ${err.response.data.message || err.response.statusText}`
+      : err.request
+      ? 'No response from server. Please check your network or server status.'
+      : `Error: ${err.message}`;
+  };
+
+  return {
+    products,
+    product,
+    productsNew,
+    isLoading,
+    error,
+    currentPage,
+    size,
+    totalPages,
+    selectedCategory,
+    totalProducts, 
+    fetchAllProducts,
+    setCategory,
+    fetchProductById,
+    searchProductsByKeyword,
+    fetchDiscountedProducts,
+    fetchNewProducts,
+    updateProduct,
+    deleteProduct
+  };
+});

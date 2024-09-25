@@ -1,11 +1,11 @@
 <script setup>
-import { ref } from 'vue';
+import { ref, } from 'vue';
 import { useProductStore } from './../../stores/productStore';
 import { storeToRefs } from 'pinia';
 import FunkoCard from './FunkoCard.vue';
 
 const productStore = useProductStore();
-const { products } = storeToRefs(productStore);
+const { productsNew} = storeToRefs(productStore);
 
 const carousel = ref(null);
 
@@ -29,7 +29,7 @@ const scrollRight = () => {
   }
 };
 
-  productStore.fetchDiscountedProducts();
+  productStore.fetchNewProducts();
 
 </script>
 
@@ -52,7 +52,7 @@ const scrollRight = () => {
     </button>
 
     <div ref="carousel" class="flex overflow-x-auto scroll-smooth space-x-4 py-4 mx-4">
-      <div v-for="(product, index) in products" :key="product.productId || index" class="flex-none w-64">
+      <div v-for="(product, index) in productsNew" :key="product.id || index" class="flex-none w-64">
         <FunkoCard :product="product" />
       </div>
     </div>
