@@ -1,6 +1,6 @@
 import axios from "axios"
 
-export default class PerfilRepository {
+export default class ProfileRepository {
 
     constructor() {
         this.baseUrl = import.meta.env.VITE_API_ENDPOINT

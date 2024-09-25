@@ -1,5 +1,4 @@
 <script setup>
-import { defineProps, defineEmits } from 'vue'
 import FunkoCard from './../Cards/FunkoCard.vue'
 
 defineProps({

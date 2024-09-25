@@ -1,12 +1,12 @@
 import { defineStore } from "pinia";
 import { ref } from "vue";
-import Perfil from "./Perfil";
-import PerfilService from "./PerfilService";
+import Profile from "./Profile";
+import ProfileService from "./ProfileService";
 
 
-export const perfilStore = defineStore('perfil', () => {
+export const ProfileStore = defineStore('profile', () => {
 
-    const perfil = ref(
+    const profile = ref(
         {
             firstName: '',
             lastName: '',
@@ -25,16 +25,16 @@ export const perfilStore = defineStore('perfil', () => {
 
     function setProfile(firstName, lastName, phoneNumber, street, city, region, postalCode, country, address, subscribed, shipping, userAccesToken) {
 
-        const perfil = new Perfil(firstName, lastName, phoneNumber, street, city, region, postalCode, country, address, subscribed, shipping, userAccesToken)
-        const service = new PerfilService(perfil)
+        const profile = new Profile(firstName, lastName, phoneNumber, street, city, region, postalCode, country, address, subscribed, shipping, userAccesToken)
+        const service = new ProfileService(profile)
         return service.setProfile()
 
     }
 
     function getProfile(accessToken) {
-        const service = new PerfilService()
+        const service = new ProfileService()
         return service.getProfile(accessToken)
     }
 
-    return { perfil, setProfile, getProfile };
+    return { profile, setProfile, getProfile };
 });

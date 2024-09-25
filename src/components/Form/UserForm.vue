@@ -1,9 +1,10 @@
 <script setup>
 import { useAuthStore } from '@/stores/auth';
-import { perfilStore } from '@/stores/perfil/perfilStore';
+import { ProfileStore } from '@/stores/Profile/ProfileStore';
 import { ref } from 'vue';
 
-const store = perfilStore()
+const TIME_DISMISSED = import.meta.env.VITE_TIME_DISMISSED
+const store = ProfileStore()
 const auth = useAuthStore()
 
 const firstName = ref('');
@@ -21,11 +22,22 @@ const shipping = ref(false);
 const countryCode = ref('+34');
 const rigthNumber = ref('');
 
+const textAlert = ref("")
+
 async function setProfile() {
     const response = await store.setProfile(firstName.value, lastName.value, (countryCode.value + '-' + rigthNumber.value), street.value, city.value, region.value, postalCode.value, country.value, address.value, subscribed.value, shipping.value, auth.user.access_token);
+
+    if (response.user == auth.user.id)
+        textAlert.value = 'Profile updated successfully';
+    else
+        textAlert.value = 'Error updating profile';
+
+    setTimeout(() => {
+        textAlert.value = '';
+    }, TIME_DISMISSED);
 }
 
-async function getPerfil() {
+async function getProfile() {
     const response = await store.getProfile(auth.user.access_token);
 
     if (response.phoneNumber) {
@@ -41,7 +53,7 @@ async function getPerfil() {
     city.value = response.city;
     region.value = response.region;
     postalCode.value = response.postalCode;
-    if(response.country)
+    if (response.country)
         country.value = response.country;
     else
         country.value = 'ES';
@@ -50,7 +62,7 @@ async function getPerfil() {
     shipping.value = response.shipping;
 }
 
-getPerfil()
+getProfile()
 
 </script>
 
@@ -61,6 +73,12 @@ getPerfil()
                 <h2 class="text-base font-semibold leading-7 text-gray-900">Personal Information</h2>
                 <p class="mt-1 text-sm leading-6 text-gray-600">Use a permanent address where you can receive the
                     products.</p>
+
+                <div v-if="textAlert != ''" :class="textAlert == 'Profile updated successfully' ? 'bg-green-500' : 'bg-red-500'"
+                    class="mt-4 font-regular relative block w-full rounded-lg p-4 text-base leading-5 text-white opacity-100"
+                    data-dismissible="alert">
+                    <div class="mr-12">{{ textAlert }}</div>
+                </div>
 
                 <div class="mt-10 grid grid-cols-1 gap-x-6 gap-y-8 sm:grid-cols-6">
                     <div class="col-span-6 sm:col-span-3">

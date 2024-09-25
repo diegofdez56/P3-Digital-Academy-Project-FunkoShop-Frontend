@@ -1,6 +1,9 @@
 import ProductView from './../views/ProductView.vue';
 import { useAuthStore } from '@/stores/auth';
 import AboutView from '@/views/AboutView.vue';
+import CheckoutView from '@/views/CheckoutView.vue';
+import HomeView from '@/views/HomeView.vue';
+import ProfileView from '@/views/user/ProfileView.vue';
 import { createRouter, createWebHistory } from 'vue-router'
 
 const router = createRouter({
@@ -8,8 +11,12 @@ const router = createRouter({
   routes: [
     {
       path: '/',
+      redirect: "/home",
+    },
+    {
+      path: '/home',
       name: 'home',
-      component: () => import('../views/HomeView.vue')
+      component: HomeView
     },
     {
       path: '/about',
@@ -19,17 +26,45 @@ const router = createRouter({
     {
       path: '/checkout',
       name: 'checkout',
-      component: () => import('../views/CheckoutView.vue')
+      component: CheckoutView
     },
     {
       path: '/products',
       name: 'products',
       component: ProductView
-    }
+    },
+    {
+      path: '/profile',
+      name: 'profile',
+      component: ProfileView,
+      meta: { requiresAuth: true },
+    },
+    {
+      path: '/admin',
+      component: () => import('@/views/admin/AdminLayout.vue'),
+      meta: { requiresAdmin: true },
+      children: [
+        {
+          path: 'products',
+          name: 'admin-products',
+          component: () => import('@/views/admin/ProductsView.vue'),
+        },
+        {
+          path: 'orders',
+          name: 'admin-orders',
+          component: () => import('@/views/admin/OrdersView.vue'),
+        },
+        {
+          path: 'sales-billing',
+          name: 'admin-sales-billing',
+          component: () => import('@/views/admin/SalesBillingView.vue'),
+        },
+      ],
+    },
   ]
 })
 
-router.beforeEach(() => {
+router.beforeEach((to, from) => {
   const store = useAuthStore();
 
   if (localStorage.getItem("id") && store.user.id == "") {
@@ -41,6 +76,17 @@ router.beforeEach(() => {
     store.user.refresh_token = localStorage.getItem("refresh_token");
   }
 
+  if (to.meta.requiresAdmin && !(store.user.role == "ADMIN")) {
+    return {
+      path: "/home",
+    };
+  }
+
+  if (to.meta.requiresAuth && !store.user.isAuthenticated && !(store.user.role == "USER")) {
+    return {
+      path: "/home",
+    };
+  }
 });
 
 export default router
