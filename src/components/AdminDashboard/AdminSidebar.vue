@@ -26,7 +26,7 @@ const sidebarLinks = [
 </script>
 
 <template>
-  <div class="w-[300px] h-screen relative">
+  <div class="w-[300px] min-h-screen relative">
     <div class="w-full h-full left-0 top-0 absolute bg-white rounded-tr-[20px] rounded-br-[20px] shadow py-16 flex flex-col gap-8">
       <img :src="logo" alt="Logo" class="mx-auto" />
 
