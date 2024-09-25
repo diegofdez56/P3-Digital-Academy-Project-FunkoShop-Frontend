@@ -1,4 +1,4 @@
-export default class Perfil {
+export default class Profile {
 
     #firstName
     #lastName

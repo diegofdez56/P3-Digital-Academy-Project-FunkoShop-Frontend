@@ -1,47 +1,20 @@
 <script setup>
-import { defineProps } from 'vue'
+const props = defineProps({
+  isAvailable: Boolean,
+  isNew: Boolean,
+  isDiscount: Boolean,
+  discount: Number
+});
 
-defineProps({
-  percentage: {
-    type: Number,
-    default: null
-  },
-  isActive: {
-    type: Boolean,
-    default: false
-  },
-  isAvailable: {
-    type: Boolean,
-    required: true
-  }
-})
 </script>
 
 <template>
-  <div class="flex space-x-2">
-    <div
-      v-if="isActive && percentage"
-      class="bg-red-500 text-white px-2 py-1 rounded-full text-xs font-semibold"
-    >
-      -{{ percentage }}%
+  <div class="rounded-xl px-2.5 border border-transparent text-xs flex items-center text-white transition-all shadow-sm"
+    :class="!props.isAvailable ? 'bg-slate-800' : (props.isDiscount ? 'bg-red-500' : (props.isNew ? 'bg-blueFunko-700' : ''))">
+    <div v-if="!(props.isAvailable && !props.isDiscount && !props.isNew)">
+      <p v-if="!props.isAvailable">Sold</p>
+      <p v-if="props.isAvailable && props.isDiscount" class="text-lg">{{ discount.percentage }}% off</p>
+      <p v-if="props.isAvailable && !props.isDiscount && props.isNew">New</p>
     </div>
-    <div
-      v-if="!isAvailable"
-      class="bg-gray-500 text-white px-2 py-1 rounded-full text-xs font-semibold"
-    >
-      Sold
-    </div>
-    <!-- <div
-      v-if="!isAvailable"
-      class="bg-blue-500 text-white px-2 py-1 rounded-full text-xs font-semibold"
-    >
-      New
-    </div> -->
-    <!-- <div
-      v-else
-      class="bg-green-500 text-white px-2 py-1 rounded-full text-xs font-semibold"
-    >
-      Available
-    </div> -->
   </div>
 </template>
