@@ -12,6 +12,9 @@ const props = defineProps({
     required: true
   }
 });
+console.log(
+  props.product.discount
+);
 
 const { isModalOpen, openModal, closeModal } = useProductModal();
 
@@ -35,7 +38,7 @@ const discountedPrice = computed(() => {
   <div class="relative flex flex-col my-6 bg-white shadow-sm border border-slate-200 rounded-lg w-64">
     <div class="flex justify-between pt-3 px-3">
       <BadgeCard :id="props.product.name" :isAvailable="product.available"
-        :isDiscount="product.discount == null ? false : true" :isNew="product.new" />
+        :isDiscount="product.discount == null ? false : true" :isNew="product.new" :discount="product.discount == null ? null : product.discount" />
       <FavoriteIcon />
     </div>
     <div class="relative p-2 h-60 overflow-hidden rounded-xl bg-clip-border">
