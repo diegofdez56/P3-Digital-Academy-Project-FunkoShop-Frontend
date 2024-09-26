@@ -5,7 +5,7 @@ import '@material-tailwind/html/scripts/popover.js';
 const isPopoverOpen = ref(false);
 
 onMounted(() => {
-    console.log('Component Mounted');
+    //console.log('Component Mounted');
 });
 </script>
 
