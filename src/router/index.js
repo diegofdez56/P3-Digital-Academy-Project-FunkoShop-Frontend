@@ -1,6 +1,5 @@
 import ProductView from './../views/ProductView.vue';
 import { useAuthStore } from '@/stores/auth';
-import AboutView from '@/views/AboutView.vue';
 import CheckoutView from '@/views/CheckoutView.vue';
 import HomeView from '@/views/HomeView.vue';
 import ProfileView from '@/views/user/ProfileView.vue';
@@ -17,11 +16,6 @@ const router = createRouter({
       path: '/home',
       name: 'home',
       component: HomeView
-    },
-    {
-      path: '/about',
-      name: 'about',
-      component: AboutView
     },
     {
       path: '/checkout',
