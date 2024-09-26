@@ -64,7 +64,7 @@ const router = createRouter({
   ]
 })
 
-router.beforeEach((to, from) => {
+router.beforeEach((to) => {
   const store = useAuthStore();
 
   if (localStorage.getItem("id") && store.user.id == "") {

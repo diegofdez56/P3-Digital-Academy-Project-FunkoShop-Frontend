@@ -3,15 +3,14 @@ import { ref } from 'vue'
 /* import { useRoute, useRouter } from 'vue-router' */
 import { useAuthStore } from '@/stores/auth.js'
 import '@material-tailwind/html/scripts/popover.js';
+import { useRouter } from 'vue-router';
+
+const store = useAuthStore()
+const router = useRouter();
 
 const username = ref('')
 const password = ref('')
 const textAlert = ref('')
-
-/* const route = useRoute()
-const router = useRouter() */
-
-const store = useAuthStore()
 
 async function login() {
   if (username.value != '' && password.value != '')
@@ -36,6 +35,10 @@ async function login() {
         username.value = '';
         password.value = '';
         textAlert.value = '';
+
+        if (response['role'] == "ADMIN") {
+          router.push('/admin');
+        }
       }
       else
         textAlert.value = "Incorrect username or password!";
