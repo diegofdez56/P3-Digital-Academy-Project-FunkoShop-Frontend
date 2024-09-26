@@ -1,6 +1,6 @@
 <script setup>
 import { ref } from 'vue';
-import { useReviewStore } from '@/stores/reviewStore';
+import { useReviewStore } from '@/stores/review/reviewStore';
 
 const reviewStore = useReviewStore();
 

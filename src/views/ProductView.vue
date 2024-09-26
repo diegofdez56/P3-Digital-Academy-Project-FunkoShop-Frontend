@@ -1,7 +1,7 @@
 <script setup>
 import { onMounted } from 'vue';
 import { useProductStore } from '../stores/productStore';
-import { useCategoryStore } from '../stores/categoryStore';
+import { useCategoryStore } from '../stores/category/categoryStore';
 import { storeToRefs } from 'pinia';
 import ProductList from './../components/Products/ProductList.vue';
 
