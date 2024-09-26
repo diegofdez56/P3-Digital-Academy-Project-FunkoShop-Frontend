@@ -19,19 +19,20 @@ const handleDelete = () => {
 
 <template>
   <tr class="bg-slate-50 hover:bg-gray-100 text-slate-900 border-t border-slate-300">
-    <td class="px-4 py-5 font-semibold">{{ product.name }}</td>
-    <td class="px-4 py-5">{{ product.category.name }}</td>
-    <td class="px-4 py-5">{{ product.rating }}</td>
-    <td class="px-4 py-5">{{ product.stock }}</td>
-    <td class="px-4 py-5">{{ product.discount ? product.discount.percentage + '%' : 'No' }}</td>
-    <td class="px-4 py-5">{{ product.is_available ? 'Yes' : 'No' }}</td>
+    <td class="px-4 py-3 font-semibold">{{ product.name }}</td>
+    <td class="px-4 py-3">{{ product.category.name }}</td>
+    <!-- <td class="px-4 py-3">{{ product.rating }}</td> -->
+    <td class="px-4 py-3">{{ product.stock }}</td>
+    <td class="px-4 py-3">{{ product.discount ? product.discount.percentage + '%' : 'No' }}</td>
+    <td class="px-4 py-3">{{ product.available ? 'Yes' : 'No' }}</td>
 
 
-    <td class="px-4 py-5 text-center">
-      <button @click="handleEdit" class="">E
+    <td class="px-4 py-3 text-center">
+      <button @click="handleEdit" class="">
       </button>
 
-      <button @click="handleDelete" class="ml-2">D
+      <button @click="handleDelete" class="ml-2 w-10 h-10 bg-red-600 hover:bg-red-500 rounded-full">
+        <img src="@/assets/icons/delete.svg" alt="Delete Icon" class="mx-auto" />
       </button>
     </td>
   </tr>

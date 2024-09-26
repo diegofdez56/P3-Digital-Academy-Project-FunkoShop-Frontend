@@ -1,10 +1,11 @@
 <script setup>
-import { onMounted } from 'vue'
+import { ref, onMounted } from 'vue'
 import { useProductStore } from '@/stores/productStore'
 import { storeToRefs } from 'pinia'
 import BaseTable from '@/components/AdminDashboard/AdminTables/BaseTable.vue'
 import ProductTableRow from './ProductTableRow.vue'
 import BasePagination from '@/components/BaseComponents/BasePagination.vue'
+import ConfirmDeleteModal from '../AdminModals/ConfirmDeleteModal.vue'
 
 const productStore = useProductStore()
 
@@ -16,7 +17,9 @@ const {
   error: productError
 } = storeToRefs(productStore)
 
-const itemsPerPage = 2
+const itemsPerPage = 10
+const showDeleteModal = ref(false)
+const productToDelete = ref(null)
 
 onMounted(() => {
   productStore.fetchAllProducts(currentPage.value, itemsPerPage)
@@ -30,12 +33,22 @@ const handleEdit = (product) => {
   console.log('Editing product:', product)
 }
 
-const handleDelete = async (productId) => {
-  await productStore.deleteProduct(productId)
-  productStore.fetchAllProducts(currentPage.value, itemsPerPage)
+const handleDeleteClick = (productId) => {
+  productToDelete.value = productId
+  showDeleteModal.value = true
 }
 
-console.log(products);
+const confirmDelete = async () => {
+  await productStore.deleteProduct(productToDelete.value)
+  productStore.fetchAllProducts(currentPage.value, itemsPerPage)
+  closeModal()
+}
+
+const closeModal = () => {
+  showDeleteModal.value = false 
+  productToDelete.value = null
+}
+
 </script>
 
 <template>
@@ -48,13 +61,13 @@ console.log(products);
   </div>
 
   <div v-else>
-    <BaseTable :headers="['Name', 'Category', 'Rating', 'Stock', 'Discount', 'Available', 'Actions']">
+    <BaseTable :headers="['Name', 'Category','Stock', 'Discount', 'Available', 'Actions']">
       <ProductTableRow 
         v-for="product in products" 
         :key="product.id" 
         :product="product"
         @edit="handleEdit"
-        @delete="handleDelete"
+        @delete="handleDeleteClick"
       />
     </BaseTable>
 
@@ -62,6 +75,12 @@ console.log(products);
       :currentPage="currentPage"
       :totalPages="totalPages"
       @changePage="handlePageChange"
+    />
+
+    <ConfirmDeleteModal 
+      v-if="showDeleteModal" 
+      @confirm="confirmDelete" 
+      @cancel="closeModal"
     />
   </div>
 </template>

@@ -38,9 +38,7 @@ const developers = [
 <template>
   <div class="md:col-span-5 flex flex-col justify-center gap-5">
     <div class="mb-2">
-      <a href="#">
-        <img class="h-[104px] w-auto" src="@/assets/img/logos/WhiteLogo.svg" alt="" />
-      </a>
+        <img class="h-[104px] w-auto" src="@/assets/img/logos/WhiteLogo.svg" alt="Funko logo" />
     </div>
 
     <h3 class="text-blueFunko-50 text-base font-semibold">DEVELOPED BY:</h3>
