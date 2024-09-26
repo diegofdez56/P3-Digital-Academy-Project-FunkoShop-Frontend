@@ -2,6 +2,7 @@
 import { ref } from 'vue'
 /* import { useRoute, useRouter } from 'vue-router' */
 import { useAuthStore } from '@/stores/auth.js'
+import '@material-tailwind/html/scripts/popover.js';
 
 const username = ref('')
 const password = ref('')
@@ -91,12 +92,6 @@ async function login() {
             <img src="../assets/img/logos/GoogleLogo.svg" alt="" />
           </button>
         </div>
-
-        <p class="mt-3 text-center text-sm text-gray-500">
-          Not a member yet?
-          {{ ' ' }}
-          <a href="#" class="font-semibold text-blueFunko-700 hover:text-blueFunko-600">Register</a>
-        </p>
       </div>
       <img src="../assets/img/details/PointShape.svg" alt="" class="w-10 absolute bottom-1 left-1" />
       <img src="../assets/img/details/PointShape.svg" alt="" class="w-10 absolute top-1 right-1" />
