@@ -19,9 +19,6 @@ import {
 import { Bars3Icon, XMarkIcon } from '@heroicons/vue/24/outline'
 import LanguageSelector from './LanguageSelector.vue'
 import ProfileMenu from './ProfileMenu.vue'
-import { useAuthStore } from '@/stores/auth'
-
-const auth = useAuthStore()
 
 const navigation = {
   categories: [
@@ -228,8 +225,11 @@ const open = ref(false)
             <div class="ml-auto flex items-center">
               <LanguageSelector />
 
-              <div v-if="auth.user.isAuthenticated" class="ml-4 flow-root lg:ml-6 bg-white rounded-md">
+              <div class="ml-4 flow-root lg:ml-6 bg-white rounded-md">
                 <ProfileMenu />
+              </div>
+              <div class="ml-4 flow-root lg:ml-6 bg-white rounded-md">
+                R
               </div>
               <div class="ml-4 flow-root lg:ml-6 bg-white rounded-md">
                 <ShoppingCart></ShoppingCart>
