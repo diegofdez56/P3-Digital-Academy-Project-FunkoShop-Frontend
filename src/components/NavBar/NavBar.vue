@@ -1,6 +1,7 @@
 <script setup>
 import { ref } from 'vue'
 import ShoppingCart from '../ShoppingCart/ShoppingCart.vue'
+import '@material-tailwind/html/scripts/popover.js';
 import {
   Dialog,
   DialogPanel,
@@ -8,7 +9,6 @@ import {
   TransitionChild,
   TransitionRoot,
   Popover,
-  PopoverButton,
   PopoverPanel,
   Tab,
   TabGroup,
@@ -17,7 +17,7 @@ import {
   TabPanels,
 } from '@headlessui/vue'
 import { Bars3Icon, XMarkIcon } from '@heroicons/vue/24/outline'
-import LanguageSelector from './LanguageSelector.vue'
+//import LanguageSelector from './LanguageSelector.vue'
 import ProfileMenu from './ProfileMenu.vue'
 
 const navigation = {
@@ -164,8 +164,8 @@ const open = ref(false)
               <div class="flex h-full space-x-8">
                 <a v-for="page in navigation.pages" :key="page.name" :href="page.href"
                   class="flex items-center text-sm font-medium text-white hover:text-blueFunko-300">{{ page.name }}</a>
-                  <Popover v-for="category in navigation.categories" :key="category.name" class="flex" v-slot="{ open }">
-                  <div class="relative flex">
+                <Popover v-for="category in navigation.categories" :key="category.name" class="flex" v-slot="{ open }">
+                  <!-- <div class="relative flex">
                     <PopoverButton :class="[
                       open
                         ? 'border-blueFunko-300 text-blueFunko-300'
@@ -173,7 +173,7 @@ const open = ref(false)
                       'relative z-10 -mb-px flex items-center border-b-2 pt-px text-sm font-medium transition-colors duration-200 ease-out'
                     ]">
                       {{ category.name }}</PopoverButton>
-                  </div>
+                  </div> -->
 
                   <transition enter-active-class="transition ease-out duration-200" enter-from-class="opacity-0"
                     enter-to-class="opacity-100" leave-active-class="transition ease-in duration-150"
@@ -223,16 +223,12 @@ const open = ref(false)
             </PopoverGroup>
 
             <div class="ml-auto flex items-center">
-              <LanguageSelector />
-
-              <div class="ml-4 flow-root lg:ml-6 bg-white rounded-md">
-                <ProfileMenu />
-              </div>
-              <div class="ml-4 flow-root lg:ml-6 bg-white rounded-md">
-                R
-              </div>
+              <!-- <LanguageSelector /> -->
               <div class="ml-4 flow-root lg:ml-6 bg-white rounded-md">
                 <ShoppingCart></ShoppingCart>
+              </div>
+              <div class="ml-4 flow-root lg:ml-6 bg-white rounded-md">
+                <ProfileMenu />
               </div>
             </div>
           </div>
