@@ -1,8 +1,11 @@
 <script setup>
 import { ref, onMounted } from 'vue';
 import '@material-tailwind/html/scripts/popover.js';
+import { logoutStore } from '@/stores/logout';
 
 const isPopoverOpen = ref(false);
+const logout = logoutStore();
+
 
 onMounted(() => {
     //console.log('Component Mounted');
@@ -67,9 +70,9 @@ onMounted(() => {
                                 clip-rule="evenodd"></path>
                         </svg>
 
-                <p class="text-slate-800 font-medium ml-2">
+                <button @click="logout.logout" class="text-slate-800 font-medium ml-2">
                     Sign Out
-                </p>
+                </button>
             </li>
         </ul>
     </div>
