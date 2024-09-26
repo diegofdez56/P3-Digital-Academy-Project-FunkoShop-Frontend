@@ -1,8 +1,6 @@
 import ProductView from './../views/ProductView.vue';
 import { useAuthStore } from '@/stores/auth';
-import CheckoutView from '@/views/CheckoutView.vue';
 import HomeView from '@/views/HomeView.vue';
-import ProfileView from '@/views/user/ProfileView.vue';
 import { createRouter, createWebHistory } from 'vue-router'
 
 const router = createRouter({
@@ -20,7 +18,7 @@ const router = createRouter({
     {
       path: '/checkout',
       name: 'checkout',
-      component: CheckoutView
+      component: () => import('@/views/CheckoutView.vue'),
     },
     {
       path: '/products',
@@ -30,7 +28,7 @@ const router = createRouter({
     {
       path: '/profile',
       name: 'profile',
-      component: ProfileView,
+      component: () => import('@/views/user/ProfileView.vue'),
       meta: { requiresAuth: true },
     },
     {
@@ -55,6 +53,15 @@ const router = createRouter({
         },
       ],
     },
+    {
+      path: '/:pathMatch(.*)*',
+      redirect: "/404",
+    },
+    {
+      path: '/404',
+      name: 'NotFound', 
+      component: () => import('@/views/notFound/NotFoundView.vue'),
+    }
   ]
 })
 
