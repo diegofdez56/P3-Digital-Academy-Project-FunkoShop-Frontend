@@ -63,4 +63,32 @@ export default class AuthRepository {
             return error.toJSON();
         }
     }
+
+    async setNewPassword(credentialsChangePassword) {
+        try {
+            let headersList = {
+                "Accept": "*/*",
+                "Authorization": "Bearer " + credentialsChangePassword.getAccessToken(),
+                "Content-Type": "application/json"
+            }
+
+            let bodyContent = JSON.stringify({
+                "currentPassword": credentialsChangePassword.getCurrentPassword(),
+                "newPassword": credentialsChangePassword.getNewPassword(),
+                "confirmationPassword": credentialsChangePassword.getConfirmationPassword()
+            });
+
+            let reqOptions = {
+                url: this.baseUrl + '/users',
+                method: "PATCH",
+                headers: headersList,
+                data: bodyContent,
+            }
+
+            let response = await axios.request(reqOptions);
+            return response.data;
+        } catch (error) {
+            return error.toJSON();
+        }
+    }
 }

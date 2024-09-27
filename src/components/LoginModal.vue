@@ -2,15 +2,15 @@
 import { ref } from 'vue'
 /* import { useRoute, useRouter } from 'vue-router' */
 import { useAuthStore } from '@/stores/auth.js'
+import '@material-tailwind/html/scripts/popover.js';
+import { useRouter } from 'vue-router';
+
+const store = useAuthStore()
+const router = useRouter();
 
 const username = ref('')
 const password = ref('')
 const textAlert = ref('')
-
-/* const route = useRoute()
-const router = useRouter() */
-
-const store = useAuthStore()
 
 async function login() {
   if (username.value != '' && password.value != '')
@@ -35,6 +35,10 @@ async function login() {
         username.value = '';
         password.value = '';
         textAlert.value = '';
+
+        if (response['role'] == "ADMIN") {
+          router.push('/admin');
+        }
       }
       else
         textAlert.value = "Incorrect username or password!";
@@ -47,7 +51,7 @@ async function login() {
 </script>
 
 <template>
-  <div class="flex h-screen justify-center items-center backdrop-blur-sm bg-white/30">
+  <div class="flex">
     <div
       class="relative flex h-auto max-w-md flex-1 flex-col justify-center px-6 py-12 lg:px-8 bg-white border-2 rounded-xl border-gray-300/30 shadow-md">
       <div class="sm:mx-auto sm:w-full sm:max-w-sm">
@@ -91,15 +95,6 @@ async function login() {
             <img src="../assets/img/logos/GoogleLogo.svg" alt="" />
           </button>
         </div>
-
-        <div class="text-sm text-center mt-10">
-          <a href="#" class="font-semibold text-blueFunko-700 hover:text-blueFunko-600">Forgot password?</a>
-        </div>
-        <p class="mt-3 text-center text-sm text-gray-500">
-          Not a member yet?
-          {{ ' ' }}
-          <a href="#" class="font-semibold text-blueFunko-700 hover:text-blueFunko-600">Sign up</a>
-        </p>
       </div>
       <img src="../assets/img/details/PointShape.svg" alt="" class="w-10 absolute bottom-1 left-1" />
       <img src="../assets/img/details/PointShape.svg" alt="" class="w-10 absolute top-1 right-1" />
