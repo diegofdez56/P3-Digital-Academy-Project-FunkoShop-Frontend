@@ -1,58 +1,69 @@
-import { ref, computed } from 'vue';
+import { ref, computed, watch } from 'vue';
 import { defineStore } from 'pinia';
-import axios from 'axios';
 
 export const useCartStore = defineStore('cart', () => {
-  
-  const items = ref([]);
+  const products = ref(JSON.parse(localStorage.getItem('cart') || '[]'));
 
- 
-  const totalQuantity = computed(() =>
-    items.value.reduce((total, item) => total + item.quantity, 0)
-  );
+  const totalQuantity = computed(() => {
+    return products.value.reduce((total, product) => total + product.quantity, 0);
+  });
 
-  
-  const totalPrice = computed(() =>
-    items.value.reduce((total, item) => total + item.price * item.quantity, 0)
-  );
+  const totalPrice = computed(() => {
+    return (Math.round(products.value.reduce((total, product) => total + product.price * product.quantity, 0) * 100) / 100).toFixed(2);
+  });
 
- 
-  const addItem = (product, quantity = 1) => {
-    const existingItem = items.value.find(item => item.id === product.id);
-    if (existingItem) {
-      existingItem.quantity += quantity; 
+  const addProduct = (product, quantity = 1) => {
+    const existingProduct = products.value.find(item => item.id === product.id);
+    if (existingProduct) {
+      existingProduct.quantity += quantity;
     } else {
-      items.value.push({ ...product, quantity }); 
+      products.value.push({ ...product, quantity });
+    }
+    saveCart();
+  };
+
+  const removeProduct = (id, quantity = 1) => {
+    const product = products.value.find(product => product.id === id);
+    if (product) {
+      if (product.quantity > quantity) {
+        product.quantity -= quantity;
+      } else {
+        products.value = products.value.filter(product => product.id !== id);
+      }
+      saveCart();
     }
   };
 
-  const removeItem = (id) => {
-    items.value = items.value.filter(item => item.id !== id);
-  };
-
-  
   const updateQuantity = (id, quantity) => {
-    const item = items.value.find(item => item.id === id);
-    if (item) {
+    const product = products.value.find(product => product.id === id);
+    if (product) {
       if (quantity > 0) {
-        item.quantity = quantity;
+        product.quantity = quantity;
       } else {
-        removeItem(id); 
+        removeProduct(id);
       }
     }
+    saveCart();
   };
 
   const clearCart = () => {
-    items.value = [];
+    products.value = [];
+    saveCart();
   };
 
+  const saveCart = () => {
+    localStorage.setItem('cart', JSON.stringify(products.value));
+  };
+
+  watch(products, saveCart, { deep: true });
+
   return {
-    items,
-    totalQuantity,
-    totalPrice,
-    addItem,
-    removeItem,
-    updateQuantity,
-    clearCart
+    products,       
+    totalQuantity,  
+    totalPrice,     
+    addProduct,     
+    removeProduct,  
+    updateQuantity, 
+    clearCart      
   };
 });

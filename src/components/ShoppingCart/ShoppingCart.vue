@@ -1,34 +1,33 @@
 <script setup>
-import { ref } from 'vue'
-import { Dialog, DialogPanel, DialogTitle, TransitionChild, TransitionRoot } from '@headlessui/vue'
-import { XMarkIcon, ShoppingBagIcon } from '@heroicons/vue/24/outline'
+import { ref, computed } from 'vue';
+import { Dialog, DialogPanel, DialogTitle, TransitionChild, TransitionRoot } from '@headlessui/vue';
+import { XMarkIcon, ShoppingBagIcon } from '@heroicons/vue/24/outline';
+import { useCartStore } from '@/stores/cart/cartStore';
 
-const products = [
-  {
-    id: 1,
-    name: 'Product Title',
-    href: '#',
-    category: 'Category',
-    price: '90.00€',
-    quantity: 1,
-    imageSrc: '/src/assets/img/CardImage/Groot.png',
-    imageAlt:
-      'Salmon orange fabric pouch with match zipper, gray zipper pull, and adjustable hip belt.'
-  },
-  {
-    id: 2,
-    name: 'Product Title',
-    href: '#',
-    category: 'Category',
-    price: '32.00€',
-    quantity: 1,
-    imageSrc: '/src/assets/img/CardImage/Groot.png',
-    imageAlt:
-      'Front of satchel with blue canvas body, black straps and handle, drawstring top, and front zipper pouch.'
+const open = ref(false);
+
+const cartStore = useCartStore();
+
+const cartProducts = computed(() => {
+  return cartStore.products;
+});
+
+const totalPrice = computed(() => {
+  return cartStore.totalPrice;
+});
+
+const removeFromCart = (id) => {
+  if (!cartProducts.value) {
+    return;
   }
-]
 
-const open = ref(false)
+
+  const productExists = cartProducts.value.find(product => product.id === id);
+if (productExists) {
+  cartStore.removeProduct(id);
+}
+};
+
 </script>
 
 <template>
@@ -67,11 +66,9 @@ const open = ref(false)
               <DialogPanel class="pointer-events-auto w-screen max-w-md">
                 <div class="flex h-full flex-col overflow-y-scroll bg-white shadow-xl">
                   <div class="flex-1 overflow-y-auto px-4 py-6 sm:px-6">
-                    <div class="flex items-start justify-between">
-                      <DialogTitle class="text-lg font-medium text-gray-900"
-                        >Shopping cart</DialogTitle
-                      >
-                      <div class="ml-3 flex h-7 items-center">
+                    <div class="flex products-start justify-between">
+                      <DialogTitle class="text-lg font-medium text-gray-900">Shopping cart</DialogTitle>
+                      <div class="ml-3 flex h-7 products-center">
                         <button
                           type="button"
                           class="relative -m-2 p-2 text-gray-400 hover:text-gray-500"
@@ -87,15 +84,17 @@ const open = ref(false)
                     <div class="mt-8">
                       <div class="flow-root">
                         <ul role="list" class="-my-6 divide-y divide-gray-200">
-                          <li v-for="product in products" :key="product.id" class="flex py-6">
+                        
+                          <li v-for="product in cartProducts" :key="product.id" class="flex py-6">
                             <div
                               class="h-24 w-24 flex-shrink-0 overflow-hidden rounded-md border border-gray-200"
                             >
-                              <img
-                                :src="product.imageSrc"
-                                :alt="product.imageAlt"
+                              <!-- <img
+                                :src="product.imageSrc" 
+                                :alt="product.imageAlt" 
                                 class="h-full w-full object-cover object-center"
-                              />
+                              /> -->
+                              <img src="../../assets/img/CardImage/Groot.png" alt="Groot" class="h-full w-full object-cover object-center" />
                             </div>
 
                             <div class="ml-4 flex flex-1 flex-col">
@@ -106,17 +105,18 @@ const open = ref(false)
                                   <h3>
                                     <a :href="product.href">{{ product.name }}</a>
                                   </h3>
-                                  <p class="ml-4">{{ product.price }}</p>
+                                  <p class="ml-4">{{ product.price }}€</p> 
                                 </div>
                                 <p class="mt-1 text-sm text-gray-500">{{ product.category }}</p>
                               </div>
-                              <div class="flex flex-1 items-end justify-between text-sm">
-                                <p class="text-gray-500">Qty {{ product.quantity }}</p>
+                              <div class="flex flex-1 products-end justify-between text-sm">
+                                <p class="text-gray-500">Qty {{ product.quantity }}</p> 
 
                                 <div class="flex">
                                   <button
                                     type="button"
                                     class="font-medium text-red-500 hover:text-red-600"
+                                    @click="removeFromCart(product.id)" 
                                   >
                                     Remove
                                   </button>
@@ -124,6 +124,11 @@ const open = ref(false)
                               </div>
                             </div>
                           </li>
+                          <template v-if="!cartProducts.length"> 
+                            <li class="flex py-6 text-center w-full text-gray-500">
+                              No products in the cart
+                            </li>
+                          </template>
                         </ul>
                       </div>
                     </div>
@@ -132,7 +137,7 @@ const open = ref(false)
                   <div class="border-t border-gray-200 px-4 py-6 sm:px-6">
                     <div class="flex justify-between text-base font-medium text-gray-900">
                       <p>Subtotal</p>
-                      <p>262.00€</p>
+                      <p>{{ totalPrice }}€</p> 
                     </div>
                     <p class="mt-0.5 text-sm text-gray-500">
                       Shipping and taxes calculated at checkout.
@@ -140,7 +145,7 @@ const open = ref(false)
                     <div class="mt-6">
                       <a
                         href="#"
-                        class="flex items-center justify-center rounded-md border border-transparent bg-blueFunko-700 px-6 py-3 text-base font-medium text-white shadow-sm hover:bg-blueFunko-800"
+                        class="flex products-center justify-center rounded-md border border-transparent bg-blueFunko-700 px-6 py-3 text-base font-medium text-white shadow-sm hover:bg-blueFunko-800"
                         >Checkout</a
                       >
                     </div>

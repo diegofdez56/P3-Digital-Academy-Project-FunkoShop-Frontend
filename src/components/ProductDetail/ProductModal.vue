@@ -2,7 +2,7 @@
 import { ref } from 'vue'
 import { Dialog, DialogPanel, TransitionChild, TransitionRoot } from '@headlessui/vue'
 import { XMarkIcon } from '@heroicons/vue/24/outline'
-import { StarIcon } from '@heroicons/vue/20/solid'
+// import { StarIcon } from '@heroicons/vue/20/solid'
 import BadgeCard from '../Cards/BadgeCard.vue'
 import { useCartStore } from '../../stores/cart/cartStore';
 
@@ -40,13 +40,16 @@ const decrementQuantity = () => {
 // });
 
 const addToCart = () => {
-  cartStore.addItem({
+  console.log('Adding to Cart Product:', props.product, 'Quantity:', quantity.value);
+  cartStore.addProduct({
+    id: props.product.id, 
     name: props.product.name,
-    quantity: quantity.value,
-    price: props.product.price
-  })
-  emit('close')
-}
+    price: props.product.price,
+   
+  }, quantity.value); 
+  emit('close');
+};
+ 
 </script>
 
 <template>
@@ -125,10 +128,10 @@ const addToCart = () => {
 
                     <section aria-labelledby="information-heading">
                       <div class="py-4">
-                        <h4 class="sr-only">Reviews</h4>
+                        <!-- <h4 class="sr-only">Reviews</h4> -->
                         <div class="flex items-center">
                           <div class="flex items-center">
-                            <StarIcon
+                            <!-- <StarIcon
                               v-for="rating in 5"
                               :key="rating"
                               :class="{
@@ -137,14 +140,14 @@ const addToCart = () => {
                                 'h-5 w-5 flex-shrink-0': true
                               }"
                               aria-hidden="true"
-                            />
+                            /> -->
                           </div>
                           <p class="sr-only">{{ props.product.rating || 0 }} out of 5 stars</p>
                           <a
                             href="#"
                             class="ml-3 text-sm font-medium text-indigo-600 hover:text-indigo-500"
                           >
-                            {{ props.product.reviewCount || 0 }} reviews
+                            <!-- {{ props.product.reviewCount || 0 }} reviews -->
                           </a>
                         </div>
                       </div>
