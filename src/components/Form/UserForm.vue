@@ -1,7 +1,11 @@
 <script setup>
 import { useAuthStore } from '@/stores/auth';
 import { ProfileStore } from '@/stores/Profile/ProfileStore';
+import { Dialog, DialogPanel, TransitionChild, TransitionRoot } from '@headlessui/vue'
 import { ref } from 'vue';
+import ChangePasswordForm from './ChangePasswordForm.vue';
+
+const openChangePassword = ref(false)
 
 const TIME_DISMISSED = import.meta.env.VITE_TIME_DISMISSED
 const store = ProfileStore()
@@ -74,7 +78,8 @@ getProfile()
                 <p class="mt-1 text-sm leading-6 text-gray-600">Use a permanent address where you can receive the
                     products.</p>
 
-                <div v-if="textAlert != ''" :class="textAlert == 'Profile updated successfully' ? 'bg-green-500' : 'bg-red-500'"
+                <div v-if="textAlert != ''"
+                    :class="textAlert == 'Profile updated successfully' ? 'bg-green-500' : 'bg-red-500'"
                     class="mt-4 font-regular relative block w-full rounded-lg p-4 text-base leading-5 text-white opacity-100"
                     data-dismissible="alert">
                     <div class="mr-12">{{ textAlert }}</div>
@@ -398,8 +403,34 @@ getProfile()
         </div>
 
         <div class="mt-6 flex items-center justify-end gap-x-6">
+            <button type="submit" @click="openChangePassword = !openChangePassword"
+                class="rounded-md bg-indigo-600 px-3 py-2 text-sm font-semibold text-white shadow-sm hover:bg-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600">Change
+                Password</button>
+            <TransitionRoot as="template" :show="openChangePassword">
+                <Dialog class="relative z-10" @close="openChangePassword = !openChangePassword">
+                    <TransitionChild as="template" enter="ease-out duration-300" enter-from="opacity-0"
+                        enter-to="opacity-100" leave="ease-in duration-200" leave-from="opacity-100"
+                        leave-to="opacity-0">
+                        <div class="fixed inset-0 bg-gray-500 bg-opacity-75 transition-opacity" />
+                    </TransitionChild>
+
+                    <div class="fixed inset-0 z-10 w-screen overflow-y-auto">
+                        <div class="flex min-h-full items-end justify-center p-4 text-center sm:items-center sm:p-0">
+                            <TransitionChild as="template" enter="ease-out duration-300"
+                                enter-from="opacity-0 translate-y-4 sm:translate-y-0 sm:scale-95"
+                                enter-to="opacity-100 translate-y-0 sm:scale-100" leave="ease-in duration-200"
+                                leave-from="opacity-100 translate-y-0 sm:scale-100"
+                                leave-to="opacity-0 translate-y-4 sm:translate-y-0 sm:scale-95">
+                                <DialogPanel class=" bg-white px-10 shadow-xl transition-all w-full max-w-md rounded-2xl">
+                                    <ChangePasswordForm />
+                                </DialogPanel>
+                            </TransitionChild>
+                        </div>
+                    </div>
+                </Dialog>
+            </TransitionRoot>
             <button type="submit"
-                class="rounded-md bg-indigo-600 px-3 py-2 text-sm font-semibold text-white shadow-sm hover:bg-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600">Save</button>
+                class="rounded-md bg-green-600 px-3 py-2 text-sm font-semibold text-white shadow-sm hover:bg-green-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600">Save</button>
         </div>
     </form>
 </template>

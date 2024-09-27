@@ -7,5 +7,4 @@ import UserForm from '@/components/Form/UserForm.vue';
     <UserForm />
 </template>
 
-<style>
-</style>
+<style></style>
