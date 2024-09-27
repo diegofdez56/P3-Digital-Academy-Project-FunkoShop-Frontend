@@ -13,13 +13,11 @@ const changeLanguage = (lang) => {
   localStorage.setItem('lang', lang)
 }
 
-// Definir una lista de idiomas disponibles
 const languages = [
   { code: 'es', flag: ESFlag, label: 'Spanish' },
   { code: 'en', flag: GBFlag, label: 'English' }
 ]
 
-// Computed property para filtrar el idioma seleccionado
 const filteredLanguages = computed(() => {
   return languages.filter((lang) => lang.code !== locale.value)
 })
@@ -52,7 +50,6 @@ const filteredLanguages = computed(() => {
         class="absolute right-0 z-10 mt-2 w-15 origin-top-right rounded-md bg-white shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none"
       >
         <div class="py-1">
-          <!-- Mostrar solo los idiomas que no están seleccionados -->
           <MenuItem v-for="lang in filteredLanguages" :key="lang.code" v-slot="{ active }">
             <a
               @click.prevent="changeLanguage(lang.code)"
