@@ -14,5 +14,22 @@
   "quantity": "Qty.",
   "productName": "Product Name",
   "category": "Category",
-  "price": "Price"
+  "price": "Price",
+ "profile": {
+    "personalInformation": "Personal Information",
+    "usePermanentAddress": "Use a permanent address where you can receive the products.",
+    "firstName": "First name",
+    "lastName": "Last name",
+    "countryCode": "Country Code",
+    "phoneNumber": "Phone Number",
+    "country": "Country",
+    "city": "City",
+    "street": "Street address",
+    "region": "State / Region",
+    "postalCode": "ZIP / Postal code",
+    "changePassword": "Change Password",
+    "save": "Save",
+    "profileUpdatedSuccess": "Profile updated successfully",
+    "errorUpdatingProfile": "Error updating profile"
+  }
 }
