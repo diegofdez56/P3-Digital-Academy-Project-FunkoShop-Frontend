@@ -1,23 +1,23 @@
 <script setup>
 import { ref } from 'vue'
 import ShoppingCart from '../ShoppingCart/ShoppingCart.vue'
+import '@material-tailwind/html/scripts/popover.js';
 import {
   Dialog,
   DialogPanel,
   PopoverGroup,
   TransitionChild,
   TransitionRoot,
-  Popover,
-  PopoverButton,
-  PopoverPanel,
-  Tab,
-  TabGroup,
-  TabList,
-  TabPanel,
-  TabPanels,
+  /*   Popover,
+    PopoverPanel,
+    Tab,
+    TabGroup,
+    TabList,
+    TabPanel,
+    TabPanels, */
 } from '@headlessui/vue'
 import { Bars3Icon, XMarkIcon } from '@heroicons/vue/24/outline'
-import LanguageSelector from './LanguageSelector.vue'
+//import LanguageSelector from './LanguageSelector.vue'
 import ProfileMenu from './ProfileMenu.vue'
 
 const navigation = {
@@ -54,7 +54,10 @@ const navigation = {
       ]
     }
   ],
-  pages: [{ name: 'Products', href: '/products' }]
+  pages: [
+    { name: 'Home', href: '/home' },
+    { name: 'Products', href: '/products' }
+  ]
 }
 
 const open = ref(false)
@@ -84,7 +87,7 @@ const open = ref(false)
                   <XMarkIcon class="h-6 w-6" aria-hidden="true" />
                 </button>
               </div>
-              <TabGroup as="div" class="mt-2">
+              <!-- <TabGroup as="div" class="mt-2">
                 <div class="border-b border-gray-200">
                   <TabList class="-mb-px flex space-x-8 px-4">
                     <Tab as="template" v-for="category in navigation.categories" :key="category.name"
@@ -129,7 +132,7 @@ const open = ref(false)
                     </div>
                   </TabPanel>
                 </TabPanels>
-              </TabGroup>
+              </TabGroup> -->
               <div class="space-y-6 border-t border-white px-4 py-6">
                 <div v-for="page in navigation.pages" :key="page.name" class="flow-root">
                   <a :href="page.href" class="-m-2 block p-2 font-medium text-white">{{
@@ -164,7 +167,7 @@ const open = ref(false)
               <div class="flex h-full space-x-8">
                 <a v-for="page in navigation.pages" :key="page.name" :href="page.href"
                   class="flex items-center text-sm font-medium text-white hover:text-blueFunko-300">{{ page.name }}</a>
-                  <Popover v-for="category in navigation.categories" :key="category.name" class="flex" v-slot="{ open }">
+                <!-- <Popover v-for="category in navigation.categories" :key="category.name" class="flex" v-slot="{ open }">
                   <div class="relative flex">
                     <PopoverButton :class="[
                       open
@@ -218,18 +221,17 @@ const open = ref(false)
                       </div>
                     </PopoverPanel>
                   </transition>
-                </Popover>
+                </Popover> -->
               </div>
             </PopoverGroup>
 
             <div class="ml-auto flex items-center">
-              <LanguageSelector />
-
-              <div class="ml-4 flow-root lg:ml-6 bg-white rounded-md">
-                <ProfileMenu />
+              <!-- <LanguageSelector /> -->
+              <div class="ml-4 flow-root lg:ml-4 bg-white rounded-md">
+                <ShoppingCart />
               </div>
-              <div class="ml-4 flow-root lg:ml-6 bg-white rounded-md">
-                <ShoppingCart></ShoppingCart>
+              <div class="ml-4 flow-root lg:ml-4  text-white">
+                <ProfileMenu />
               </div>
             </div>
           </div>
