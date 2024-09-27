@@ -1,18 +1,21 @@
 <script setup>
-import { RouterLink, RouterView } from 'vue-router'
+import { RouterView, useRoute } from 'vue-router'
+import NavBar from './components/NavBar/NavBar.vue';
+import FooterComponent from './components/Footer/FooterComponent.vue';
+
+const route = useRoute()
 </script>
 
 <template>
   <header>
-
-    <div class="wrapper">
-
-      <nav>
-        <RouterLink to="/">Home</RouterLink>
-        <RouterLink to="/about">About</RouterLink>
-      </nav>
-    </div>
+    <NavBar />
   </header>
+  <div class="wrapper">
+
+  </div>
 
   <RouterView />
+  <footer v-if="route.path != '/404'">
+    <FooterComponent />
+  </footer>
 </template>

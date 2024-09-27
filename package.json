@@ -15,11 +15,21 @@
     "test-cover": "vitest run --coverage"
   },
   "dependencies": {
+    "@eslint/config-array": "^0.18.0",
+    "@headlessui/vue": "^1.7.23",
+    "@heroicons/vue": "^2.1.5",
+    "@material-tailwind/html": "^2.3.2",
+    "@tailwindcss/aspect-ratio": "^0.4.2",
+    "@tailwindcss/forms": "^0.5.9",
     "@vitest/coverage-v8": "^2.0.5",
     "axios": "^1.7.7",
+    "glob": "^11.0.0",
+    "inflight": "^1.0.6",
     "p3-digital-academy-project-funkoshop-frontend": "file:",
-    "pinia": "^2.1.7",
+    "pinia": "^2.2.2",
+    "rimraf": "^6.0.1",
     "vue": "^3.4.29",
+    "vue-i18n": "^10.0.0",
     "vue-router": "^4.3.3"
   },
   "devDependencies": {
