@@ -31,5 +31,8 @@
     "save": "Guardar",
     "profileUpdatedSuccess": "Perfil actualizado correctamente",
     "errorUpdatingProfile": "Error al actualizar el perfil"
+  },
+  "footer": {
+    "copyright": "© 2024 Todos los derechos reservados. Está prohibida la copia del sitio y de la información."
   }
 }

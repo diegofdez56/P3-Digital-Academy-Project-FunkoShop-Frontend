@@ -31,5 +31,8 @@
     "save": "Save",
     "profileUpdatedSuccess": "Profile updated successfully",
     "errorUpdatingProfile": "Error updating profile"
+  },
+  "footer": {
+    "copyright": "© 2024 All rights reserved. Copying the site and information is prohibited."
   }
 }
