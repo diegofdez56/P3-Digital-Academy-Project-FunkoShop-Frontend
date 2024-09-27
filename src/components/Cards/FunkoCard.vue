@@ -1,6 +1,6 @@
 <script setup>
-import ReviewIcon from './ReviewIcon.vue';
-import FavoriteIcon from './FavoriteIcon.vue';
+// import ReviewIcon from './ReviewIcon.vue';
+// import FavoriteIcon from './FavoriteIcon.vue';
 import BadgeCard from './BadgeCard.vue';
 import ProductModal from './../ProductDetail/ProductModal.vue';
 import { useProductModal } from '/src/composables/useProductModal.js';
@@ -36,7 +36,7 @@ const discountedPrice = computed(() => {
     <div class="flex justify-between pt-3 px-3">
       <BadgeCard :id="product.name" :isAvailable="product.available"
         :isDiscount="product.discount == null ? false : true" :isNew="product.new" :discount="product.discount == null ? null : product.discount" />
-      <FavoriteIcon />
+      <!-- <FavoriteIcon /> -->
     </div>
     <div class="relative p-2 h-60 overflow-hidden rounded-xl bg-clip-border">
       <!-- <img
@@ -48,7 +48,7 @@ const discountedPrice = computed(() => {
         class="h-full w-full object-cover rounded-md" />
     </div>
     <div>
-      <ReviewIcon />
+      <!-- <ReviewIcon /> -->
     </div>
     <div class="p-3">
       <p class="text-slate-600 leading-normal font-light text-xs">
