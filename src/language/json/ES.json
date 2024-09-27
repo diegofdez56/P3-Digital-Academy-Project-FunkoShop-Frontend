@@ -8,5 +8,40 @@
   "yourProfile": "Tu Perfil",
   "logout": "Cerrar sesión",
   "home": "Inicio",
-  "products": "Productos"
+  "products": "Productos",
+  "addToCart": "Añadir al carrito",
+  "description": "Descripción",
+  "quantity": "Cnt.",
+  "productName": "Nombre del producto",
+  "category": "Categoría",
+  "price": "Precio",
+  "profile": {
+    "personalInformation": "Información Personal",
+    "usePermanentAddress": "Utilice una dirección permanente para recibir los productos.",
+    "firstName": "Nombre",
+    "lastName": "Apellidos",
+    "countryCode": "Código de País",
+    "phoneNumber": "Teléfono",
+    "country": "País",
+    "city": "Población",
+    "street": "Dirección",
+    "region": "Estado / Región",
+    "postalCode": "Código Postal",
+    "changePassword": "Cambiar Contraseña",
+    "save": "Guardar",
+    "profileUpdatedSuccess": "Perfil actualizado correctamente",
+    "errorUpdatingProfile": "Error al actualizar el perfil"
+  },
+  "footer": {
+    "copyright": "© 2024 Todos los derechos reservados. Está prohibida la copia del sitio y de la información."
+  },
+  "developers": {
+    "developedBy": "DESARROLLADO POR:"
+  },
+  "newsletter": {
+    "subscribeHeading": "¡Suscríbete a Nuestro Boletín para Ofertas Exclusivas!",
+    "subscribeDescription": "Recibe notificaciones sobre nuevos lanzamientos, descuentos y más.",
+    "enterEmail": "Ingresa la dirección de correo electrónico",
+    "subscribe": "SUSCRIBIRSE"
+  }
 }
