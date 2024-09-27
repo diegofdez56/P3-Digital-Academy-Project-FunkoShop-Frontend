@@ -272,7 +272,7 @@ getProfile()
                     </div>
 
                     <div class="col-span-6 sm:col-span-4">
-                        <label for="rigthnumber" class="block text-sm font-medium leading-6 text-gray-900"></label>
+                        <label for="rigthnumber" class="block text-sm font-medium leading-6 text-gray-900">{{ t('profile.phoneNumber') }}</label>
                         <div class="mt-2">
                             <input v-model="rigthNumber" type="number" name="rigthnumber" id="rigthnumber"
                                 autocomplete="family-name"
