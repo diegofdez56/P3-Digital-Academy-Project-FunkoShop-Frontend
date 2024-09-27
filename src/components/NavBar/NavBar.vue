@@ -17,9 +17,12 @@ import {
     TabPanels, */
 } from '@headlessui/vue'
 import { Bars3Icon, XMarkIcon } from '@heroicons/vue/24/outline'
-//import LanguageSelector from './LanguageSelector.vue'
+import LanguageSelector from './LanguageSelector.vue'
 import ProfileMenu from './ProfileMenu.vue'
+import { useI18n } from 'vue-i18n'
 
+
+const { t } = useI18n()
 const navigation = {
   categories: [
     {
@@ -55,8 +58,8 @@ const navigation = {
     }
   ],
   pages: [
-    { name: 'Home', href: '/home' },
-    { name: 'Products', href: '/products' }
+    { name: `${t('home')}`, href: '/home' },
+    { name: `${t('products')}`, href: '/products' }
   ]
 }
 
@@ -226,7 +229,7 @@ const open = ref(false)
             </PopoverGroup>
 
             <div class="ml-auto flex items-center">
-              <!-- <LanguageSelector /> -->
+              <LanguageSelector />
               <div class="ml-4 flow-root lg:ml-4 bg-white rounded-md">
                 <ShoppingCart />
               </div>

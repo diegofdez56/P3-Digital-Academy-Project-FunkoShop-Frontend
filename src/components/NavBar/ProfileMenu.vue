@@ -6,10 +6,17 @@ import { useAuthStore } from '@/stores/auth';
 import { Dialog, DialogPanel, TransitionChild, TransitionRoot, Menu, MenuButton, MenuItem, MenuItems } from '@headlessui/vue'
 import LoginModal from '../LoginModal.vue';
 import RegisterModal from '../RegisterModal.vue';
+import { useI18n } from 'vue-i18n';
+
+
+
 
 const openLogin = ref(false)
 const openRegister = ref(false)
 const logout = logoutStore();
+const { t } = useI18n();
+
+
 
 const open = (modal) => {
     if (modal === 'login')
@@ -73,8 +80,8 @@ const auth = useAuthStore()
                 </div>
             </Dialog>
         </TransitionRoot>
-        <button @click="open('register')" class="font-bold">REGISTER</button>
-        <button @click="open('login')" class="font-bold pl-3">SING IN</button>
+        <button @click="open('register')" class="font-bold">{{ t('register') }}</button>
+        <button @click="open('login')" class="font-bold pl-3">{{ t('login') }}</button>
     </div>
 
     <div v-else role="menu" class="relative px-1 py-1">
@@ -83,7 +90,7 @@ const auth = useAuthStore()
             <div>
                 <MenuButton class="relative flex rounded-md bg-white text-sm">
                     <span class="absolute -inset-1.5" />
-                    <span class="sr-only">Open user menu</span>
+                    <span class="sr-only">{{ t('yourProfile') }}</span>
                     <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor"
                         class="w-8 h-8 text-black">
                         <path fill-rule="evenodd"
@@ -107,7 +114,7 @@ const auth = useAuthStore()
                                 d="M18 10a8 8 0 1 1-16 0 8 8 0 0 1 16 0Zm-5.5-2.5a2.5 2.5 0 1 1-5 0 2.5 2.5 0 0 1 5 0ZM10 12a5.99 5.99 0 0 0-4.793 2.39A6.483 6.483 0 0 0 10 16.5a6.483 6.483 0 0 0 4.793-2.11A5.99 5.99 0 0 0 10 12Z"
                                 clip-rule="evenodd" />
                         </svg>
-                        Your Profile
+                        {{ t('yourProfile') }}
                     </a>
                     </MenuItem>
                     <!-- <MenuItem v-slot="{ active }">
@@ -143,7 +150,7 @@ const auth = useAuthStore()
                                 d="M12 2.25a.75.75 0 01.75.75v9a.75.75 0 01-1.5 0V3a.75.75 0 01.75-.75zM6.166 5.106a.75.75 0 010 1.06 8.25 8.25 0 1011.668 0 .75.75 0 111.06-1.06c3.808 3.807 3.808 9.98 0 13.788-3.807 3.808-9.98 3.808-13.788 0-3.808-3.807-3.808-9.98 0-13.788a.75.75 0 011.06 0z"
                                 clip-rule="evenodd"></path>
                         </svg>
-                        Sign out
+                        {{ t('logout') }}
                     </a>
                     </MenuItem>
                 </MenuItems>

@@ -1,7 +1,12 @@
 {
-    "discountedProducts": "PRODUCTOS CON DESCUENTO",
-    "discountedDescription": "¡Funkos en oferta! Consigue el tuyo antes de que se acaben.",
-    "newArrivals": "NUEVAS LLEGADAS",
-    "newArrivalsDescription": "¡Sé el primero en tener los últimos Funkos!"
+  "discountedProducts": "PRODUCTOS CON DESCUENTO",
+  "discountedDescription": "¡Funkos en oferta! Consigue el tuyo antes de que se acaben.",
+  "newArrivals": "NUEVAS LLEGADAS",
+  "newArrivalsDescription": "¡Sé el primero en tener los últimos Funkos!",
+  "login": "INICIAR SESIÓN",
+  "register": "REGISTRARSE",
+  "yourProfile": "Tu Perfil",
+  "logout": "Cerrar sesión",
+  "home": "Inicio",
+  "products": "Productos"
 }
-  

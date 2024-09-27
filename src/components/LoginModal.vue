@@ -37,7 +37,7 @@ async function login() {
         textAlert.value = '';
 
         if (response['role'] == "ADMIN") {
-          router.push('/admin');
+          router.push('/admin/products');
         }
       }
       else
@@ -88,13 +88,13 @@ async function login() {
             <div class="mr-12">{{ textAlert }}</div>
           </div>
         </form>
-        <p class="text-sm text-center mt-10 text-gray-400">——— Connect With ———</p>
+        <!-- <p class="text-sm text-center mt-10 text-gray-400">——— Connect With ———</p>
 
         <div class="flex justify-center w-full items-center">
           <button class="border-2 border-black/30 rounded-lg mt-6 py-2 px-12 hover:bg-gray-50">
             <img src="../assets/img/logos/GoogleLogo.svg" alt="" />
           </button>
-        </div>
+        </div> -->
       </div>
       <img src="../assets/img/details/PointShape.svg" alt="" class="w-10 absolute bottom-1 left-1" />
       <img src="../assets/img/details/PointShape.svg" alt="" class="w-10 absolute top-1 right-1" />
