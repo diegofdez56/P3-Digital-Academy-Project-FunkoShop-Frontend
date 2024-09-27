@@ -59,13 +59,13 @@ const discountedPrice = computed(() => {
       </div>
       <div class="flex justify-between items-center">
         <p v-if="product.discount && product.discount.isActive" class="text-red-500 text-sm font-semibold">
-            {{ discountedPrice }}
+            {{ discountedPrice }}€
           </p>
           <p v-if="product.discount && product.discount.isActive" class="line-through text-gray-500 text-xs">
-            {{ product.price.toFixed(2) }}
+            {{ product.price.toFixed(2) }}€
           </p>
           <p v-else class="text-black text-sm font-semibold">
-            {{ product.price.toFixed(2) }}
+            {{ product.price.toFixed(2) }}€
           </p>
           <button @click="openModal" class="px-2 py-2 bg-gray-200 text-white rounded hover:bg-gray-300">
           <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" class="size-6 text-black">
