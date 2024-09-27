@@ -99,9 +99,7 @@ export const useProductStore = defineStore('products', () => {
     error.value = null;
     try {
       const response = await axios.get(`${BASE_URL}/new`);
-      console.log('Fetched products:', response.data); 
       productsNew.value = response.data;
-      console.log('Products in store:', productsNew.value); 
       currentPage.value = 0;
       totalPages.value = 1;
     } catch (err) {
@@ -134,7 +132,15 @@ export const useProductStore = defineStore('products', () => {
     isLoading.value = true;
     error.value = null;
     try {
-      await axios.delete(`${BASE_URL}/${id}`);
+      const accessToken = localStorage.getItem('access_token');
+      if (!accessToken) {
+        throw new Error('Unauthorized: No access token found');
+      }
+      await axios.delete(`${BASE_URL}/${id}`, {
+        headers: {
+          Authorization: `Bearer ${accessToken}`,
+        },
+      });
       products.value = products.value.filter((product) => product.id !== id);
     } catch (err) {
       handleError(err);
