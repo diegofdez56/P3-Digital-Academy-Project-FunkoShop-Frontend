@@ -66,9 +66,9 @@ if (productExists) {
               <DialogPanel class="pointer-events-auto w-screen max-w-md">
                 <div class="flex h-full flex-col overflow-y-scroll bg-white shadow-xl">
                   <div class="flex-1 overflow-y-auto px-4 py-6 sm:px-6">
-                    <div class="flex products-start justify-between">
+                    <div class="flex items-start justify-between">
                       <DialogTitle class="text-lg font-medium text-gray-900">Shopping cart</DialogTitle>
-                      <div class="ml-3 flex h-7 products-center">
+                      <div class="ml-3 flex h-7 items-center">
                         <button
                           type="button"
                           class="relative -m-2 p-2 text-gray-400 hover:text-gray-500"
@@ -109,7 +109,7 @@ if (productExists) {
                                 </div>
                                 <p class="mt-1 text-sm text-gray-500">{{ product.category }}</p>
                               </div>
-                              <div class="flex flex-1 products-end justify-between text-sm">
+                              <div class="flex flex-1 items-end justify-between text-sm">
                                 <p class="text-gray-500">Qty {{ product.quantity }}</p> 
 
                                 <div class="flex">
@@ -145,7 +145,7 @@ if (productExists) {
                     <div class="mt-6">
                       <a
                         href="#"
-                        class="flex products-center justify-center rounded-md border border-transparent bg-blueFunko-700 px-6 py-3 text-base font-medium text-white shadow-sm hover:bg-blueFunko-800"
+                        class="flex items-center justify-center rounded-md border border-transparent bg-blueFunko-700 px-6 py-3 text-base font-medium text-white shadow-sm hover:bg-blueFunko-800"
                         >Checkout</a
                       >
                     </div>
