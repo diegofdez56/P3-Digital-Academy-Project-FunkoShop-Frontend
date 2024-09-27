@@ -3,6 +3,8 @@ import { defineStore } from "pinia";
 import AuthService from "../core/apis/spring/auth/AuthService";
 import Credentials from "@/core/models/Credentials";
 import RegisterService from "@/core/apis/spring/auth/RegisterService";
+import ChangePasswordService from "@/core/apis/spring/auth/ChangePasswordService";
+import CredentialsChangePassword from "@/core/models/CredentialsChangePassword";
 
 
 export const useAuthStore = defineStore('auth', () => {
@@ -35,5 +37,12 @@ export const useAuthStore = defineStore('auth', () => {
 
     }
 
-    return { user, login, register };
+    function setNewPassword(currentPassword, newPassword, confirmationPassword, accessToken) {
+        const credentialsChangePassword = new CredentialsChangePassword(currentPassword,  newPassword, confirmationPassword, accessToken)
+        const service = new ChangePasswordService(credentialsChangePassword)
+        return service.setNewPassword();
+
+    }
+
+    return { user, login, register, setNewPassword };
 });
