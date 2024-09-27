@@ -37,5 +37,11 @@
   },
   "developers": {
     "developedBy": "DESARROLLADO POR:"
+  },
+  "newsletter": {
+    "subscribeHeading": "¡Suscríbete a Nuestro Boletín para Ofertas Exclusivas!",
+    "subscribeDescription": "Recibe notificaciones sobre nuevos lanzamientos, descuentos y más.",
+    "enterEmail": "Ingresa la dirección de correo electrónico",
+    "subscribe": "SUSCRIBIRSE"
   }
 }

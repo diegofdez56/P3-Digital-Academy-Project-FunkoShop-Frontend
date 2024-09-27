@@ -37,5 +37,11 @@
   },
   "developers": {
     "developedBy": "DEVELOPED BY:"
+  },
+  "newsletter": {
+    "subscribeHeading": "Subscribe to Our Newsletter for Exclusive Offers!",
+    "subscribeDescription": "Get notified about new releases, discounts, and more.",
+    "enterEmail": "Enter email address",
+    "subscribe": "SUBSCRIBE"
   }
 }
