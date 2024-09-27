@@ -35,7 +35,7 @@ const discountedPrice = computed(() => {
   <div class="relative flex flex-col my-6 bg-white shadow-sm border border-slate-200 rounded-lg w-64">
     <div class="flex justify-between pt-3 px-3">
       <BadgeCard :id="product.name" :isAvailable="product.available"
-        :isDiscount="product.discount == null ? false : true" :isNew="product.new" :discount="product.discount == null ? null : product.discount" />
+        :isDiscount="product.discount == null ? false : true" :isNew="product.new" :discount="product.discount == null ? null : product.discount" class="absolute z-10"/>
       <!-- <FavoriteIcon /> -->
     </div>
     <div class="relative p-2 h-60 overflow-hidden rounded-xl bg-clip-border">
@@ -44,7 +44,7 @@ const discountedPrice = computed(() => {
         alt="card-image"
         class="h-full w-full object-cover rounded-md"
       /> -->
-      <img src='../../assets/img/CardImage/Groot.png' alt="product image"
+      <img src='https://via.placeholder.com/250x250' alt="product image"
         class="h-full w-full object-cover rounded-md" />
     </div>
     <div>
@@ -59,13 +59,13 @@ const discountedPrice = computed(() => {
       </div>
       <div class="flex justify-between items-center">
         <p v-if="product.discount && product.discount.isActive" class="text-red-500 text-sm font-semibold">
-            {{ discountedPrice }}
+            {{ discountedPrice }}€
           </p>
           <p v-if="product.discount && product.discount.isActive" class="line-through text-gray-500 text-xs">
-            {{ product.price.toFixed(2) }}
+            {{ product.price.toFixed(2) }}€
           </p>
           <p v-else class="text-black text-sm font-semibold">
-            {{ product.price.toFixed(2) }}
+            {{ product.price.toFixed(2) }}€
           </p>
           <button @click="openModal" class="px-2 py-2 bg-gray-200 text-white rounded hover:bg-gray-300">
           <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" class="size-6 text-black">

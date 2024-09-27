@@ -152,7 +152,7 @@ const addToCart = () => {
                         </div>
                       </div>
                       <h3 class="text-2xl text-gray-900 font-semibold">
-                        ${{ props.product.price ? props.product.price.toFixed(2) : '0.00' }}
+                        {{ props.product.price ? props.product.price.toFixed(2) : '0.00' }}€
                       </h3>
                       <div class="py-4">
                         <h4 class="text-lg text-gray-900 font-semibold">Description</h4>
