@@ -34,5 +34,8 @@
   },
   "footer": {
     "copyright": "© 2024 All rights reserved. Copying the site and information is prohibited."
+  },
+  "developers": {
+    "developedBy": "DEVELOPED BY:"
   }
 }
