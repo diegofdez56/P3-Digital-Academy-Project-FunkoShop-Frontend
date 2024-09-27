@@ -23,7 +23,8 @@ import { useI18n } from 'vue-i18n'
 
 
 const { t } = useI18n()
-const navigation = {
+
+/* const navigation = {
   categories: [
     {
       id: 'Categories',
@@ -58,10 +59,10 @@ const navigation = {
     }
   ],
   pages: [
-    { name: `${t('home')}`, href: '/home' },
-    { name: `${t('products')}`, href: '/products' }
+    { name: `${t('home') || 'Home'}`, href: '/home' },
+    { name: `${t('products') || 'Products'}`, href: '/products' }
   ]
-}
+} */
 
 const open = ref(false)
 </script>
@@ -137,10 +138,15 @@ const open = ref(false)
                 </TabPanels>
               </TabGroup> -->
               <div class="space-y-6 border-t border-white px-4 py-6">
-                <div v-for="page in navigation.pages" :key="page.name" class="flow-root">
-                  <a :href="page.href" class="-m-2 block p-2 font-medium text-white">{{
-                    page.name
-                  }}</a>
+                <div class="flow-root">
+                  <a href="/home" class="-m-2 block p-2 font-medium text-white">
+                    {{ t('home') }}
+                  </a>
+                </div>
+                <div class="flow-root">
+                  <a href="/products" class="-m-2 block p-2 font-medium text-white">
+                    {{ t('products') }}
+                  </a>
                 </div>
               </div>
             </DialogPanel>
@@ -168,8 +174,12 @@ const open = ref(false)
 
             <PopoverGroup class="hidden lg:ml-8 lg:block lg:self-stretch">
               <div class="flex h-full space-x-8">
-                <a v-for="page in navigation.pages" :key="page.name" :href="page.href"
-                  class="flex items-center text-sm font-medium text-white hover:text-blueFunko-300">{{ page.name }}</a>
+                <a href="/home" class="flex items-center text-sm font-medium text-white hover:text-blueFunko-300">
+                  {{ t('home') }}
+                </a>
+                <a href="/products" class="flex items-center text-sm font-medium text-white hover:text-blueFunko-300">
+                  {{ t('products') }}
+                </a>
                 <!-- <Popover v-for="category in navigation.categories" :key="category.name" class="flex" v-slot="{ open }">
                   <div class="relative flex">
                     <PopoverButton :class="[

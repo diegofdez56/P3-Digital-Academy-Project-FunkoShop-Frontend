@@ -8,7 +8,8 @@ import ESFlag from '@/assets/img/Flags/ES.svg';
 const { locale } = useI18n();
 
 const changeLanguage = (lang) => {
-  locale.value = lang; 
+  locale.value = lang;
+  localStorage.setItem('lang', lang);
 }
 
 </script>
