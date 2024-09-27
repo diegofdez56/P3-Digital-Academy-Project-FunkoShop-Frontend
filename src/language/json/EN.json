@@ -8,5 +8,11 @@
   "yourProfile": "Your Profile",
   "logout": "Logout",
   "home": "Home",
-  "products": "Products"
+  "products": "Products",
+  "addToCart": "Add to Cart",
+  "description": "Description",
+  "quantity": "Qty.",
+  "productName": "Product Name",
+  "category": "Category",
+  "price": "Price"
 }

@@ -8,5 +8,11 @@
   "yourProfile": "Tu Perfil",
   "logout": "Cerrar sesión",
   "home": "Inicio",
-  "products": "Productos"
+  "products": "Productos",
+  "addToCart": "Añadir al carrito",
+  "description": "Descripción",
+  "quantity": "Cant.",
+  "productName": "Nombre del producto",
+  "category": "Categoría",
+  "price": "Precio"
 }
