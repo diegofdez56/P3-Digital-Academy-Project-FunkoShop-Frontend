@@ -26,6 +26,7 @@
     "axios": "^1.7.7",
     "dotenv": "^16.4.5",
     "glob": "^11.0.0",
+    "heroicons": "^2.1.5",
     "inflight": "^1.0.6",
     "p3-digital-academy-project-funkoshop-frontend": "file:",
     "pinia": "^2.2.2",
