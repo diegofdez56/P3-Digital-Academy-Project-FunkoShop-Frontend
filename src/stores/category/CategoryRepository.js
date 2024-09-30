@@ -1,5 +1,7 @@
 import axios from "axios"
 
+const BASE_URL = import.meta.env.VITE_API_ENDPOINT + '/categories';
+
 export default class CategoryRepository {
 
     constructor() {
@@ -15,7 +17,7 @@ export default class CategoryRepository {
             }
 
             let reqOptions = {
-                url: 'https://youtube.googleapis.com/youtube/v3/playlistItems?part=snippet%2CcontentDetails&maxResults=25&playlistId=' + this.idList + '&key=' + this.apiKey,
+                url: BASE_URL,
                 method: "GET",
                 headers: headersList
             }

@@ -1,34 +1,22 @@
 <script setup>
 import { ref, onMounted, onUnmounted } from 'vue';
-import anime from '../../assets/img/Carrousel/anime.jpg';
-import marvel from '../../assets/img/Carrousel/marvel.jpg';
-import axios from 'axios';
+import { CategoryStore } from '@/stores/category/ListCategoryStore';
 
-// Estado reactivo
+const store = CategoryStore();
+const categories = ref([]);
+
 const activeIndex = ref(0);
 const intervalTime = 4000;
 
-const categories = ref(null);
 
 async function getCategories() {
-    const res = await axios.get('http://localhost:8080/api/v1/categories')
-    categories.value = res
+  const response = await store.getCategories();
+  categories.value = response.filter(item => item.highlights); 
 }
 
 onMounted(async () => {
     await getCategories();
 });
-
-console.log(categories.value)
-
-const images = [
-    {
-        src: anime,
-    },
-    {
-        src: marvel,
-    },
-];
 
 // Función para actualizar el índice activo
 const setActiveIndex = (index) => {
@@ -37,7 +25,7 @@ const setActiveIndex = (index) => {
 
 // Función para cambiar al siguiente slide
 const nextSlide = () => {
-    activeIndex.value = (activeIndex.value + 1) % images.length;
+    activeIndex.value = (activeIndex.value + 1) % 2;
 };
 
 // Manejadores del ciclo de vida
@@ -56,19 +44,14 @@ onUnmounted(() => {
 
 
 <template>
-    aki
-    <div v-for="item in categories" v-bind:key="item.contentDetails.videoId" class="video-container">
-        {{ item.name }}
-    </div>
-    termina
     <div class="carousel-container relative overflow-hidden">
         <div class="carousel-wrapper" :style="{ transform: `translateX(-${activeIndex * 100}%)` }">
-            <img v-for="(image, index) in images" :key="index" :src="image.src" :alt="`image ${index + 1}`"
+            <img v-for="(item, index) in categories" :key="index" :src="item.imageHash" :alt="`image ${index + 1}`"
                 class="carousel-image" />
         </div>
 
         <div class="absolute bottom-4 left-2/4 z-0 flex -translate-x-2/4 gap-2">
-            <span v-for="(image, index) in images" :key="index"
+            <span v-for="(item, index) in categories" :key="index"
                 class="block h-1 cursor-pointer rounded-2xl transition-all"
                 :class="activeIndex === index ? 'w-8 bg-white' : 'w-4 bg-white/50'"
                 @click="setActiveIndex(index)"></span>

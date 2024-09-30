@@ -3,7 +3,7 @@ import { ref } from "vue";
 import CategoryService from "./CategoryService";
 
 
-export const categoryStore = defineStore('profile', () => {
+export const CategoryStore = defineStore('profile', () => {
 
     const category = ref()
 
