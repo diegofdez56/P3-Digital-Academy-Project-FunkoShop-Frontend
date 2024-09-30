@@ -1,6 +1,6 @@
 <script setup>
+import { CategoryStore } from '@/stores/category/categoryStore';
 import { ref, onMounted, onUnmounted } from 'vue';
-import { CategoryStore } from '@/stores/category/ListCategoryStore';
 
 const store = CategoryStore();
 const categories = ref([]);

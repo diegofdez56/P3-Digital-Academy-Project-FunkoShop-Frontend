@@ -4,11 +4,6 @@ const BASE_URL = import.meta.env.VITE_API_ENDPOINT + '/categories';
 
 export default class CategoryRepository {
 
-    constructor() {
-        this.apiKey = import.meta.env.VITE_API_KEY
-        this.idList = import.meta.env.VITE_ID_LIST
-    }
-
     async getCategories() {
         try {
             let headersList = {

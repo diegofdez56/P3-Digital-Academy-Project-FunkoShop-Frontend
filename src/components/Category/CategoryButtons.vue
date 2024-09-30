@@ -1,7 +1,7 @@
 <script setup>
 import { computed } from 'vue';
 import { useRouter } from 'vue-router';
-import { useCategoryStore } from '../../stores/category/categoryStore';
+import { useCategoryStore } from '../../stores/category/scategoryStore';
 import { storeToRefs } from 'pinia';
 
 const router = useRouter();

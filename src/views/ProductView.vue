@@ -1,12 +1,14 @@
 <script setup>
-import { onMounted } from 'vue';
+import { onMounted, ref } from 'vue';
 import { useProductStore } from '../stores/productStore';
-import { useCategoryStore } from '../stores/category/categoryStore';
 import { storeToRefs } from 'pinia';
 import ProductList from './../components/Products/ProductList.vue';
+import { CategoryStore } from '@/stores/category/categoryStore';
 
 const productStore = useProductStore();
-const categoryStore = useCategoryStore();
+
+const listCategoryStore = CategoryStore();
+const listCategories = ref([]);
 
 const {
   products,
@@ -18,14 +20,18 @@ const {
 } = storeToRefs(productStore);
 
 const {
-  categories,
   isLoading: categoryLoading,
   error: categoryError,
-} = storeToRefs(categoryStore);
+} = storeToRefs(CategoryStore);
+
+async function getCategories() {
+  const response = await listCategoryStore.getCategories();
+  listCategories.value = [{ id: null, name: 'All' }, ...response]; ; 
+}
 
 onMounted(() => {
-  categoryStore.fetchCategories();
   productStore.fetchAllProducts();
+  getCategories();
 });
 
 const handlePageChange = (newPage) => {
@@ -41,7 +47,7 @@ const handleCategoryChange = (category) => {
   <div class="min-h-screen">
     <div v-if="!categoryLoading && !categoryError" class="flex flex-wrap justify-center my-4">
       <button
-        v-for="category in categories"
+        v-for="category in listCategories"
         :key="category.id"
         @click="handleCategoryChange(category)"
         :class="[
