@@ -3,10 +3,16 @@ import { ref, computed } from 'vue';
 import { Dialog, DialogPanel, DialogTitle, TransitionChild, TransitionRoot } from '@headlessui/vue';
 import { XMarkIcon, ShoppingBagIcon } from '@heroicons/vue/24/outline';
 import { useCartStore } from '@/stores/cart/cartStore';
+import { useRouter } from 'vue-router';
+import { useAuthStore } from '@/stores/auth';
+import LoginModal from '@/components/LoginModal.vue';
 
 const open = ref(false);
+const openLogin = ref(false);
 
 const cartStore = useCartStore();
+const authStore = useAuthStore();
+const router = useRouter();
 
 const cartProducts = computed(() => {
   return cartStore.products;
@@ -25,6 +31,16 @@ const removeFromCart = (id) => {
   const productExists = cartProducts.value.find(product => product.id === id);
   if (productExists) {
     cartStore.removeProduct(id);
+  }
+};
+
+const checkout = () => {
+  if (authStore.user.isAuthenticated) {
+    open.value = false;
+    router.push('/checkout');
+  } else {
+    open.value = false;
+    openLogin.value = true;
   }
 };
 </script>
@@ -83,15 +99,18 @@ const removeFromCart = (id) => {
                                   <h3>
                                     <a :href="product.href">{{ product.name }}</a>
                                   </h3>
-                                  <p v-if="product.discount && product.discount.active" class="text-red-600 font-semibold">
+                                  <p v-if="product.discount && product.discount.active"
+                                    class="text-red-600 font-semibold">
                                     {{ product.price.toFixed(2) }}€
-                                  </p>  
-                                  <p v-if="product.discount && product.discount.active" class="text-gray-500 line-through">
+                                  </p>
+                                  <p v-if="product.discount && product.discount.active"
+                                    class="text-gray-500 line-through">
                                     {{ product.originalPrice.toFixed(2) }}€
-                                  </p>  
+                                  </p>
                                   <p v-else>
                                     {{ product.price.toFixed(2) }}€
-                                  </p>                            </div>
+                                  </p>
+                                </div>
                                 <p class="mt-1 text-sm text-gray-500">{{ product.category }}</p>
                               </div>
                               <div class="flex flex-1 items-end justify-between text-sm">
@@ -125,8 +144,10 @@ const removeFromCart = (id) => {
                       Shipping and taxes calculated at checkout.
                     </p>
                     <div class="mt-6">
-                      <router-link  to="/checkout"
-                        class="flex items-center justify-center rounded-md border border-transparent bg-blueFunko-700 px-6 py-3 text-base font-medium text-white shadow-sm hover:bg-blueFunko-800">Checkout</router-link>
+                      <button @click="checkout"
+                        class="w-full bg-blueFunko-700 text-white py-3 rounded-md hover:bg-blueFunko-800 transition">
+                        Go to Checkout
+                      </button>
                     </div>
                     <div class="mt-6 flex justify-center text-center text-sm text-gray-500">
                       <p>
@@ -147,4 +168,39 @@ const removeFromCart = (id) => {
       </div>
     </Dialog>
   </TransitionRoot>
+  <div v-if="!authStore.user.isAuthenticated" class="relative">
+    <TransitionRoot as="template" :show="openLogin">
+      <Dialog class="relative z-10" @close="openLogin = false">
+        <TransitionChild
+          as="template"
+          enter="ease-out duration-300"
+          enter-from="opacity-0"
+          enter-to="opacity-100"
+          leave="ease-in duration-200"
+          leave-from="opacity-100"
+          leave-to="opacity-0"
+        >
+          <div class="fixed inset-0 bg-gray-500 bg-opacity-75 transition-opacity" />
+        </TransitionChild>
+
+        <div class="fixed inset-0 z-10 w-screen overflow-y-auto">
+          <div class="flex min-h-full items-end justify-center p-4 text-center sm:items-center sm:p-0">
+            <TransitionChild
+              as="template"
+              enter="ease-out duration-300"
+              enter-from="opacity-0 translate-y-4 sm:translate-y-0 sm:scale-95"
+              enter-to="opacity-100 translate-y-0 sm:scale-100"
+              leave="ease-in duration-200"
+              leave-from="opacity-100 translate-y-0 sm:scale-100"
+              leave-to="opacity-0 translate-y-4 sm:translate-y-0 sm:scale-95"
+            >
+              <DialogPanel class="shadow-xl transition-all w-full max-w-md rounded-2xl">
+                <LoginModal @close="openLogin = false" />
+              </DialogPanel>
+            </TransitionChild>
+          </div>
+        </div>
+      </Dialog>
+    </TransitionRoot>
+  </div>
 </template>
