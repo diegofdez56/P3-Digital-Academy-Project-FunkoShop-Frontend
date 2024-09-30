@@ -1,4 +1,6 @@
 <script setup>
+import HighlightsButton from './Buttons/HighlightsButton.vue';
+
 defineProps({
   category: {
     type: Object,
@@ -24,6 +26,7 @@ const handleDelete = () => {
     <td class="px-4 py-3">
       <div class="relative flex gap-x-3">
         <div class="flex h-6 items-center">
+          <HighlightsButton :category="category" />
 <!--           <input id="comments" name="comments" type="checkbox" v-model="category.highlights"
             class="h-4 w-4 rounded border-gray-300 text-indigo-600 focus:ring-indigo-600" /> -->
         </div>
