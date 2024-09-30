@@ -15,7 +15,7 @@
   "productName": "Product Name",
   "category": "Category",
   "price": "Price",
- "profile": {
+  "profile": {
     "personalInformation": "Personal Information",
     "usePermanentAddress": "Use a permanent address where you can receive the products.",
     "firstName": "First name",
@@ -43,5 +43,16 @@
     "subscribeDescription": "Get notified about new releases, discounts, and more.",
     "enterEmail": "Enter email address",
     "subscribe": "SUBSCRIBE"
-  }
+  },
+
+  "Sign in": "Sign in",
+  "Sign up": "Sign up",
+  "Password": "Password",
+  "confirmPassword": "Confirm Password",
+  "alert1" : "Incorrect username or password!",
+  "alert2" : "Error trying to login, please try again.",
+  "alert3" : "The email and password can't be empty!",
+  "alert4" : "The email already exists!",
+  "alert5" : "Error trying to register, please try again.",
+  "alert6" : "Passwords do not match!"
 }

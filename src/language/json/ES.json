@@ -43,5 +43,16 @@
     "subscribeDescription": "Recibe notificaciones sobre nuevos lanzamientos, descuentos y más.",
     "enterEmail": "Ingresa la dirección de correo electrónico",
     "subscribe": "SUSCRIBIRSE"
-  }
+  },
+
+  "Sign in": "Iniciar sesión",
+  "Sign up": "Registrarse",
+  "Password": "Contraseña",
+  "confirmPassword": "Confirmar Contraseña",
+  "alert1" : "Credenciales incorrectas",
+  "alert2" : "Error al iniciar sesión, por favor intente nuevamente.",
+  "alert3" : "El email o la contraseña no pueden estar vacíos",
+  "alert4" : "El email ya existe",
+  "alert5" : "Error al registrar, por favor intente nuevamente.",
+  "alert6" : "Las contraseñas no coinciden"
 }
