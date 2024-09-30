@@ -1,55 +1,66 @@
-<script>
+<script setup>
 import { ref, onMounted, onUnmounted } from 'vue';
+import anime from '../../assets/img/Carrousel/anime.jpg';
+import marvel from '../../assets/img/Carrousel/marvel.jpg';
+import axios from 'axios';
 
-import FunkoBanner from '../../assets/img/Carrousel/FunkoBanner.jpg';
+// Estado reactivo
+const activeIndex = ref(0);
+const intervalTime = 4000;
 
-export default {
-    setup() {
-        const activeIndex = ref(0);
-        const intervalTime = 4000;
+const categories = ref(null);
 
-        const images = [
-            {
-                src: FunkoBanner,
-            },
-            {
-                src: FunkoBanner,
-            },
-            {
-                src: FunkoBanner,
-            },
-        ];
+async function getCategories() {
+    const res = await axios.get('http://localhost:8080/api/v1/categories')
+    categories.value = res
+}
 
-        const setActiveIndex = (index) => {
-            activeIndex.value = index;
-        };
+onMounted(async () => {
+    await getCategories();
+});
 
-        const nextSlide = () => {
-            activeIndex.value = (activeIndex.value + 1) % images.length;
-        };
+console.log(categories.value)
 
-        let interval;
-        onMounted(() => {
-            interval = setInterval(() => {
-                nextSlide();
-            }, intervalTime);
-        });
-
-        onUnmounted(() => {
-            clearInterval(interval);
-        });
-
-        return {
-            activeIndex,
-            images,
-            setActiveIndex,
-        };
+const images = [
+    {
+        src: anime,
     },
+    {
+        src: marvel,
+    },
+];
+
+// Función para actualizar el índice activo
+const setActiveIndex = (index) => {
+    activeIndex.value = index;
 };
+
+// Función para cambiar al siguiente slide
+const nextSlide = () => {
+    activeIndex.value = (activeIndex.value + 1) % images.length;
+};
+
+// Manejadores del ciclo de vida
+let interval;
+onMounted(() => {
+    interval = setInterval(() => {
+        nextSlide();
+    }, intervalTime);
+});
+
+onUnmounted(() => {
+    clearInterval(interval);
+});
 </script>
 
 
+
 <template>
+    aki
+    <div v-for="item in categories" v-bind:key="item.contentDetails.videoId" class="video-container">
+        {{ item.name }}
+    </div>
+    termina
     <div class="carousel-container relative overflow-hidden">
         <div class="carousel-wrapper" :style="{ transform: `translateX(-${activeIndex * 100}%)` }">
             <img v-for="(image, index) in images" :key="index" :src="image.src" :alt="`image ${index + 1}`"
