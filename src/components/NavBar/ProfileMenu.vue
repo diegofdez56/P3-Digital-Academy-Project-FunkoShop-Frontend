@@ -4,8 +4,8 @@ import '@material-tailwind/html/scripts/popover.js';
 import { logoutStore } from '@/stores/logout';
 import { useAuthStore } from '@/stores/auth';
 import { Dialog, DialogPanel, TransitionChild, TransitionRoot, Menu, MenuButton, MenuItem, MenuItems } from '@headlessui/vue'
-import LoginModal from '../LoginModal.vue';
-import RegisterModal from '../RegisterModal.vue';
+import LoginModal from '../auth/LoginModal.vue';
+import RegisterModal from '../auth/RegisterModal.vue';
 import { useI18n } from 'vue-i18n';
 
 
