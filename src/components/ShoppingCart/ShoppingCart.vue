@@ -3,8 +3,6 @@ import { ref, computed } from 'vue';
 import { Dialog, DialogPanel, DialogTitle, TransitionChild, TransitionRoot } from '@headlessui/vue';
 import { XMarkIcon, ShoppingBagIcon } from '@heroicons/vue/24/outline';
 import { useCartStore } from '@/stores/cart/cartStore';
-import { loadStripe } from '@stripe/stripe-js';
-import { useAuthStore } from '@/stores/auth';
 
 const open = ref(false);
 
@@ -29,54 +27,6 @@ const removeFromCart = (id) => {
     cartStore.removeProduct(id);
   }
 };
-
-const goToCheckout = async () => {
-  const authHeader = (url) => {
-    const { user } = useAuthStore();
-    const isLoggedIn = !!user?.token;
-    const isApiUrl = url.startsWith(import.meta.env.VITE_API_URL);
-    if (isLoggedIn && isApiUrl) {
-      return {
-        Authorization: `Bearer ${user.token}`,
-      };
-    } else {
-      return {};
-    }
-  };
-
-  try {
-    const url = 'http://localhost:8080/api/v1/checkout/create-checkout-session';
-    
-    const response = await fetch(url, {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json',
-        ...authHeader(url),
-      },
-      body: JSON.stringify({
-        items: cartProducts.value.map((product) => ({
-          id: product.id,
-          name: product.name,
-          price: product.price * 100,
-          quantity: product.quantity,
-        })),
-      }),
-    });
-
-    if (!response.ok) {
-      const error = await response.text();
-      console.error('Error al crear la sesión de pago:', error);
-      return;
-    }
-
-    const { id } = await response.json();
-    const stripe = await loadStripe(import.meta.env.VITE_STRIPE_PUBLIC_KEY);
-    await stripe.redirectToCheckout({ sessionId: id });
-  } catch (error) {
-    console.error('Error en la solicitud al checkout:', error);
-  }
-};
-
 </script>
 
 <template>
@@ -133,8 +83,15 @@ const goToCheckout = async () => {
                                   <h3>
                                     <a :href="product.href">{{ product.name }}</a>
                                   </h3>
-                                  <p class="ml-4">{{ product.price }}€</p>
-                                </div>
+                                  <p v-if="product.discount && product.discount.active" class="text-red-600 font-semibold">
+                                    {{ product.price.toFixed(2) }}€
+                                  </p>  
+                                  <p v-if="product.discount && product.discount.active" class="text-gray-500 line-through">
+                                    {{ product.originalPrice.toFixed(2) }}€
+                                  </p>  
+                                  <p v-else>
+                                    {{ product.price.toFixed(2) }}€
+                                  </p>                            </div>
                                 <p class="mt-1 text-sm text-gray-500">{{ product.category }}</p>
                               </div>
                               <div class="flex flex-1 items-end justify-between text-sm">
@@ -168,11 +125,8 @@ const goToCheckout = async () => {
                       Shipping and taxes calculated at checkout.
                     </p>
                     <div class="mt-6">
-                      <button type="button" class="font-medium text-blueFunko-500 hover:text-blueFunko-600"
-                        @click="goToCheckout">
-                        Checkout
-                        <span aria-hidden="true"> &rarr;</span>
-                      </button>
+                      <router-link  to="/checkout"
+                        class="flex items-center justify-center rounded-md border border-transparent bg-blueFunko-700 px-6 py-3 text-base font-medium text-white shadow-sm hover:bg-blueFunko-800">Checkout</router-link>
                     </div>
                     <div class="mt-6 flex justify-center text-center text-sm text-gray-500">
                       <p>

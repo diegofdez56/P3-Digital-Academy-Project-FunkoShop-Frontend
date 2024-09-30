@@ -1,26 +1,11 @@
 <script setup>
-const products = [
-  {
-    id: 1,
-    name: 'Product Title',
-    href: '#',
-    category: 'Category',
-    price: '90.00€',
-    quantity: 1,
-    imageSrc: '/src/assets/img/CardImage/Groot.png',
-    imageAlt: 'Product Image Description'
-  },
-  {
-    id: 2,
-    name: 'Product Title',
-    href: '#',
-    category: 'Category',
-    price: '32.00€',
-    quantity: 1,
-    imageSrc: '/src/assets/img/CardImage/Groot.png',
-    imageAlt: 'Product Image Description'
-  }
-]
+import { useCartStore } from '@/stores/cart/cartStore';
+
+const cartStore = useCartStore();
+
+const products = cartStore.products;
+
+const totalPrice = cartStore.totalPrice;
 </script>
 
 <template>
@@ -109,13 +94,13 @@ const products = [
               <p class="text-sm text-gray-500">Qty: {{ product.quantity }}</p>
             </div>
           </div>
-          <p class="text-base font-medium">{{ product.price }}</p>
+          <p class="text-base font-medium">{{ (product.price * product.quantity).toFixed(2) }}€</p>
         </div>
       </div>
       <div class="border border-gray-300">
         <div class="flex justify-between border-gray-300 px-8 py-3">
           <p class="font-regular text-md">Subtotal</p>
-          <p class="font-medium text-md">29.00€</p>
+          <p class="font-medium text-md">{{ totalPrice }}€</p>
         </div>
         <div class="flex justify-between border-gray-300 px-8 py-3">
           <p class="font-regular text-md">Shipping cost (+)</p>
@@ -128,7 +113,7 @@ const products = [
       </div>
       <div class="rounded-b-xl flex justify-between border border-gray-300 px-8 py-6">
         <p class="font-regular text-md">Total Payable</p>
-        <p class="font-medium text-md text-green-700">20.00€</p>
+        <p class="font-medium text-md text-green-700">{{ totalPrice }}€</p>
       </div>
       <div class="mt-10">
         <div class="justify-between bg-slate-950 text-white flex px-8 py-4 rounded-t-xl">
