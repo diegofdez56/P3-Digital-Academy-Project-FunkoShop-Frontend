@@ -1,5 +1,5 @@
 <script setup>
-import { ref, computed } from 'vue';
+import { ref, computed, watch } from 'vue';
 import { Dialog, DialogPanel, DialogTitle, TransitionChild, TransitionRoot } from '@headlessui/vue';
 import { XMarkIcon, ShoppingBagIcon } from '@heroicons/vue/24/outline';
 import { useCartStore } from '@/stores/cart/cartStore';
@@ -9,6 +9,7 @@ import LoginModal from '@/components/LoginModal.vue';
 
 const open = ref(false);
 const openLogin = ref(false);
+const attemptedCheckout = ref(false);
 
 const cartStore = useCartStore();
 const authStore = useAuthStore();
@@ -39,10 +40,30 @@ const checkout = () => {
     open.value = false;
     router.push('/checkout');
   } else {
+    attemptedCheckout.value = true;
     open.value = false;
     openLogin.value = true;
   }
 };
+
+const handleLoginSuccess = () => {
+  openLogin.value = false;
+  
+  if (attemptedCheckout.value) {
+    attemptedCheckout.value = false;
+    router.push('/checkout');
+  }
+};
+
+watch(
+  () => authStore.user.isAuthenticated,  
+  (isAuthenticated) => {
+    if (isAuthenticated && attemptedCheckout.value) {
+      attemptedCheckout.value = false; 
+      router.push('/checkout');         
+    }
+  }
+);
 </script>
 
 <template>
@@ -195,7 +216,7 @@ const checkout = () => {
               leave-to="opacity-0 translate-y-4 sm:translate-y-0 sm:scale-95"
             >
               <DialogPanel class="shadow-xl transition-all w-full max-w-md rounded-2xl">
-                <LoginModal @close="openLogin = false" />
+                <LoginModal @close="openLogin = false" @login-success="handleLoginSuccess" />
               </DialogPanel>
             </TransitionChild>
           </div>
