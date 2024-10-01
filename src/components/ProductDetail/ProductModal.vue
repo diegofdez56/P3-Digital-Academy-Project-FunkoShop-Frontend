@@ -26,7 +26,9 @@ const quantity = ref(1)
 const cartStore = useCartStore()
 
 const incrementQuantity = () => {
-  quantity.value++
+  if (quantity.value < props.product.stock) { 
+    quantity.value++
+  }
 }
 
 const decrementQuantity = () => {
@@ -43,16 +45,31 @@ const decrementQuantity = () => {
 // });
 
 const addToCart = () => {
+ 
+  if (quantity.value > props.product.stock) {
+    quantity.value = props.product.stock; 
+  }
+
   console.log('Adding to Cart Product:', props.product, 'Quantity:', quantity.value);
   cartStore.addProduct({
     id: props.product.id, 
     name: props.product.name,
     price: props.product.price,
-   
   }, quantity.value); 
   emit('close');
 };
- 
+
+const handleQuantityChange = (event) => {
+  const newValue = event.target.value;
+  const parsedValue = parseInt(newValue, 10);
+
+  if (!isNaN(parsedValue) && parsedValue > 0 && parsedValue <= props.product.stock) {
+    quantity.value = parsedValue; 
+  } else if (newValue === '') {
+    quantity.value = ''; 
+  }
+};
+
 </script>
 
 <template>
@@ -108,7 +125,7 @@ const addToCart = () => {
                   >
                     <!-- <img :src="productImage" :alt="props.product.name || 'Product Image'"
                       class="object-cover object-center" /> -->
-                      <img src='../../assets/img/CardImage/Groot.png' alt="product image"
+                    <img src='../../assets/img/CardImage/Groot.png' alt="product image"
                       class="object-cover object-center" />
                   </div>
                   <div class="sm:col-span-8 lg:col-span-7">
@@ -119,7 +136,7 @@ const addToCart = () => {
                       <BadgeCard
                         class="w-24"
                         :id="product.name"
-                        :isAvailable="product.available"
+                        :stock="product.stock"
                         :isDiscount="product.discount == null ? false : true"
                         :isNew="product.new"
                         :discount="product.discount == null ? null : product.discount"
@@ -181,8 +198,8 @@ const addToCart = () => {
                             type="text"
                             id="quantity"
                             class="border-t border-b border-gray-300 w-16 text-center"
-                            v-model="quantity"
-                            readonly
+                            :value="quantity"
+                            @input="handleQuantityChange"
                           />
                           <button
                             @click="incrementQuantity"
@@ -198,7 +215,8 @@ const addToCart = () => {
                           @click="addToCart"
                           class="w-full rounded-md border border-transparent bg-blueFunko-700 px-4 py-2 text-base font-medium text-white transition-all hover:bg-blueFunko-600 focus:outline-none"
                         >
-                        {{ t('addToCart') }}  </button>
+                          {{ t('addToCart') }}
+                        </button>
                       </div>
                     </section>
                   </div>
