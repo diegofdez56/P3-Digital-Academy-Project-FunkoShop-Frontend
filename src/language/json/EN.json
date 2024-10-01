@@ -54,5 +54,15 @@
   "alert3" : "The email and password can't be empty!",
   "alert4" : "The email already exists!",
   "alert5" : "Error trying to register, please try again.",
-  "alert6" : "Passwords do not match!"
+  "alert6" : "Passwords do not match!",
+
+  "shoppingCart": {
+    "shoppingCart": "Shopping Cart",
+    "total": "Total",
+    "emptyCart": "Your shopping cart is empty.",
+    "checkout": "Checkout",
+    "continueShopping": "Continue Shopping",
+    "shipping": "Shipping and taxes calculated at checkout.",
+    "or": "or"
+  }
 }

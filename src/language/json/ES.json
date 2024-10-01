@@ -54,5 +54,15 @@
   "alert3" : "El email o la contraseña no pueden estar vacíos",
   "alert4" : "El email ya existe",
   "alert5" : "Error al registrar, por favor intente nuevamente.",
-  "alert6" : "Las contraseñas no coinciden"
+  "alert6" : "Las contraseñas no coinciden",
+
+  "shoppingCart": {
+    "shoppingCart": "Carrito",
+    "total": "Total",
+    "emptyCart": "Tu carrito esta vacío.",
+    "checkout": "Finalizar compra",
+    "continueShopping": "Continuar comprando",
+    "shipping": "Envío e impuestos calculados al finalizar la compra.",
+    "or": "o"
+  }
 }
