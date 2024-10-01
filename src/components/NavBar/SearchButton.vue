@@ -1,15 +1,16 @@
-<script>
-export default {
-  name: 'SearchComponent',
-  data() {
-    return {
-      searchQuery: ''
-    }
-  },
-  methods: {
-    onSearch() {
-      console.log(this.searchQuery)
-    }
+<script setup>
+import { ref, defineEmits } from 'vue'
+
+// Crear la referencia reactiva para el término de búsqueda
+const searchQuery = ref('')
+
+// Definir el evento a emitir
+const emit = defineEmits(['onSearch'])
+
+// Método para manejar la búsqueda
+const onSearch = () => {
+  if (searchQuery.value.trim() !== '') {
+    emit('onSearch', searchQuery.value) // Emitir el término de búsqueda
   }
 }
 </script>
@@ -30,8 +31,8 @@ export default {
       @click="onSearch"
     >
       <svg
-        width="16"
-        height="22"
+        width="18"
+        height="18"
         viewBox="0 0 16 22"
         fill="none"
         xmlns="http://www.w3.org/2000/svg"

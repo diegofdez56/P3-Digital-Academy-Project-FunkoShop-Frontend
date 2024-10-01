@@ -111,62 +111,6 @@ const auth = useAuthStore()
     <button @click="open('login')" class="font-bold pl-3">{{ t('login') }}</button>
   </div>
 
-  <div v-else role="menu" class="relative px-1 py-1">
-    <!-- Profile dropdown -->
-    <Menu as="div" class="relative ml-3">
-      <div>
-        <MenuButton class="relative flex rounded-md bg-white text-sm">
-          <span class="absolute -inset-1.5" />
-          <span class="sr-only">{{ t('yourProfile') }}</span>
-          <svg
-            xmlns="http://www.w3.org/2000/svg"
-            viewBox="0 0 20 20"
-            fill="currentColor"
-            class="w-8 h-8 text-black"
-          >
-            <path
-              fill-rule="evenodd"
-              d="M18 10a8 8 0 1 1-16 0 8 8 0 0 1 16 0Zm-5.5-2.5a2.5 2.5 0 1 1-5 0 2.5 2.5 0 0 1 5 0ZM10 12a5.99 5.99 0 0 0-4.793 2.39A6.483 6.483 0 0 0 10 16.5a6.483 6.483 0 0 0 4.793-2.11A5.99 5.99 0 0 0 10 12Z"
-              clip-rule="evenodd"
-            />
-          </svg>
-        </MenuButton>
-      </div>
-      <transition
-        enter-active-class="transition ease-out duration-100"
-        enter-from-class="transform opacity-0 scale-95"
-        enter-to-class="transform opacity-100 scale-100"
-        leave-active-class="transition ease-in duration-75"
-        leave-from-class="transform opacity-100 scale-100"
-        leave-to-class="transform opacity-0 scale-95"
-      >
-        <MenuItems
-          class="absolute right-0 z-10 mt-2 w-48 origin-top-right rounded-md bg-white py-1 shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none"
-        >
-          <MenuItem v-slot="{ active }">
-            <a
-              href="/profile"
-              :class="[
-                active ? 'bg-gray-100' : '',
-                ' px-4 py-2 text-sm text-gray-700 flex flex-row'
-              ]"
-            >
-              <svg
-                xmlns="http://www.w3.org/2000/svg"
-                viewBox="0 0 20 20"
-                fill="currentColor"
-                class="w-5 h-5 text-slate-400 mr-3"
-              >
-                <path
-                  fill-rule="evenodd"
-                  d="M18 10a8 8 0 1 1-16 0 8 8 0 0 1 16 0Zm-5.5-2.5a2.5 2.5 0 1 1-5 0 2.5 2.5 0 0 1 5 0ZM10 12a5.99 5.99 0 0 0-4.793 2.39A6.483 6.483 0 0 0 10 16.5a6.483 6.483 0 0 0 4.793-2.11A5.99 5.99 0 0 0 10 12Z"
-                  clip-rule="evenodd"
-                />
-              </svg>
-              {{ t('yourProfile') }}
-            </a>
-          </MenuItem>
-          <!-- <MenuItem v-slot="{ active }">
   <div v-else role="menu" class="relative">
     <!-- Profile dropdown -->
     <Menu as="div" class="relative">
