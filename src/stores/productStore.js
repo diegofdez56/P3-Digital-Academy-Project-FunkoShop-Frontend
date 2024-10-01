@@ -15,6 +15,7 @@ export const useProductStore = defineStore('products', () => {
   const pageSize = ref(8);
   const totalPages = ref(0);
   const selectedCategory = ref({ id: null, name: 'All' });
+  const currentDate = new Date();
 
   const totalProducts = computed(() => products.value.length);
 
@@ -23,7 +24,14 @@ export const useProductStore = defineStore('products', () => {
     error.value = null;
     try {
       const response = await axios.get(url, { params });
-      products.value = response.data.content || response.data; 
+      products.value = response.data.content ? response.data.content.map(product => {
+        const createdAt = new Date(product.createdAt);
+        const isNew = (currentDate - createdAt) <= (30 * 24 * 60 * 60 * 1000);
+        return {
+          ...product,
+          isNew
+        };
+      }) : response.data;
       currentPage.value = response.data.number || 0;
       pageSize.value = response.data.size || 8;
       totalPages.value = response.data.totalPages || 1;
@@ -80,7 +88,7 @@ export const useProductStore = defineStore('products', () => {
         ...product,
         isDiscount: product.discount > 0
       }));
-      products.value = discountedProducts.value;  
+      products.value = discountedProducts.value;
       currentPage.value = 0;
       totalPages.value = 1;
     } catch (err) {
@@ -96,7 +104,14 @@ export const useProductStore = defineStore('products', () => {
     error.value = null;
     try {
       const response = await axios.get(url);
-      productsNew.value = response.data;
+      productsNew.value = response.data.map(product => {
+        const createdAt = new Date(product.createdAt);
+        const isNew = (currentDate - createdAt) <= (30 * 24 * 60 * 60 * 1000);
+        return {
+          ...product,
+          isNew
+        };
+      });
       currentPage.value = 0;
       totalPages.value = 1;
     } catch (err) {
@@ -151,8 +166,8 @@ export const useProductStore = defineStore('products', () => {
     error.value = err.response
       ? `Server Error: ${err.response.status} - ${err.response.data.message || err.response.statusText}`
       : err.request
-      ? 'No response from server. Please check your network or server status.'
-      : `Error: ${err.message}`;
+        ? 'No response from server. Please check your network or server status.'
+        : `Error: ${err.message}`;
   };
 
   return {
