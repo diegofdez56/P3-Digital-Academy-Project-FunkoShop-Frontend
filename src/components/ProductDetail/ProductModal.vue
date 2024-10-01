@@ -40,7 +40,9 @@ const maxStockReached = computed(() => {
 });
 
 const incrementQuantity = () => {
-  quantity.value++
+  if (quantity.value < props.product.stock) { 
+    quantity.value++
+  }
 }
 
 const decrementQuantity = () => {
@@ -109,9 +111,14 @@ const addToCart = () => {
                       <p class="text-sm text-gray-900">
                         {{ props.product.category?.name || t('category') }}
                       </p>
-                      <BadgeCard class="w-24" :id="product.name" :isAvailable="props.product.available"
-                        :isDiscount="props.product.discount > 0" :isNew="props.product.new"
-                        :discount="props.product.discount" />
+                      <BadgeCard
+                        class="w-24"
+                        :id="product.name"
+                        :stock="product.stock"
+                        :isDiscount="product.discount == null ? false : true"
+                        :isNew="product.new"
+                        :discount="product.discount == null ? null : product.discount"
+                      />
                     </div>
                     <h2 class="text-2xl font-bold text-gray-900 sm:pr-12">
                       {{ props.product.name || t('productName') }}

@@ -38,7 +38,7 @@ const discountedPrice = computed(() => {
     <div class="flex justify-between pt-3 px-3">
       <BadgeCard
         :id="product.name"
-        :isAvailable="product.available"
+        :stock="product.stock"
         :isDiscount="product.discount > 0"
         :isNew="!!product.new"
         :discount="product.discount"
