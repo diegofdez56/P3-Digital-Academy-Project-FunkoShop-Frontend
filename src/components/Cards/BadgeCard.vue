@@ -3,7 +3,9 @@ const props = defineProps({
   isAvailable: Boolean,
   isNew: Boolean,
   isDiscount: Boolean,
-  discount: Object
+  discount: {Number,
+  default: 0
+  }
 })
 </script>
 

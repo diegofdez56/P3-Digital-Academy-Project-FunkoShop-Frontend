@@ -5,36 +5,28 @@ import axios from 'axios';
 const BASE_URL = import.meta.env.VITE_API_ENDPOINT + '/products';
 
 export const useProductStore = defineStore('products', () => {
- 
   const products = ref([]);
   const productsNew = ref([]);
+  const discountedProducts = ref([]);
   const product = ref(null);
   const isLoading = ref(false);
   const error = ref(null);
   const currentPage = ref(0);
-  const size = ref(8);
+  const pageSize = ref(8);
   const totalPages = ref(0);
   const selectedCategory = ref({ id: null, name: 'All' });
 
   const totalProducts = computed(() => products.value.length);
 
-  
-  const fetchAllProducts = async (page = 0, sizeValue = 8, sortBy = 'name', sortOrder = 'asc') => {
+  const fetchProducts = async (url, params = {}) => {
     isLoading.value = true;
     error.value = null;
     try {
-      const params = { page, size: sizeValue, sort: `${sortBy},${sortOrder}` };
-      let url = BASE_URL;
-
-      if (selectedCategory.value && selectedCategory.value.id !== null) {
-        url = `${BASE_URL}/category/${selectedCategory.value.id}`;
-      }
-
       const response = await axios.get(url, { params });
-      products.value = response.data.content;
-      currentPage.value = response.data.number;
-      size.value = response.data.size;
-      totalPages.value = response.data.totalPages;
+      products.value = response.data.content || response.data; 
+      currentPage.value = response.data.number || 0;
+      pageSize.value = response.data.size || 8;
+      totalPages.value = response.data.totalPages || 1;
     } catch (err) {
       handleError(err);
     } finally {
@@ -42,10 +34,21 @@ export const useProductStore = defineStore('products', () => {
     }
   };
 
+  const fetchAllProducts = async (page = 0, size = 8, sortBy = 'name', sortOrder = 'asc') => {
+    let url = BASE_URL;
+    const params = { page, size, sort: `${sortBy},${sortOrder}` };
+
+    if (selectedCategory.value.id !== null) {
+      url = `${BASE_URL}/category/${selectedCategory.value.id}`;
+    }
+
+    await fetchProducts(url, params);
+  };
+
   const setCategory = async (category) => {
     selectedCategory.value = category;
     currentPage.value = 0;
-    await fetchAllProducts(0, size.value);
+    await fetchAllProducts(0, pageSize.value);
   };
 
   const fetchProductById = async (id) => {
@@ -61,30 +64,23 @@ export const useProductStore = defineStore('products', () => {
     }
   };
 
-  const searchProductsByKeyword = async (keyword, page = 0, sizeValue = 8, sortBy = 'categoryId,name', sortOrder = 'asc') => {
-    isLoading.value = true;
-    error.value = null;
-    try {
-      const response = await axios.get(`${BASE_URL}/keyword/${keyword}`, {
-        params: { page, size: sizeValue, sort: `${sortBy},${sortOrder}` }
-      });
-      products.value = response.data.content;
-      currentPage.value = response.data.number;
-      size.value = response.data.size;
-      totalPages.value = response.data.totalPages;
-    } catch (err) {
-      handleError(err);
-    } finally {
-      isLoading.value = false;
-    }
+  const searchProductsByKeyword = async (keyword, page = 0, size = 8, sortBy = 'name', sortOrder = 'asc') => {
+    const url = `${BASE_URL}/keyword/${keyword}`;
+    const params = { page, size, sort: `${sortBy},${sortOrder}` };
+    await fetchProducts(url, params);
   };
 
   const fetchDiscountedProducts = async () => {
+    const url = `${BASE_URL}/discounted`;
     isLoading.value = true;
     error.value = null;
     try {
-      const response = await axios.get(`${BASE_URL}/discounted`);
-      products.value = response.data;
+      const response = await axios.get(url);
+      discountedProducts.value = response.data.map(product => ({
+        ...product,
+        isDiscount: product.discount > 0
+      }));
+      products.value = discountedProducts.value;  
       currentPage.value = 0;
       totalPages.value = 1;
     } catch (err) {
@@ -95,13 +91,12 @@ export const useProductStore = defineStore('products', () => {
   };
 
   const fetchNewProducts = async () => {
+    const url = `${BASE_URL}/new`;
     isLoading.value = true;
     error.value = null;
     try {
-      const response = await axios.get(`${BASE_URL}/new`);
-      //console.log('Fetched products:', response.data); 
+      const response = await axios.get(url);
       productsNew.value = response.data;
-      //console.log('Products in store:', productsNew.value); 
       currentPage.value = 0;
       totalPages.value = 1;
     } catch (err) {
@@ -110,8 +105,6 @@ export const useProductStore = defineStore('products', () => {
       isLoading.value = false;
     }
   };
-  
-  
 
   const updateProduct = async (id, productData) => {
     isLoading.value = true;
@@ -121,7 +114,10 @@ export const useProductStore = defineStore('products', () => {
       product.value = response.data;
       const index = products.value.findIndex((p) => p.id === id);
       if (index !== -1) {
-        products.value[index] = response.data;
+        products.value[index] = {
+          ...response.data,
+          isDiscount: response.data.discount > 0
+        };
       }
     } catch (err) {
       handleError(err);
@@ -163,13 +159,14 @@ export const useProductStore = defineStore('products', () => {
     products,
     product,
     productsNew,
+    discountedProducts,
     isLoading,
     error,
     currentPage,
-    size,
+    pageSize,
     totalPages,
     selectedCategory,
-    totalProducts, 
+    totalProducts,
     fetchAllProducts,
     setCategory,
     fetchProductById,
@@ -177,6 +174,6 @@ export const useProductStore = defineStore('products', () => {
     fetchDiscountedProducts,
     fetchNewProducts,
     updateProduct,
-    deleteProduct
+    deleteProduct,
   };
 });

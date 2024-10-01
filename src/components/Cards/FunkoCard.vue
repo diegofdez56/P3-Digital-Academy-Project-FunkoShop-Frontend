@@ -23,12 +23,12 @@ const { isModalOpen, openModal, closeModal } = useProductModal()
 }); */
 
 const discountedPrice = computed(() => {
-  if (props.product.discount && props.product.discount.isActive) {
-    const discountAmount = props.product.price * (props.product.discount.percentage / 100)
-    return (props.product.price - discountAmount).toFixed(2)
+  if (props.product.discount && props.product.discount > 0) {
+    const discountAmount = props.product.price * (props.product.discount / 100);
+    return (props.product.price - discountAmount).toFixed(2);
   }
-  return props.product.price.toFixed(2)
-})
+  return props.product.price.toFixed(2);
+});
 </script>
 
 <template>
@@ -39,9 +39,9 @@ const discountedPrice = computed(() => {
       <BadgeCard
         :id="product.name"
         :isAvailable="product.available"
-        :isDiscount="product.discount == null ? false : true"
-        :isNew="product.new"
-        :discount="product.discount == null ? null : product.discount"
+        :isDiscount="product.discount > 0"
+        :isNew="!!product.new"
+        :discount="product.discount"
         class="absolute z-10"
       />
       <!-- <FavoriteIcon /> -->
@@ -70,19 +70,17 @@ const discountedPrice = computed(() => {
         <p class="text-slate-800 text-md font-semibold">{{ product.name }}</p>
       </div>
       <div class="flex justify-between items-center">
-        <p
-          v-if="product.discount && product.discount.isActive"
-          class="text-red-500 text-sm font-semibold"
-        >
-          {{ discountedPrice }}€
-        </p>
-        <p
-          v-if="product.discount && product.discount.isActive"
-          class="line-through text-gray-500 text-xs"
-        >
+      <DIV>
+        <p v-if="product.discount && product.discount > 0" class="line-through text-gray-500 text-sm">
           {{ product.price.toFixed(2) }}€
         </p>
-        <p v-else class="text-black text-sm font-semibold">{{ product.price.toFixed(2) }}€</p>
+        <p v-if="product.discount && product.discount > 0" class="text-red-600 text-base font-semibold">
+          {{ discountedPrice }}€
+        </p>
+
+        <p v-else class="text-black text-base font-semibold">{{ product.price.toFixed(2) }}€</p>
+      </DIV>
+
         <button
           @click="openModal"
           class="px-2 py-2 bg-gray-200 text-white rounded hover:bg-gray-300"
