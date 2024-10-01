@@ -22,6 +22,7 @@ async function setCategory() {
 
         console.log(response);
     } catch (error) {
+        newCategory.value.highlights = !newCategory.value.highlights;
         console.error('Error setting category:', error);
     }
 }
