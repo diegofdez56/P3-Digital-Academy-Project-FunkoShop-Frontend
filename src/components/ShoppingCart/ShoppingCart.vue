@@ -6,6 +6,7 @@ import { useCartStore } from '@/stores/cart/cartStore';
 import { useRouter } from 'vue-router';
 import { useAuthStore } from '@/stores/auth';
 import LoginModal from '@/components/LoginModal.vue';
+import { useI18n } from 'vue-i18n';
 
 const open = ref(false);
 const openLogin = ref(false);
@@ -14,6 +15,8 @@ const attemptedCheckout = ref(false);
 const cartStore = useCartStore();
 const authStore = useAuthStore();
 const router = useRouter();
+
+const { t } = useI18n()
 
 const cartProducts = computed(() => {
   return cartStore.products;
@@ -88,7 +91,7 @@ watch(
                 <div class="flex h-full flex-col overflow-y-scroll bg-white shadow-xl">
                   <div class="flex-1 overflow-y-auto px-4 py-6 sm:px-6">
                     <div class="flex items-start justify-between">
-                      <DialogTitle class="text-lg font-medium text-gray-900">Shopping cart</DialogTitle>
+                      <DialogTitle class="text-lg font-medium text-gray-900">{{ t('shoppingCart.shoppingCart') }}</DialogTitle>
                       <div class="ml-3 flex h-7 items-center">
                         <button type="button" class="relative -m-2 p-2 text-gray-400 hover:text-gray-500"
                           @click="open = false">
@@ -148,7 +151,7 @@ watch(
                           </li>
                           <template v-if="!cartProducts.length">
                             <li class="flex py-6 text-center w-full text-gray-500">
-                              No products in the cart
+                              {{ t('shoppingCart.emptyCart') }}
                             </li>
                           </template>
                         </ul>
@@ -162,7 +165,7 @@ watch(
                       <p>{{ totalPrice }}€</p>
                     </div>
                     <p class="mt-0.5 text-sm text-gray-500">
-                      Shipping and taxes calculated at checkout.
+                      {{ t('shoppingCart.shipping') }}
                     </p>
                     <div class="mt-6">
                       <button @click="checkout"
@@ -172,10 +175,10 @@ watch(
                     </div>
                     <div class="mt-6 flex justify-center text-center text-sm text-gray-500">
                       <p>
-                        or{{ ' ' }}
+                        {{ t('shoppingCart.or') }}{{ ' ' }}
                         <button type="button" class="font-medium text-blueFunko-500 hover:text-blueFunko-600"
                           @click="open = false">
-                          Continue Shopping
+                          {{ t('shoppingCart.continueShopping') }}
                           <span aria-hidden="true"> &rarr;</span>
                         </button>
                       </p>
