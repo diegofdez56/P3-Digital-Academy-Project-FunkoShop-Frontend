@@ -22,7 +22,6 @@ async function setCategory() {
     try {
         newCategory.value.highlights = !newCategory.value.highlights;
         const response = await store.setCategory(newCategory.value, auth.user.access_token);
-        console.log('Response:', response);
 
         if (response.message) {
             newCategory.value.highlights = !newCategory.value.highlights;
