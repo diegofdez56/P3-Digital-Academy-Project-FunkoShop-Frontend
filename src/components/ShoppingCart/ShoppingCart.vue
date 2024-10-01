@@ -3,10 +3,13 @@ import { ref, computed } from 'vue';
 import { Dialog, DialogPanel, DialogTitle, TransitionChild, TransitionRoot } from '@headlessui/vue';
 import { XMarkIcon, ShoppingBagIcon } from '@heroicons/vue/24/outline';
 import { useCartStore } from '@/stores/cart/cartStore';
+import { useI18n } from 'vue-i18n';
 
 const open = ref(false);
 
 const cartStore = useCartStore();
+
+const { t } = useI18n()
 
 const cartProducts = computed(() => {
   return cartStore.products;
@@ -52,7 +55,7 @@ const removeFromCart = (id) => {
                 <div class="flex h-full flex-col overflow-y-scroll bg-white shadow-xl">
                   <div class="flex-1 overflow-y-auto px-4 py-6 sm:px-6">
                     <div class="flex items-start justify-between">
-                      <DialogTitle class="text-lg font-medium text-gray-900">Shopping cart</DialogTitle>
+                      <DialogTitle class="text-lg font-medium text-gray-900">{{ t('shoppingCart.shoppingCart') }}</DialogTitle>
                       <div class="ml-3 flex h-7 items-center">
                         <button type="button" class="relative -m-2 p-2 text-gray-400 hover:text-gray-500"
                           @click="open = false">
@@ -102,7 +105,7 @@ const removeFromCart = (id) => {
                           </li>
                           <template v-if="!cartProducts.length">
                             <li class="flex py-6 text-center w-full text-gray-500">
-                              No products in the cart
+                              {{ t('shoppingCart.emptyCart') }}
                             </li>
                           </template>
                         </ul>
@@ -116,7 +119,7 @@ const removeFromCart = (id) => {
                       <p>{{ totalPrice }}€</p>
                     </div>
                     <p class="mt-0.5 text-sm text-gray-500">
-                      Shipping and taxes calculated at checkout.
+                      {{ t('shoppingCart.shipping') }}
                     </p>
                     <!-- <div class="mt-6">
                       <a href="#"
@@ -124,10 +127,10 @@ const removeFromCart = (id) => {
                     </div> -->
                     <div class="mt-6 flex justify-center text-center text-sm text-gray-500">
                       <p>
-                        or{{ ' ' }}
+                        {{ t('shoppingCart.or') }}{{ ' ' }}
                         <button type="button" class="font-medium text-blueFunko-500 hover:text-blueFunko-600"
                           @click="open = false">
-                          Continue Shopping
+                          {{ t('shoppingCart.continueShopping') }}
                           <span aria-hidden="true"> &rarr;</span>
                         </button>
                       </p>

@@ -5,6 +5,9 @@ import { XMarkIcon } from '@heroicons/vue/24/outline'
 // import { StarIcon } from '@heroicons/vue/20/solid'
 import BadgeCard from '../Cards/BadgeCard.vue'
 import { useCartStore } from '../../stores/cart/cartStore';
+import { useI18n } from 'vue-i18n';
+
+const { t } = useI18n();
 
 const props = defineProps({
   isOpen: {
@@ -23,7 +26,9 @@ const quantity = ref(1)
 const cartStore = useCartStore()
 
 const incrementQuantity = () => {
-  quantity.value++
+  if (quantity.value < props.product.stock) { 
+    quantity.value++
+  }
 }
 
 const decrementQuantity = () => {
@@ -40,16 +45,31 @@ const decrementQuantity = () => {
 // });
 
 const addToCart = () => {
+ 
+  if (quantity.value > props.product.stock) {
+    quantity.value = props.product.stock; 
+  }
+
   console.log('Adding to Cart Product:', props.product, 'Quantity:', quantity.value);
   cartStore.addProduct({
     id: props.product.id, 
     name: props.product.name,
     price: props.product.price,
-   
   }, quantity.value); 
   emit('close');
 };
- 
+
+const handleQuantityChange = (event) => {
+  const newValue = event.target.value;
+  const parsedValue = parseInt(newValue, 10);
+
+  if (!isNaN(parsedValue) && parsedValue > 0 && parsedValue <= props.product.stock) {
+    quantity.value = parsedValue; 
+  } else if (newValue === '') {
+    quantity.value = ''; 
+  }
+};
+
 </script>
 
 <template>
@@ -105,25 +125,25 @@ const addToCart = () => {
                   >
                     <!-- <img :src="productImage" :alt="props.product.name || 'Product Image'"
                       class="object-cover object-center" /> -->
-                      <img src='../../assets/img/CardImage/Groot.png' alt="product image"
+                    <img src='../../assets/img/CardImage/Groot.png' alt="product image"
                       class="object-cover object-center" />
                   </div>
                   <div class="sm:col-span-8 lg:col-span-7">
                     <div class="flex place-items-baseline justify-between pr-10">
                       <p class="text-sm text-gray-900">
-                        {{ product.category?.name || 'Category' }}
+                        {{ props.product.category?.name || t('category') }}
                       </p>
                       <BadgeCard
                         class="w-24"
                         :id="product.name"
-                        :isAvailable="product.available"
+                        :stock="product.stock"
                         :isDiscount="product.discount == null ? false : true"
                         :isNew="product.new"
                         :discount="product.discount == null ? null : product.discount"
                       />
                     </div>
                     <h2 class="text-2xl font-bold text-gray-900 sm:pr-12">
-                      {{ props.product.name || 'Product Name' }}
+                      {{ props.product.name || t('productName') }}
                     </h2>
 
                     <section aria-labelledby="information-heading">
@@ -155,7 +175,7 @@ const addToCart = () => {
                         {{ props.product.price ? props.product.price.toFixed(2) : '0.00' }}€
                       </h3>
                       <div class="py-4">
-                        <h4 class="text-lg text-gray-900 font-semibold">Description</h4>
+                        <h4 class="text-lg text-gray-900 font-semibold">{{ t('description') }}</h4>
                         <p class="text-sm text-gray-900">
                           {{ props.product.description || 'Description not available.' }}
                         </p>
@@ -178,8 +198,8 @@ const addToCart = () => {
                             type="text"
                             id="quantity"
                             class="border-t border-b border-gray-300 w-16 text-center"
-                            v-model="quantity"
-                            readonly
+                            :value="quantity"
+                            @input="handleQuantityChange"
                           />
                           <button
                             @click="incrementQuantity"
@@ -195,7 +215,7 @@ const addToCart = () => {
                           @click="addToCart"
                           class="w-full rounded-md border border-transparent bg-blueFunko-700 px-4 py-2 text-base font-medium text-white transition-all hover:bg-blueFunko-600 focus:outline-none"
                         >
-                          Add to Cart
+                          {{ t('addToCart') }}
                         </button>
                       </div>
                     </section>
