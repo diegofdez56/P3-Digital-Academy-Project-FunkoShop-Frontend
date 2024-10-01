@@ -1,41 +1,32 @@
 <script setup>
+import { NewLettersStore } from '@/stores/newLetters/NewLettersStore';
 import { computed } from 'vue';
 import { useI18n } from 'vue-i18n';
 import { ref } from 'vue';
-import axios from 'axios';
 
 const { t } = useI18n();
+const TIME_DISMISSED = import.meta.env.VITE_TIME_DISMISSED
 
 const placeholderText = computed(() => t('newsletter.enterEmail'));
 const email = ref('');
+const newLettersStore = NewLettersStore()
+const textAlert = ref("")
 
-async function setNewLetter() {
-  let headersList = {
-    "Accept": "*/*",
-    "Content-Type": "application/json"
-  }
+async function setNewLetters() {
 
-  let bodyContent = JSON.stringify({
-    "email": email.value
-  });
+  const response = await newLettersStore.setNewLetters(email.value);
+  console.log(response);
 
-  let reqOptions = {
-    url: "http://localhost:8080/api/v1/news-letter",
-    method: "POST",
-    headers: headersList,
-    data: bodyContent,
-  }
-  try {
-    let response = await axios.request(reqOptions);
+  if (response.email == email.value)
+    textAlert.value = 'Suscrito satisfactoriamente';
+  else
+    textAlert.value = 'Hubo un error en la suscripción o existe el email en la base de datos.';
 
-    if (response.status == 201) {
-      alert('Suscrito satisfactoriamente');
-    }
-  } catch (error) {
-    console.error('Error al suscribirse:', error);
-    alert('Hubo un error en la suscripción o existe el email en la base de datos.');
-  }
+  setTimeout(() => {
+    textAlert.value = '';
+  }, TIME_DISMISSED);
 }
+
 </script>
 
 
@@ -49,7 +40,13 @@ async function setNewLetter() {
       </div>
     </div>
 
-    <form class="flex flex-wrap lg:gap-0 gap-4" @submit.prevent="setNewLetter">
+    <div v-if="textAlert != ''" :class="textAlert == 'Suscrito satisfactoriamente' ? 'bg-green-500' : 'bg-red-500'"
+      class="font-regular relative block w-full rounded-lg p-4 text-base leading-5 text-white opacity-100"
+      data-dismissible="alert">
+      <div class="mr-12">{{ textAlert }}</div>
+    </div>
+
+    <form class="flex flex-wrap lg:gap-0 gap-4" @submit.prevent="setNewLetters">
       <input type="email" :placeholder="placeholderText" v-model="email"
         class="w-full lg:max-w-[395px] px-6 py-4 rounded-full lg:rounded-r-[30px] focus:outline-none focus:bg-blueFunko-50 placeholder:text-slate-400 text-slate-950" />
       <button type="submit"
