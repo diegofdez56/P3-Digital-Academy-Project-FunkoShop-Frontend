@@ -45,11 +45,8 @@ const handleCategoryChange = (category) => {
 
 <template>
   <div class="min-h-screen">
-    <CategoryButtons
-      :categories="listCategories"
-      :selectedCategory="selectedCategory"
-      @change-category="handleCategoryChange"
-    />
+    <CategoryButtons :categories="listCategories" :selectedCategory="selectedCategory"
+      @change-category="handleCategoryChange" />
 
     <div v-if="categoryLoading" class="text-center mt-2">
       <p>Loading categories...</p>
@@ -58,13 +55,7 @@ const handleCategoryChange = (category) => {
       <p>Error: {{ categoryError }}</p>
     </div>
 
-    <ProductLoader
-      :products="products"
-      :currentPage="currentPage"
-      :totalPages="totalPages"
-      :isLoading="productLoading"
-      :error="productError"
-      @change-page="handlePageChange"
-    />
+    <ProductLoader :products="products" :currentPage="currentPage" :totalPages="totalPages" :isLoading="productLoading"
+      :error="productError" @change-page="handlePageChange" />
   </div>
 </template>

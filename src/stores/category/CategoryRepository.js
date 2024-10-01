@@ -27,4 +27,39 @@ export default class CategoryRepository {
             return error.toJSON()
         }
     }
+
+    async setCategory(category, accessToken) {
+        try {
+            let headersList = {
+                "Accept": "*/*",
+                "Authorization": "Bearer " + accessToken,
+                "Content-Type": "application/json"
+            }
+
+            let bodyContent = {
+                id: category.id,
+                name: category.name,
+                imageHash: category.imageHash,
+                highlights: category.highlights,
+            }
+
+            let reqOptions = {
+                url: BASE_URL,
+                method: "PUT",
+                headers: headersList,
+                data: bodyContent,
+            }
+
+            const response = await axios.request(reqOptions);
+
+            return response.data;
+
+        } catch (error) {
+            console.error("Error in setCategory:", error)
+            return {
+                message: "Error while updating category",
+                details: error.response ? error.response.data : error.toJSON()
+            }
+        }
+    }
 }

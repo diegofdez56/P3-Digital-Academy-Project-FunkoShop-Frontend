@@ -10,12 +10,12 @@ const intervalTime = 4000;
 
 
 async function getCategories() {
-  const response = await store.getCategories();
-  categories.value = response.filter(item => item.highlights); 
+    const response = await store.getCategories();
+    categories.value = response.filter(item => item.highlights);
 }
 
-onMounted(async () => {
-    await getCategories();
+onMounted(() => {
+    getCategories();
 });
 
 // Función para actualizar el índice activo

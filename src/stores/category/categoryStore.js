@@ -22,5 +22,12 @@ export const CategoryStore = defineStore('categories', () => {
         }
     }
 
-    return { categories, isLoading, error, getCategories };
+    function setCategory(category, accessToken) {
+        
+        const service = new CategoryService()
+        return service.setCategory(category, accessToken)
+
+    }
+
+    return { categories, isLoading, error, getCategories, setCategory };
 });
