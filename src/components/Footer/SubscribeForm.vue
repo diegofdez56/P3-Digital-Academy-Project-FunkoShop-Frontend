@@ -15,7 +15,6 @@ const textAlert = ref("")
 async function setNewLetters() {
 
   const response = await newLettersStore.setNewLetters(email.value);
-  console.log(response);
 
   if (response.email == email.value)
     textAlert.value = 'Suscrito satisfactoriamente';
