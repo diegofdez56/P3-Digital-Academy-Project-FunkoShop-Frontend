@@ -123,16 +123,8 @@ watch(
                                   <h3>
                                     <a :href="product.href">{{ product.name }}</a>
                                   </h3>
-                                  <p v-if="product.discount && product.discount.active"
-                                    class="text-red-600 font-semibold">
-                                    {{ product.price.toFixed(2) }}€
-                                  </p>
-                                  <p v-if="product.discount && product.discount.active"
-                                    class="text-gray-500 line-through">
-                                    {{ product.originalPrice.toFixed(2) }}€
-                                  </p>
-                                  <p v-else>
-                                    {{ product.price.toFixed(2) }}€
+                                  <p class="ml-4">
+                                    {{ product.price }}€
                                   </p>
                                 </div>
                                 <p class="mt-1 text-sm text-gray-500">{{ product.category }}</p>
