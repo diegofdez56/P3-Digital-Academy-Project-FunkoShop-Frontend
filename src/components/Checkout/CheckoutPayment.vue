@@ -1,75 +1,14 @@
 <script setup>
 import OrderCheckout from './OrderCheckout.vue';
+import BillingDetails from './BillingDetails.vue';
 </script>
 
 <template>
   <div class="grid grid-cols-1 md:grid-cols-2 gap-8 p-6 lg:p-24">
     <div class="space-y-6">
       <h2 class="text-2xl font-semibold">Billing Details</h2>
-
-      <div class="grid grid-cols-2 gap-4">
-        <div>
-          <input type="text" id="first-name"
-            class="mt-1 block w-full rounded-md py-2.5 px-4 border-gray-300 border focus:ring-2 focus:ring-inset focus:outline-blueFunko-400/60 focus:ring-blueFunko-300/60 placeholder: text-sm font-light"
-            placeholder="First name*" />
-        </div>
-        <div>
-          <input type="text" id="last-name"
-            class="mt-1 block w-full rounded-md py-2.5 px-4 border-gray-300 border focus:ring-2 focus:ring-inset focus:outline-blueFunko-400/60 focus:ring-blueFunko-300/60 placeholder: text-sm font-light"
-            placeholder="Last name*" />
-        </div>
-
-        <div>
-          <input type="text" id="address"
-            class="mt-1 block w-full rounded-md py-2.5 px-4 border-gray-300 border focus:ring-2 focus:ring-inset focus:outline-blueFunko-400/60 focus:ring-blueFunko-300/60 placeholder: text-sm font-light"
-            placeholder="Address*" />
-        </div>
-
-        <div>
-          <input type="text" id="address2"
-            class="mt-1 block w-full rounded-md py-2.5 px-4 border-gray-300 border focus:ring-2 focus:ring-inset focus:outline-blueFunko-400/60 focus:ring-blueFunko-300/60 placeholder: text-sm font-light"
-            placeholder="Address line 2" />
-        </div>
-        <div>
-          <input type="text" id="country"
-            class="mt-1 block w-full rounded-md py-2.5 px-4 border-gray-300 border focus:ring-2 focus:ring-inset focus:outline-blueFunko-400/60 focus:ring-blueFunko-300/60 placeholder: text-sm font-light"
-            placeholder="Country*" />
-        </div>
-        <div>
-          <input type="text" id="city"
-            class="mt-1 block w-full rounded-md py-2.5 px-4 border-gray-300 border focus:ring-2 focus:ring-inset focus:outline-blueFunko-400/60 focus:ring-blueFunko-300/60 placeholder: text-sm font-light"
-            placeholder="City / Town*" />
-        </div>
-
-        <div>
-          <input type="text" id="postcode"
-            class="mt-1 block w-full rounded-md py-2.5 px-4 border-gray-300 border focus:ring-2 focus:ring-inset focus:outline-blueFunko-400/60 focus:ring-blueFunko-300/60 placeholder: text-sm font-light"
-            placeholder="Postcode / ZIP*" />
-        </div>
-        <div>
-          <input type="text" id="phone"
-            class="mt-1 block w-full rounded-md py-2.5 px-4 border-gray-300 border focus:ring-2 focus:ring-inset focus:outline-blueFunko-400/60 focus:ring-blueFunko-300/60 placeholder: text-sm font-light"
-            placeholder="Phone*" />
-        </div>
-      </div>
-
-      <div>
-        <textarea type="text" id="additional-info"
-          class="mt-1 block w-full rounded-md py-2.5 h-52 px-4 border-gray-300 border focus:ring-2 focus:ring-inset focus:outline-blueFunko-400/60 focus:ring-blueFunko-300/60 placeholder: text-sm font-light text-start"
-          placeholder="Additional information"></textarea>
-      </div>
-
-      <div class="flex items-center">
-        <input type="checkbox" id="create-account"
-          class="h-4 w-4 text-blue-600 accent-blueFunko-700 border-gray-300 rounded" />
-        <label for="create-account" class="ml-2 block text-sm font-light text-gray-900">Create Account</label>
-      </div>
-      <div class="flex items-center">
-        <input type="checkbox" id="different-address"
-          class="h-4 w-4 text-blue-600 accent-blueFunko-700 border-gray-300 rounded" />
-        <label for="different-address" class="ml-2 block font-light text-sm text-gray-900">Ship to a different
-          address?</label>
-      </div>
+      <BillingDetails />
+      
     </div>
     <div>
       <OrderCheckout />
