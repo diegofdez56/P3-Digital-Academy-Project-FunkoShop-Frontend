@@ -13,4 +13,10 @@ export default class CategoryService {
         return response
     }
 
+
+    async setCategory(category, accessToken) {
+        const response = await this.#repo.setCategory(category, accessToken)
+        return response
+    }
+
 }

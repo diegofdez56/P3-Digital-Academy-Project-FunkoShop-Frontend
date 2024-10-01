@@ -1,21 +1,37 @@
 <script setup>
-defineProps({
+import { useAuthStore } from '@/stores/auth';
+import { CategoryStore } from '@/stores/category/CategoryStore';
+import { ref } from 'vue';
+
+const auth = useAuthStore()
+const store = CategoryStore();
+
+const props = defineProps({
     category: {
         type: Object,
         required: true
     }
 })
 
-function change() {
-    
+const newCategory = ref(props.category);
+
+async function setCategory() {
+    try {
+        newCategory.value.highlights = !newCategory.value.highlights;
+        const response = await store.setCategory(newCategory.value, auth.user.access_token);
+
+        console.log(response);
+    } catch (error) {
+        console.error('Error setting category:', error);
+    }
 }
 </script>
 
 <template>
-    <button @click="change()"
-        :class="category.highlights ? 'bg-blueFunko-100 hover:bg-slate-300' : 'bg-slate-300 hover:bg-blueFunko-100'"
+    <button @click="setCategory()"
+        :class="newCategory.highlights ? 'bg-blueFunko-100 hover:bg-slate-300' : 'bg-slate-300 hover:bg-blueFunko-100'"
         class="flex gap-4 px-5 py-2.5 text-base font-medium text-slate-950 uppercase transition-all duration-300">
-        {{ !category.highlights ? 'No Selected' : 'Selected' }}
+        {{ !newCategory.highlights ? 'No Selected' : 'Selected' }}
     </button>
 </template>
 
