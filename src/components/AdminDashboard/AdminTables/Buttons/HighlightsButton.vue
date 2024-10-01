@@ -3,28 +3,37 @@ import { useAuthStore } from '@/stores/auth';
 import { CategoryStore } from '@/stores/category/CategoryStore';
 import { ref } from 'vue';
 
+const TIME_DISMISSED = import.meta.env.VITE_TIME_DISMISSED
 const auth = useAuthStore()
 const store = CategoryStore();
-
 const props = defineProps({
     category: {
         type: Object,
         required: true
+    },
+    alert: {
+        type: Function,
+        required: true
     }
 })
-
 const newCategory = ref(props.category);
 
 async function setCategory() {
     try {
         newCategory.value.highlights = !newCategory.value.highlights;
         const response = await store.setCategory(newCategory.value, auth.user.access_token);
+        console.log('Response:', response);
 
-        console.log(response);
+        if (response.message) {
+            newCategory.value.highlights = !newCategory.value.highlights;
+            props.alert();
+        }
     } catch (error) {
-        newCategory.value.highlights = !newCategory.value.highlights;
         console.error('Error setting category:', error);
     }
+
+    setTimeout(() => {
+    }, TIME_DISMISSED);
 }
 </script>
 

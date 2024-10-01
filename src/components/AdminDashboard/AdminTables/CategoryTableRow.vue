@@ -5,6 +5,10 @@ defineProps({
   category: {
     type: Object,
     required: true
+  },
+  alert: {
+    type: Function,
+    required: true
   }
 })
 </script>
@@ -16,7 +20,7 @@ defineProps({
     <td class="px-4 py-3">
       <div class="relative flex gap-x-3">
         <div class="flex h-6 items-center">
-          <HighlightsButton :category="category" />
+          <HighlightsButton :category="category" :alert="alert" />
         </div>
       </div>
     </td>
