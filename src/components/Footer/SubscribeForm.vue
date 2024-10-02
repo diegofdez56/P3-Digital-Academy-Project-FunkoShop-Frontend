@@ -13,14 +13,16 @@ const newLettersStore = NewLettersStore()
 const textAlert = ref("")
 
 async function setNewLetters() {
+  if (email.value != '') {
+    const response = await newLettersStore.setNewLetters(email.value);
 
-  const response = await newLettersStore.setNewLetters(email.value);
-
-  if (response.email == email.value)
-    textAlert.value = 'Suscrito satisfactoriamente';
+    if (response.email == email.value)
+      textAlert.value = 'Suscrito satisfactoriamente';
+    else
+      textAlert.value = 'Hubo un error en la suscripción o existe el email en la base de datos.';
+  }
   else
-    textAlert.value = 'Hubo un error en la suscripción o existe el email en la base de datos.';
-
+    textAlert.value = 'El email no puede estar vacío.'
   setTimeout(() => {
     textAlert.value = '';
   }, TIME_DISMISSED);
@@ -46,7 +48,7 @@ async function setNewLetters() {
     </div>
 
     <form class="flex flex-wrap lg:gap-0 gap-4" @submit.prevent="setNewLetters">
-      <input type="email" :placeholder="placeholderText" v-model="email"
+      <input type="email" :placeholder="placeholderText" v-model="email" required
         class="w-full lg:max-w-[395px] px-6 py-4 rounded-full lg:rounded-r-[30px] focus:outline-none focus:bg-blueFunko-50 placeholder:text-slate-400 text-slate-950" />
       <button type="submit"
         class="px-6 py-4 bg-blueFunko-200 hover:bg-blueFunko-300 text-slate-900 font-semibold rounded-full lg:rounded-l-[30px]">
