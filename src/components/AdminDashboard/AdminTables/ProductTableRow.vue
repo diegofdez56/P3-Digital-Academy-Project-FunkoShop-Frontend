@@ -23,8 +23,7 @@ const handleDelete = () => {
     <td class="px-4 py-3">{{ product.category.name }}</td>
     <!-- <td class="px-4 py-3">{{ product.rating }}</td> -->
     <td class="px-4 py-3">{{ product.stock }}</td>
-    <td class="px-4 py-3">{{ product.discount ? product.discount.percentage + '%' : 'No' }}</td>
-    <td class="px-4 py-3">{{ product.available ? 'Yes' : 'No' }}</td>
+    <td class="px-4 py-3">{{ product.discount ? product.discount + '%' : 'No' }}</td>
 
 
     <td class="px-4 py-3 text-center">
