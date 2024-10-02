@@ -43,10 +43,10 @@ onMounted(() => {
 </script>
 
 <template>
-  <div class="relative flex items-center mr-5">
+  <div class="relative flex items-center mr-5 ml-5 bg-white rounded">
     <input
       type="search"
-      class="block w-full h-8 pl-3 pr-10 rounded border text-sm border-gray-300 bg-white text-gray-900 placeholder-gray-500 focus:outline-none focus:ring-2 focus:ring-primary focus:border-transparent transition duration-150 ease-in-out"
+      class="block w-full h-8 pl-3 pr-10 rounded text-sm text-gray-900 placeholder-gray-500 focus:outline-none focus:ring-2 focus:ring-primary focus:border-transparent transition duration-150 ease-in-out"
       placeholder="Search"
       aria-label="Search"
       id="searchInput"
@@ -72,3 +72,39 @@ onMounted(() => {
     </button>
   </div>
 </template>
+
+<style scoped>
+.relative {
+  position: relative;
+}
+
+input {
+  width: 100%;
+  padding-right: 40px;
+}
+
+@media (max-width: 640px) {
+  input {
+    width: 80%;
+    padding-right: 40px;
+  }
+
+  input::placeholder {
+    color: transparent;
+  }
+}
+
+button {
+  position: absolute;
+  right: 10px;
+  top: 50%;
+  transform: translateY(-50%);
+  background: transparent;
+  border: none;
+  cursor: pointer;
+}
+
+button svg {
+  display: block;
+}
+</style>
