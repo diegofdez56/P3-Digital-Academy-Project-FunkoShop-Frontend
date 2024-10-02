@@ -2,12 +2,11 @@
 const props = defineProps({
   isNew: Boolean,
   isDiscount: Boolean,
-  discount: Object,
+  discount: Number,
   stock: {
     type: Number,
     default: 0, 
   }
-
 })
 </script>
 
@@ -26,7 +25,7 @@ const props = defineProps({
   >
     <div v-if="!(stock > 0 && !props.isDiscount && !props.isNew)">
       <p v-if="stock === 0">Sold</p>
-      <p v-if="stock > 0 && props.isDiscount">{{ discount.percentage }}% off</p>
+      <p v-if="stock > 0 && props.isDiscount">{{ discount }}% off</p>
       <p v-if="stock > 0 && !props.isDiscount && props.isNew">New</p>
     </div>
   </div>
