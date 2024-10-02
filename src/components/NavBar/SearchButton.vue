@@ -1,18 +1,51 @@
 <script setup>
-import { ref, defineEmits } from 'vue'
+import { ref, watch, onMounted } from 'vue'
+import { useProductStore } from '@/stores/productStore'
+import { SpeechRecognitionService } from '../../core/apis/SpeechRecognition'
 
-// Crear la referencia reactiva para el término de búsqueda
 const searchQuery = ref('')
+const isListening = ref(false)
+const store = useProductStore()
 
-// Definir el evento a emitir
-const emit = defineEmits(['onSearch'])
+const handleVoiceInput = (transcript) => {
+  searchQuery.value = transcript
+}
 
-// Método para manejar la búsqueda
-const onSearch = () => {
-  if (searchQuery.value.trim() !== '') {
-    emit('onSearch', searchQuery.value) // Emitir el término de búsqueda
+const startVoiceRecognition = () => {
+  if (!isListening.value) {
+    SpeechRecognitionService.startRecognition(handleVoiceInput)
+    isListening.value = true
+  } else {
+    SpeechRecognitionService.stopRecognition()
+    isListening.value = false
   }
 }
+
+onMounted(async () => {
+  if (searchQuery.value.trim()) {
+    try {
+      await store.searchProductsByKeyword(searchQuery.value)
+    } catch (error) {
+      console.error('Error occurred during search on mount:', error)
+    }
+  }
+})
+
+watch(searchQuery, async (newQuery) => {
+  if (newQuery.trim()) {
+    try {
+      await store.searchProductsByKeyword(newQuery)
+    } catch (error) {
+      console.error('Error occurred during search:', error)
+    }
+  } else {
+    await store.clearSearchResults()
+  }
+})
+
+onMounted(() => {
+  SpeechRecognitionService.initialize()
+})
 </script>
 
 <template>
@@ -28,7 +61,7 @@ const onSearch = () => {
     <button
       class="absolute right-2 top-1/2 transform -translate-y-1/2 bg-transparent border-none"
       type="button"
-      @click="onSearch"
+      @click="startVoiceRecognition"
     >
       <svg
         width="18"
@@ -45,7 +78,3 @@ const onSearch = () => {
     </button>
   </div>
 </template>
-
-<style scoped>
-/* Puedes agregar estilos personalizados si es necesario */
-</style>
