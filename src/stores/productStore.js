@@ -18,6 +18,16 @@ export const useProductStore = defineStore('products', () => {
   const currentDate = new Date();
 
   const totalProducts = computed(() => products.value.length);
+  const accessToken = computed(() => localStorage.getItem('access_token'));
+
+  const getAuthHeaders = () => {
+    if (!accessToken.value) {
+      throw new Error('Unauthorized: No access token found');
+    }
+    return {
+      Authorization: `Bearer ${accessToken.value}`,
+    };
+  }
 
   const fetchProducts = async (url, params = {}) => {
     isLoading.value = true;
@@ -42,7 +52,7 @@ export const useProductStore = defineStore('products', () => {
     }
   };
 
-  const fetchAllProducts = async (page = 0, size = 8, sortBy = 'name', sortOrder = 'asc') => {
+  const fetchAllProducts = async (page = 0, size = 8, sortBy = 'createdAt', sortOrder = 'desc') => {
     let url = BASE_URL;
     const params = { page, size, sort: `${sortBy},${sortOrder}` };
 
@@ -121,6 +131,23 @@ export const useProductStore = defineStore('products', () => {
     }
   };
 
+  const addProduct = async (productData) => {
+    isLoading.value = true;
+    error.value = null;
+    try {
+      const response = await axios.post(BASE_URL, productData, {
+        headers: getAuthHeaders(),
+      });
+  
+      products.value.push(response.data);
+    } catch (err) {
+        handleError(err);
+        throw err;
+    } finally {
+        isLoading.value = false;
+    }
+  };
+
   const updateProduct = async (id, productData) => {
     isLoading.value = true;
     error.value = null;
@@ -145,14 +172,8 @@ export const useProductStore = defineStore('products', () => {
     isLoading.value = true;
     error.value = null;
     try {
-      const accessToken = localStorage.getItem('access_token');
-      if (!accessToken) {
-        throw new Error('Unauthorized: No access token found');
-      }
       await axios.delete(`${BASE_URL}/${id}`, {
-        headers: {
-          Authorization: `Bearer ${accessToken}`,
-        },
+        headers: getAuthHeaders(),
       });
       products.value = products.value.filter((product) => product.id !== id);
     } catch (err) {
@@ -188,6 +209,7 @@ export const useProductStore = defineStore('products', () => {
     searchProductsByKeyword,
     fetchDiscountedProducts,
     fetchNewProducts,
+    addProduct,
     updateProduct,
     deleteProduct,
   };
