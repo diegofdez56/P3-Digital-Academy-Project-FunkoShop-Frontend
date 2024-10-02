@@ -22,13 +22,7 @@ const startVoiceRecognition = () => {
 }
 
 onMounted(async () => {
-  if (searchQuery.value.trim()) {
-    try {
-      await store.searchProductsByKeyword(searchQuery.value)
-    } catch (error) {
-      console.error('Error occurred during search on mount:', error)
-    }
-  }
+  await store.fetchAllProducts()
 })
 
 watch(searchQuery, async (newQuery) => {
@@ -39,7 +33,7 @@ watch(searchQuery, async (newQuery) => {
       console.error('Error occurred during search:', error)
     }
   } else {
-    await store.clearSearchResults()
+    await store.fetchAllProducts()
   }
 })
 
@@ -59,7 +53,7 @@ onMounted(() => {
       v-model="searchQuery"
     />
     <button
-      class="absolute right-2 top-1/2 transform -translate-y-1/2 bg-transparent border-none"
+      class="absolute right-2 top-1/2 transform -translate-y-1/2 bg-transparent border-none hover:cursor-pointer"
       type="button"
       @click="startVoiceRecognition"
     >
