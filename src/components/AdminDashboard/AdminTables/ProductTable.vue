@@ -21,12 +21,24 @@ const itemsPerPage = 10
 const showDeleteModal = ref(false)
 const productToDelete = ref(null)
 
+const fetchProducts = (page = currentPage.value, size = itemsPerPage) => {
+  productStore.fetchAllProducts(page, size, 'createdAt', 'desc')
+}
+
 onMounted(() => {
-  productStore.fetchAllProducts(currentPage.value, itemsPerPage)
+  fetchProducts()
+})
+
+const refreshProducts = () => {
+  fetchProducts()
+}
+
+defineExpose({
+  refreshProducts
 })
 
 const handlePageChange = (newPage) => {
-  productStore.fetchAllProducts(newPage, itemsPerPage)
+  productStore.fetchAllProducts(newPage, itemsPerPage, 'createdAt', 'desc')
 }
 
 const handleEdit = (product) => {
@@ -40,7 +52,7 @@ const handleDeleteClick = (productId) => {
 
 const confirmDelete = async () => {
   await productStore.deleteProduct(productToDelete.value)
-  productStore.fetchAllProducts(currentPage.value, itemsPerPage)
+  fetchProducts()
   closeModal()
 }
 
@@ -61,7 +73,7 @@ const closeModal = () => {
   </div>
 
   <div v-else>
-    <BaseTable :headers="['Name', 'Category','Stock', 'Discount', 'Available', 'Actions']">
+    <BaseTable :headers="['Name', 'Category','Stock', 'Discount', 'Actions']">
       <ProductTableRow 
         v-for="product in products" 
         :key="product.id" 
@@ -79,7 +91,8 @@ const closeModal = () => {
 
     <ConfirmDeleteModal 
       v-if="showDeleteModal" 
-      @confirm="confirmDelete" 
+      @confirm="confirmDelete"
+      @click.self="closeModal" 
       @cancel="closeModal"
     />
   </div>
