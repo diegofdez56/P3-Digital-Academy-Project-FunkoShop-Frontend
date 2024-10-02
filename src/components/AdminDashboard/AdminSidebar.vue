@@ -3,7 +3,7 @@ import SidebarLink from './SidebarComponents/SidebarLink.vue'
 import logo from '@/assets/img/logos/BlueLogo.svg'
 import productsIcon from '@/assets/icons/box-open.svg'
 // import ordersIcon from '@/assets/icons/shopping-bag.svg'
-// import salesBillingIcon from '@/assets/icons/euro-sign.svg'
+import salesBillingIcon from '@/assets/icons/euro-sign.svg'
 import LogoutButton from './SidebarComponents/LogoutButton.vue'
 
 const sidebarLinks = [
@@ -21,7 +21,12 @@ const sidebarLinks = [
   //   label: 'Sales and Billing',
   //   to: '/admin/sales-billing',
   //   iconPath: salesBillingIcon
-  // }
+  // },
+  {
+    label: 'Categories',
+    to: '/admin/categories',
+    iconPath: salesBillingIcon
+  }
 ]
 </script>
 

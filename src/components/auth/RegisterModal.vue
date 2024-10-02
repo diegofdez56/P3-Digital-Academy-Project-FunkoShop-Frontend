@@ -60,7 +60,7 @@ async function register() {
     <div
       class="relative flex h-auto max-w-md flex-1 flex-col justify-center px-6 py-12 lg:px-8 bg-white border-2 rounded-xl border-gray-300/30 shadow-md">
       <div class="sm:mx-auto sm:w-full sm:max-w-sm">
-        <img class="mx-auto h-15 w-auto" src="../assets/img/logos/BlueLogo.svg" alt="Your Company" />
+        <img class="mx-auto h-15 w-auto" src="@/assets/img/logos/BlueLogo.svg" alt="Your Company" />
       </div>
 
       <div class="mt-10 sm:mx-auto sm:w-full sm:max-w-sm">
