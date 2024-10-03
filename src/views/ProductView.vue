@@ -38,6 +38,8 @@ const handlePageChange = (newPage) => {
   productStore.fetchAllProducts(newPage);
 };
 
+
+
 const handleCategoryChange = (category) => {
   productStore.setCategory(category);
 };

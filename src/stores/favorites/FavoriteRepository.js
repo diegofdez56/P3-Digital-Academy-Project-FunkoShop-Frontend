@@ -5,7 +5,7 @@ export default class FavoriteRepository {
     this.baseUrl = import.meta.env.VITE_API_ENDPOINT + '/favorites'
   }
 
-  async getFavorites(accessToken) {
+  async getFavorites(accessToken, params = {}) {
     try {
       const headersList = {
         Accept: '*/*',
@@ -16,14 +16,12 @@ export default class FavoriteRepository {
       let reqOptions = {
         url: this.baseUrl,
         method: 'GET',
-        headers: headersList
+        headers: headersList,
+        params: params
       }
 
-      const response = await axios.request(reqOptions)
-
-      const data = await response.data
-
-      return data
+      const response = await axios.request(reqOptions);
+      return response.data;
     } catch (error) {
       return error.toJSON()
     }

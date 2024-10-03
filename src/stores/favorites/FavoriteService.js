@@ -14,8 +14,8 @@ export default class FavoriteService {
     return response
   }
 
-  async getFavorites(accessToken) {
-    const response = await this.#repo.getFavorites(accessToken)
+  async getFavorites(accessToken, params) {
+    const response = await this.#repo.getFavorites(accessToken, params)
     return response
   }
 

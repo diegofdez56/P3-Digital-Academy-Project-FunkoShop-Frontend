@@ -4,12 +4,10 @@ import Favorite from './Favorite'
 import FavoriteService from './FavoriteService'
 
 export const FavoriteStore = defineStore('favorites', () => {
-  const favorite = ref({
-    favoriteId: '',
-    productId: '',
-    userId: '',
-    accessToken: ''
-  })
+
+  const currentPage = ref(0);
+  const pageSize = ref(8);
+  const totalPages = ref(0);
 
   function addFavorite(favoriteId, productId, userId, accessToken) {
     const favorite = new Favorite(favoriteId, productId, userId, accessToken)
@@ -17,9 +15,10 @@ export const FavoriteStore = defineStore('favorites', () => {
     return service.addFavorite()
   }
 
-  function getFavorites(accessToken) {
+  function getFavorites(accessToken, page = 0, size = 8) {
+    const params = { page, size };
     const service = new FavoriteService()
-    return service.getFavorites(accessToken)
+    return service.getFavorites(accessToken, params)
   }
 
   function deleteFavorite(favoriteId, accessToken) {
@@ -27,5 +26,5 @@ export const FavoriteStore = defineStore('favorites', () => {
     return service.deleteFavorite(favoriteId, accessToken)
   }
 
-  return { favorite, addFavorite, getFavorites, deleteFavorite }
+  return { currentPage, pageSize, totalPages, addFavorite, getFavorites, deleteFavorite }
 })
