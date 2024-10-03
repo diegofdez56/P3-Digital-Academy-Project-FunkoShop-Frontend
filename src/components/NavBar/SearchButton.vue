@@ -11,8 +11,6 @@ const store = useProductStore()
 const router = useRouter()
 const route = useRoute()
 
-const previousRoute = ref(route.fullPath)
-
 let voiceTimeout = null
 
 const handleVoiceInput = (transcript) => {
@@ -42,17 +40,10 @@ const startVoiceRecognition = () => {
   }
 }
 
-const redirectToPreviousRoute = () => {
-  if (!searchQuery.value.trim() && previousRoute.value !== '/products') {
-    router.push(previousRoute.value)
-  }
-}
-
 const executeSearch = async (query) => {
   if (query.trim()) {
     showDropdown.value = true
     if (route.path !== '/products') {
-      previousRoute.value = route.fullPath
       await router.push({ path: '/products', query: { search: query } })
     }
     try {
@@ -62,7 +53,7 @@ const executeSearch = async (query) => {
     }
   } else {
     showDropdown.value = false
-    redirectToPreviousRoute()
+    await store.fetchAllProducts()
   }
 }
 
