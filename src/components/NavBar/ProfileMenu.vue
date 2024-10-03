@@ -109,7 +109,7 @@ const auth = useAuthStore()
             ' px-4 py-2 text-sm text-gray-700 flex flex-row'
           ]">
             <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor"
-              class="w-5 h-5 text-slate-400 mr-3">
+              class="w-5 h-5 text-dark-500 mr-3">
               <path fill-rule="evenodd"
                 d="M18 10a8 8 0 1 1-16 0 8 8 0 0 1 16 0Zm-5.5-2.5a2.5 2.5 0 1 1-5 0 2.5 2.5 0 0 1 5 0ZM10 12a5.99 5.99 0 0 0-4.793 2.39A6.483 6.483 0 0 0 10 16.5a6.483 6.483 0 0 0 4.793-2.11A5.99 5.99 0 0 0 10 12Z"
                 clip-rule="evenodd" />
@@ -120,7 +120,7 @@ const auth = useAuthStore()
           <MenuItem v-slot="{ active }">
           <a href="/favorite" :class="[active ? 'bg-gray-100' : '', ' px-4 py-2 text-sm text-gray-700 flex flex-row']">
             <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor"
-              class="w-5 h-5 text-slate-400 mr-3">
+              class="w-5 h-5 text-red-500 mr-3">
               <path fill-rule="evenodd"
                 d="m11.645 20.91-.007-.003-.022-.012a15.247 15.247 0 0 1-.383-.218 25.18 25.18 0 0 1-4.244-3.17C4.688 15.36 2.25 12.174 2.25 8.25 2.25 5.322 4.714 3 7.688 3A5.5 5.5 0 0 1 12 5.052 5.5 5.5 0 0 1 16.313 3c2.973 0 5.437 2.322 5.437 5.25 0 3.925-2.438 7.111-4.739 9.256a25.175 25.175 0 0 1-4.244 3.17 15.247 15.247 0 0 1-.383.219l-.022.012-.007.004-.003.001a.752.752 0 0 1-.704 0l-.003-.001Z"
                 clip-rule="evenodd" />
@@ -145,7 +145,7 @@ const auth = useAuthStore()
             ' px-4 py-2 text-sm text-gray-700 flex flex-row'
           ]">
             <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor"
-              class="w-5 h-5 text-slate-400 mr-3">
+              class="w-5 h-5 text-dark-500 mr-3">
               <path fill-rule="evenodd"
                 d="M12 2.25a.75.75 0 01.75.75v9a.75.75 0 01-1.5 0V3a.75.75 0 01.75-.75zM6.166 5.106a.75.75 0 010 1.06 8.25 8.25 0 1011.668 0 .75.75 0 111.06-1.06c3.808 3.807 3.808 9.98 0 13.788-3.807 3.808-9.98 3.808-13.788 0-3.808-3.807-3.808-9.98 0-13.788a.75.75 0 011.06 0z"
                 clip-rule="evenodd"></path>

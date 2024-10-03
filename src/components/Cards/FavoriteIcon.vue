@@ -65,7 +65,6 @@ const toggleFavorite = async () => {
 
   50% {
     transform: scale(1.1);
-    /* Aumenta el tamaño al 110% */
   }
 }
 
@@ -75,11 +74,9 @@ const toggleFavorite = async () => {
 
 .heart-button.pulsing {
   animation: heartbeat 1s infinite;
-  /* Latido continuo cada segundo */
 }
 
 .text-red-500 {
   color: red;
-  /* Asegúrate de que esto se aplique a los elementos favoritos */
 }
 </style>
