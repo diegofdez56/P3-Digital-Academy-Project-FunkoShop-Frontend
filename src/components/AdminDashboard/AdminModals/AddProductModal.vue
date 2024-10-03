@@ -30,10 +30,22 @@ const form = ref({
   price: 0.0,
   stock: 0,
   category: null,
-  discount: null
+  discount: null,
+  image: null
 })
 
 const errors = ref({})
+
+const handleImageUpload = (event) => {
+  const file = event.target.files[0]
+  if (file) {
+    const reader = new FileReader()
+    reader.onload = (e) => {
+      form.value.image = e.target.result 
+    }
+    reader.readAsDataURL(file)
+  }
+}
 
 const validateForm = () => {
   errors.value = {}
@@ -177,6 +189,16 @@ const closeModal = () => {
             required
           />
           <span v-if="errors.discount" class="text-red-500 text-sm">{{ errors.discount }}</span>
+        </div>
+
+        <div>
+          <label class="block text-sm font-medium text-slate-700">Product Image</label>
+          <input
+            type="file"
+            accept="image/*"
+            @change="handleImageUpload"
+            class="mt-1 block w-full px-4 py-2 border-2 border-slate-200 rounded-md focus:outline-none focus:border-blueFunko-600"
+          />
         </div>
 
         <div class="mt-4 flex justify-end space-x-2">
