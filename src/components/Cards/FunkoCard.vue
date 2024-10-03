@@ -13,7 +13,6 @@ const props = defineProps({
   }
 })
 
-
 const { isModalOpen, openModal, closeModal } = useProductModal()
 
 /* const productImage = computed(() => {
@@ -31,6 +30,19 @@ const discountedPrice = computed(() => {
   return props.product.price.toFixed(2);
 });
 
+const productImageUrl = computed(() => {
+  if (props.product.imageHash) {
+    
+    const isBase64 = props.product.imageHash.startsWith('/') || props.product.imageHash.includes('base64');
+    
+    if (isBase64) {
+      return `data:image/png;base64,${props.product.imageHash}`;
+    } else {
+      return props.product.imageHash; 
+    }
+  }
+  return '';
+});
 </script>
 
 <template>
@@ -55,7 +67,7 @@ const discountedPrice = computed(() => {
         class="h-full w-full object-cover rounded-md"
       /> -->
       <img
-        src="https://via.placeholder.com/250x250"
+        :src="productImageUrl"
         alt="product image"
         class="h-full w-full object-cover rounded-md cursor-pointer"
         @click="openModal"
