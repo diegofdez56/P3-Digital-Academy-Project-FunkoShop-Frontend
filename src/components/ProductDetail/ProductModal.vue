@@ -51,19 +51,20 @@ const decrementQuantity = () => {
 
 const addToCart = () => {
   if (quantity.value <= props.product.stock) {
-    cartStore.addProduct(
-      {
-        id: props.product.id,
-        name: props.product.name,
-        price: discountedPrice.value
-      },
-      quantity.value
-    )
-    emit('close')
+    const productToAdd = {
+      id: props.product.id,
+      name: props.product.name,
+      price: discountedPrice.value,
+      imageHash: props.product.imageHash 
+    };
+    
+    console.log('Producto a añadir:', productToAdd); 
+    cartStore.addProduct(productToAdd, quantity.value);
+    emit('close');
   } else {
-    console.error('Quantity exceeds stock')
+    console.error('Quantity exceeds stock');
   }
-}
+};
 
 const productImageUrl = computed(() => {
   if (props.product.imageHash) {

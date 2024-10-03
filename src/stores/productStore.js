@@ -39,7 +39,8 @@ export const useProductStore = defineStore('products', () => {
         const isNew = (currentDate - createdAt) <= (30 * 24 * 60 * 60 * 1000);
         return {
           ...product,
-          isNew
+          isNew,
+          imageHash: product.imageHash
         };
       }) : response.data;
       currentPage.value = response.data.number || 0;
