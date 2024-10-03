@@ -115,7 +115,7 @@ const addToCart = () => {
                           :isDiscount="product.discount > 0 ? true : false"
                           :discount="product.discount > 0 ? product.discount : 0" :isNew="product.new" />
                       </div>
-                        <FavoriteIcon />
+                        <FavoriteIcon :productId="product.id"/>
                     </div>
                     <p class="text-sm text-gray-900 mt-2">
                       {{ props.product.category?.name || t('category') }}

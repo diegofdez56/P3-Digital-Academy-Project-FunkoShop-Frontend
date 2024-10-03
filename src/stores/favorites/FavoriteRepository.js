@@ -31,17 +31,15 @@ export default class FavoriteRepository {
     try {
       let headersList = {
         Accept: '*/*',
+        "Product-ID": productId,
         Authorization: 'Bearer ' + accessToken,
         'Content-Type': 'application/json'
       }
 
-      let bodyContent = JSON.stringify(productId)
-
       let reqOptions = {
         url: this.baseUrl,
         method: 'POST',
-        headers: headersList,
-        data: bodyContent
+        headers: headersList
       }
 
       const response = await axios.request(reqOptions)
@@ -55,17 +53,15 @@ export default class FavoriteRepository {
     try {
       const headersList = {
         Accept: '*/*',
+        "Product-ID": productId,
         Authorization: 'Bearer ' + accessToken,
         'Content-Type': 'application/json'
       }
 
-      let bodyContent = JSON.stringify(productId)
-
       const reqOptions = {
         url: this.baseUrl,
         method: 'DELETE',
-        headers: headersList,
-        data: bodyContent
+        headers: headersList
       }
 
       const response = await axios.request(reqOptions)
