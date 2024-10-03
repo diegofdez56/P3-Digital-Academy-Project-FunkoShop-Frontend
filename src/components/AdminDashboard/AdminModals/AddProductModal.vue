@@ -15,6 +15,8 @@ const productStore = useProductStore()
 const listCategoryStore = CategoryStore()
 const listCategories = ref([])
 
+const fileBase64String = ref(null)
+
 const { isLoading: isLoadingCategories, error: categoryError } = storeToRefs(listCategoryStore)
 
 async function getCategories() {
@@ -31,18 +33,23 @@ const form = ref({
   stock: 0,
   category: null,
   discount: null,
-  image: null
+  imageHash: null
 })
 
 const errors = ref({})
 
-const handleImageUpload = (event) => {
-  const file = event.target.files[0]
+const onFileChange = (product) => {
+  const file = product.target.files[0]
+
   if (file) {
     const reader = new FileReader()
+
     reader.onload = (e) => {
-      form.value.image = e.target.result 
+      fileBase64String.value = e.target.result
+      form.value.imageHash = fileBase64String.value ? fileBase64String.value.split(',')[1] : null // Solo asignamos si fileBase64String no es null
+
     }
+
     reader.readAsDataURL(file)
   }
 }
@@ -194,9 +201,12 @@ const closeModal = () => {
         <div>
           <label class="block text-sm font-medium text-slate-700">Product Image</label>
           <input
+            ref="upload"
             type="file"
-            accept="image/*"
-            @change="handleImageUpload"
+            name="file-upload"
+            multiple=""
+            accept="image/jpeg, image/png"
+            @change="onFileChange"
             class="mt-1 block w-full px-4 py-2 border-2 border-slate-200 rounded-md focus:outline-none focus:border-blueFunko-600"
           />
         </div>
