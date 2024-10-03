@@ -44,7 +44,7 @@ const toggleFavorite = async () => {
 </script>
 
 <template>
-  <button @click="toggleFavorite"
+  <button v-if="auth.autenticated" @click="toggleFavorite"
     :class="['heart-button', { 'text-red-500': isFavorite, 'text-gray-400': !isFavorite, pulsing: isPulsing }]"
     class="rounded-md text-center text-sm transition-all focus:shadow-none active:shadow-none disabled:pointer-events-none disabled:opacity-50 disabled:shadow-none"
     type="button">
