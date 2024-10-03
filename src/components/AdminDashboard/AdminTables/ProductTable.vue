@@ -6,6 +6,7 @@ import BaseTable from '@/components/AdminDashboard/AdminTables/BaseTable.vue'
 import ProductTableRow from './ProductTableRow.vue'
 import BasePagination from '@/components/BaseComponents/BasePagination.vue'
 import ConfirmDeleteModal from '../AdminModals/ConfirmDeleteModal.vue'
+import EditProductModal from '../AdminModals/EditProductModal.vue'
 
 const productStore = useProductStore()
 
@@ -20,6 +21,8 @@ const {
 const itemsPerPage = 10
 const showDeleteModal = ref(false)
 const productToDelete = ref(null)
+const showEditModal = ref(false)
+const productToEdit = ref(null)
 
 const fetchProducts = (page = currentPage.value, size = itemsPerPage) => {
   productStore.fetchAllProducts(page, size, 'createdAt', 'desc')
@@ -42,7 +45,18 @@ const handlePageChange = (newPage) => {
 }
 
 const handleEdit = (product) => {
-  console.log('Editing product:', product)
+  productToEdit.value = product
+  showEditModal.value = true
+}
+
+const handleProductUpdated = () => {
+  closeEditModal()
+  refreshProducts()
+}
+
+const closeEditModal = () => {
+  showEditModal.value = false
+  productToEdit.value = null
 }
 
 const handleDeleteClick = (productId) => {
@@ -73,7 +87,7 @@ const closeModal = () => {
   </div>
 
   <div v-else>
-    <BaseTable :headers="['Name', 'Category','Stock', 'Discount', 'Actions']">
+    <BaseTable :headers="['Name', 'Category','Stock', 'Price', 'Discount', 'Actions']">
       <ProductTableRow 
         v-for="product in products" 
         :key="product.id" 
@@ -87,6 +101,14 @@ const closeModal = () => {
       :currentPage="currentPage"
       :totalPages="totalPages"
       @changePage="handlePageChange"
+    />
+
+    <EditProductModal
+      v-if="showEditModal"
+      :show="showEditModal"
+      :productData="productToEdit"
+      @close="closeEditModal"
+      :onUpdate="handleProductUpdated"
     />
 
     <ConfirmDeleteModal 
