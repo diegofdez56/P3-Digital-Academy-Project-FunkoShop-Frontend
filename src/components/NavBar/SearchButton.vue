@@ -81,17 +81,18 @@ onMounted(() => {
 </script>
 
 <template>
-  <div class="relative block flex items-center mr-5 ml-5 max-w-full">
+  <div class="relative items-center max-w-full">
     <input
       ref="searchInput"
       type="search"
-      class="w-full h-8 pl-3 pr-10 rounded text-sm text-gray-900 placeholder-gray-500 focus:outline-none focus:ring-2 focus:ring-primary focus:border-transparent transition duration-150 ease-in-out"
+      class="no-x w-full h-8 pl-3 pr-3 rounded text-sm text-gray-900 placeholder-gray-500 focus:outline-none focus:ring-2 focus:ring-primary focus:border-transparent transition duration-150 ease-in-out"
       placeholder="Search"
       aria-label="Search"
       id="searchInput"
       v-model="searchQuery"
       @focus="showDropdown = true"
       @blur="hideDropdown"
+      @keydown.enter.prevent="executeSearch(searchQuery)"
     />
 
     <button
@@ -145,5 +146,10 @@ onMounted(() => {
 }
 .border-black {
   border-color: black;
+}
+
+input[type='search']::-webkit-search-cancel-button {
+  -webkit-appearance: none;
+  appearance: none;
 }
 </style>

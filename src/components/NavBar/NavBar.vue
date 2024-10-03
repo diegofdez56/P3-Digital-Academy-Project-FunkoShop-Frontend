@@ -176,7 +176,7 @@ const open = ref(false)
           <div class="flex h-16 items-center">
             <button
               type="button"
-              class="relative rounded-md bg-white p-1 text-black lg:hidden"
+              class="relative rounded-md bg-white p-1 mr-4 text-black lg:hidden"
               @click="open = true"
             >
               <span class="absolute -inset-0.5" />
@@ -184,7 +184,7 @@ const open = ref(false)
               <Bars3Icon class="h-6 w-6" aria-hidden="true" />
             </button>
 
-            <div class="ml-4 flex lg:ml-0">
+            <div class="ml-4 lg:ml-0 lg:flex hidden">
               <RouterLink to="/">
                 <span class="sr-only">FunkoShop</span>
                 <img class="h-10 w-auto" src="../../assets/img/logos/WhiteLogo.svg" alt="" />
@@ -264,8 +264,12 @@ const open = ref(false)
             </PopoverGroup>
 
             <div class="ml-auto flex items-center">
-              <SearchButton />
-              <LanguageSelector />
+              <div class="flow-root lg:ml-4">
+                <SearchButton />
+              </div>
+              <div class="ml-4 flow-root lg:ml-4">
+                <LanguageSelector />
+              </div>
               <div class="ml-4 flow-root lg:ml-4 bg-white rounded-md">
                 <ShoppingCart />
               </div>
