@@ -4,6 +4,7 @@ import { useProductStore } from '@/stores/productStore'
 import { storeToRefs } from 'pinia'
 import { CategoryStore } from '@/stores/category/CategoryStore'
 import BaseButton from '@/components/BaseComponents/BaseButton.vue'
+import useProductValidation from '@/composables/useProductValidation'
 
 defineProps({
   show: Boolean
@@ -33,32 +34,10 @@ const form = ref({
   discount: null
 })
 
-const errors = ref({})
-
-const validateForm = () => {
-  errors.value = {}
-
-  if (!form.value.name) {
-    errors.value.name = 'Product name is required.'
-  }
-  if (!form.value.description) {
-    errors.value.description = 'Description is required.'
-  }
-  if (form.value.price <= 0) {
-    errors.value.price = 'Price must be greater than 0.'
-  }
-  if (form.value.stock < 0) {
-    errors.value.stock = 'Stock must be 0 or greater.'
-  }
-  if (!form.value.category) {
-    errors.value.category = 'Category is required.'
-  }
-
-  return Object.keys(errors.value).length === 0
-}
+const { errors, validateProductForm } = useProductValidation()
 
 const handleSubmit = async () => {
-  if (!validateForm()) {
+  if (!validateProductForm(form.value)) {
     return
   }
   if (form.value.discount === null || form.value.discount === '') {
@@ -111,9 +90,13 @@ const closeModal = () => {
           <label class="block text-sm font-medium text-slate-700">Description</label>
           <textarea
             v-model="form.description"
+            maxlength="255"
             class="mt-1 block w-full px-4 py-2 border-2 border-slate-200 rounded-md focus:outline-none focus:border-blueFunko-600"
             required
           ></textarea>
+          <div class="text-sm text-slate-500 mt-1">
+            <span>{{ 255 - form.description.length }} characters remaining</span>
+          </div>
           <span v-if="errors.description" class="text-red-500 text-sm">{{
             errors.description
           }}</span>
