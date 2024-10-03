@@ -15,12 +15,6 @@ const props = defineProps({
 
 const { isModalOpen, openModal, closeModal } = useProductModal()
 
-/* const productImage = computed(() => {
-  if (!props.product.image) return '';
-  return props.product.image.startsWith('http')
-    ? props.product.image
-    : new URL(`../assets/img/CardImage/${props.product.image}`, import.meta.url).href;
-}); */
 
 const discountedPrice = computed(() => {
   if (props.product.discount && props.product.discount > 0) {
@@ -61,11 +55,6 @@ const productImageUrl = computed(() => {
       <!-- <FavoriteIcon /> -->
     </div>
     <div class="relative p-2 h-60 overflow-hidden rounded-xl bg-clip-border">
-      <!-- <img
-        :src="productImage"
-        alt="card-image"
-        class="h-full w-full object-cover rounded-md"
-      /> -->
       <img
         :src="productImageUrl"
         alt="product image"
