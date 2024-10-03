@@ -1,10 +1,11 @@
 <script setup>
-// import ReviewIcon from './ReviewIcon.vue';
-// import FavoriteIcon from './FavoriteIcon.vue';
+import ReviewIcon from './ReviewIcon.vue';
+import FavoriteIcon from './FavoriteIcon.vue';
 import BadgeCard from './BadgeCard.vue'
 import ProductModal from './../ProductDetail/ProductModal.vue'
 import { useProductModal } from '/src/composables/useProductModal.js'
 import { computed } from 'vue'
+// import { FavoriteStore } from '/src/store/favorite/favoriteStore.js'
 
 const props = defineProps({
   product: {
@@ -46,7 +47,7 @@ const discountedPrice = computed(() => {
         :isNew="product.isNew"
         class="absolute z-10"
       />
-      <!-- <FavoriteIcon /> -->
+      <FavoriteIcon />
     </div>
     <div class="relative p-2 h-60 overflow-hidden rounded-xl bg-clip-border">
       <!-- <img
@@ -62,7 +63,7 @@ const discountedPrice = computed(() => {
       />
     </div>
     <div>
-      <!-- <ReviewIcon /> -->
+      <ReviewIcon />
     </div>
     <div class="p-3">
       <p class="text-slate-600 leading-normal font-light text-xs">
