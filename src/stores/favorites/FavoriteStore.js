@@ -1,6 +1,5 @@
 import { defineStore } from 'pinia'
 import { ref } from 'vue'
-import Favorite from './Favorite'
 import FavoriteService from './FavoriteService'
 
 export const FavoriteStore = defineStore('favorites', () => {
@@ -9,10 +8,9 @@ export const FavoriteStore = defineStore('favorites', () => {
   const pageSize = ref(8);
   const totalPages = ref(0);
 
-  function addFavorite(favoriteId, productId, userId, accessToken) {
-    const favorite = new Favorite(favoriteId, productId, userId, accessToken)
-    const service = new FavoriteService(favorite)
-    return service.addFavorite()
+  function addFavorite(productId, accessToken) {
+    const service = new FavoriteService()
+    return service.addFavorite(productId, accessToken)
   }
 
   function getFavorites(accessToken, page = 0, size = 8) {
@@ -21,10 +19,10 @@ export const FavoriteStore = defineStore('favorites', () => {
     return service.getFavorites(accessToken, params)
   }
 
-  function deleteFavorite(favoriteId, accessToken) {
+  function removeFavorite(productId, accessToken) {
     const service = new FavoriteService()
-    return service.deleteFavorite(favoriteId, accessToken)
+    return service.removeFavorite(productId, accessToken)
   }
 
-  return { currentPage, pageSize, totalPages, addFavorite, getFavorites, deleteFavorite }
+  return { currentPage, pageSize, totalPages, addFavorite, getFavorites, removeFavorite }
 })

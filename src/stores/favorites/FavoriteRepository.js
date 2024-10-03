@@ -27,7 +27,7 @@ export default class FavoriteRepository {
     }
   }
 
-  async addFavorite(favorite, accessToken) {
+  async addFavorite(productId, accessToken) {
     try {
       let headersList = {
         Accept: '*/*',
@@ -35,10 +35,7 @@ export default class FavoriteRepository {
         'Content-Type': 'application/json'
       }
 
-      let bodyContent = JSON.stringify({
-        productId: favorite.getProductId(),
-        userId: favorite.getUserId()
-      })
+      let bodyContent = JSON.stringify(productId)
 
       let reqOptions = {
         url: this.baseUrl,
@@ -48,27 +45,27 @@ export default class FavoriteRepository {
       }
 
       const response = await axios.request(reqOptions)
-
-      const data = await response.data
-
-      return data
+      return response.data
     } catch (error) {
       return error.toJSON()
     }
   }
 
-  async removeFavorite(favorite, accesToken) {
+  async removeFavorite(productId, accessToken) {
     try {
       const headersList = {
         Accept: '*/*',
-        Authorization: 'Bearer ' + accesToken,
+        Authorization: 'Bearer ' + accessToken,
         'Content-Type': 'application/json'
       }
 
+      let bodyContent = JSON.stringify(productId)
+
       const reqOptions = {
-        url: `${this.baseUrl}/${favorite.getFavoriteId()}`,
+        url: this.baseUrl,
         method: 'DELETE',
-        headers: headersList
+        headers: headersList,
+        data: bodyContent
       }
 
       const response = await axios.request(reqOptions)

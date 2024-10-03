@@ -40,7 +40,7 @@ const discountedPrice = computed(() => {
       <div class="w-full flex place-items-center justify-between">
           <BadgeCard :id="product.name" :stock="product.stock" :isDiscount="product.discount > 0 ? true : false"
             :discount="product.discount > 0 ? product.discount : 0" :isNew="product.isNew" />
-          <FavoriteIcon />
+          <FavoriteIcon :productId="product.id"/>
       </div>
     </div>
     <div class="relative p-2 h-60 overflow-hidden rounded-xl bg-clip-border">
