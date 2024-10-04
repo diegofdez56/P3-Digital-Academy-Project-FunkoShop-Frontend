@@ -1,8 +1,9 @@
 <script setup>
-import { ref } from 'vue'
+import { useAuthStore } from '@/stores/auth'
+import { ModalStore } from '@/stores/modals/ModalStore';
+import { useI18n } from 'vue-i18n'
 import '@material-tailwind/html/scripts/popover.js'
 import { logoutStore } from '@/stores/logout'
-import { useAuthStore } from '@/stores/auth'
 import {
   Dialog,
   DialogPanel,
@@ -15,30 +16,18 @@ import {
 } from '@headlessui/vue'
 import LoginModal from '../auth/LoginModal.vue'
 import RegisterModal from '../auth/RegisterModal.vue'
-import { useI18n } from 'vue-i18n'
 
-const openLogin = ref(false)
-const openRegister = ref(false)
+const modal = ModalStore()
+const auth = useAuthStore()
 const logout = logoutStore()
 const { t } = useI18n()
-
-const open = (modal) => {
-  if (modal === 'login') openLogin.value = !openLogin.value
-  else if (modal === 'register') openRegister.value = !openRegister.value
-
-  setTimeout(() => {
-    openLogin.value = false
-    openRegister.value = false
-  }, 60000)
-}
-
-const auth = useAuthStore()
 </script>
 
 <template>
   <div v-if="!auth.user.isAuthenticated" class="relative">
-    <TransitionRoot as="template" :show="openLogin">
-      <Dialog class="relative z-10" @close="openLogin = !openLogin">
+    <TransitionRoot as="template" :show="modal.openLogin">
+      <Dialog class="relative z-10" @close="modal.close()">
+        <!-- Contenido del modal de login -->
         <TransitionChild as="template" enter="ease-out duration-300" enter-from="opacity-0" enter-to="opacity-100"
           leave="ease-in duration-200" leave-from="opacity-100" leave-to="opacity-0">
           <div class="fixed inset-0 bg-gray-500 bg-opacity-75 transition-opacity" />
@@ -59,8 +48,11 @@ const auth = useAuthStore()
         </div>
       </Dialog>
     </TransitionRoot>
-    <TransitionRoot as="template" :show="openRegister">
-      <Dialog class="relative z-10" @close="openRegister = !openRegister">
+
+    <!-- Modal para registro -->
+    <TransitionRoot as="template" :show="modal.openRegister">
+      <Dialog class="relative z-10" @close="modal.close()">
+        <!-- Contenido del modal de registro -->
         <TransitionChild as="template" enter="ease-out duration-300" enter-from="opacity-0" enter-to="opacity-100"
           leave="ease-in duration-200" leave-from="opacity-100" leave-to="opacity-0">
           <div class="fixed inset-0 bg-gray-500 bg-opacity-75 transition-opacity" />
@@ -81,8 +73,10 @@ const auth = useAuthStore()
         </div>
       </Dialog>
     </TransitionRoot>
-    <button @click="open('register')" class="font-bold">{{ t('register') }}</button>
-    <button @click="open('login')" class="font-bold pl-3">{{ t('login') }}</button>
+
+    <!-- Botones para abrir los modales -->
+    <button @click="modal.open('register')" class="font-bold">{{ t('register') }}</button>
+    <button @click="modal.open('login')" class="font-bold pl-3">{{ t('login') }}</button>
   </div>
 
   <div v-else role="menu" class="relative">
