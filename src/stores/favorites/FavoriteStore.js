@@ -1,31 +1,28 @@
 import { defineStore } from 'pinia'
 import { ref } from 'vue'
-import Favorite from './Favorite'
 import FavoriteService from './FavoriteService'
 
 export const FavoriteStore = defineStore('favorites', () => {
-  const favorite = ref({
-    favoriteId: '',
-    productId: '',
-    userId: '',
-    accessToken: ''
-  })
 
-  function addFavorite(favoriteId, productId, userId, accessToken) {
-    const favorite = new Favorite(favoriteId, productId, userId, accessToken)
-    const service = new FavoriteService(favorite)
-    return service.addFavorite()
-  }
+  const currentPage = ref(0);
+  const pageSize = ref(8);
+  const totalPages = ref(0);
 
-  function getFavorites(accessToken) {
+  function addFavorite(productId, accessToken) {
     const service = new FavoriteService()
-    return service.getFavorites(accessToken)
+    return service.addFavorite(productId, accessToken)
   }
 
-  function deleteFavorite(favoriteId, accessToken) {
+  function getFavorites(accessToken, page = 0, size = 8) {
+    const params = { page, size };
     const service = new FavoriteService()
-    return service.deleteFavorite(favoriteId, accessToken)
+    return service.getFavorites(accessToken, params)
   }
 
-  return { favorite, addFavorite, getFavorites, deleteFavorite }
+  function removeFavorite(productId, accessToken) {
+    const service = new FavoriteService()
+    return service.removeFavorite(productId, accessToken)
+  }
+
+  return { currentPage, pageSize, totalPages, addFavorite, getFavorites, removeFavorite }
 })
