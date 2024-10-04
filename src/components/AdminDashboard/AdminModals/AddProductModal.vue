@@ -15,7 +15,6 @@ const productStore = useProductStore()
 const listCategoryStore = CategoryStore()
 const listCategories = ref([])
 
-const fileBase64String = ref(null)
 
 const { isLoading: isLoadingCategories, error: categoryError } = storeToRefs(listCategoryStore)
 
@@ -60,7 +59,7 @@ const closeModal = () => {
       </div>
 
       <ProductForm
-        :initialProductData="{ name: '', description: '', price: 0.0, stock: 0, category: null, discount: null }" 
+        :initialProductData="{ name: '', description: '', price: 0.0, stock: 0, category: null, discount: null, imageHash: null }" 
         :isLoadingCategories="isLoadingCategories"
         :listCategories="listCategories"
         :categoryError="categoryError"

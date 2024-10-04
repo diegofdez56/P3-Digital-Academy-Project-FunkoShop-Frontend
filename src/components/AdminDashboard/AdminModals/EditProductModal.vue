@@ -2,7 +2,7 @@
 import { ref } from 'vue'
 import { useProductStore } from '@/stores/productStore'
 import { storeToRefs } from 'pinia'
-import { CategoryStore } from '@/stores/category/CategoryStore'
+import { CategoryStore } from '@/stores/category/categoryStore'
 import ProductForm from '../ProductForm.vue'
 
 const props = defineProps({
