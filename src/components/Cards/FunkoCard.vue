@@ -14,15 +14,8 @@ const props = defineProps({
   }
 })
 
-
 const { isModalOpen, openModal, closeModal } = useProductModal()
 
-/* const productImage = computed(() => {
-  if (!props.product.image) return '';
-  return props.product.image.startsWith('http')
-    ? props.product.image
-    : new URL(`../assets/img/CardImage/${props.product.image}`, import.meta.url).href;
-}); */
 
 const discountedPrice = computed(() => {
   if (props.product.discount && props.product.discount > 0) {
@@ -32,6 +25,19 @@ const discountedPrice = computed(() => {
   return props.product.price.toFixed(2);
 });
 
+const productImageUrl = computed(() => {
+  if (props.product.imageHash) {
+    
+    const isBase64 = props.product.imageHash.startsWith('/') || props.product.imageHash.includes('base64');
+    
+    if (isBase64) {
+      return `data:image/png;base64,${props.product.imageHash}`;
+    } else {
+      return props.product.imageHash; 
+    }
+  }
+  return '';
+});
 </script>
 
 <template>
@@ -44,13 +50,12 @@ const discountedPrice = computed(() => {
       </div>
     </div>
     <div class="relative p-2 h-60 overflow-hidden rounded-xl bg-clip-border">
-      <!-- <img
-        :src="productImage"
-        alt="card-image"
-        class="h-full w-full object-cover rounded-md"
-      /> -->
-      <img src="https://via.placeholder.com/250x250" alt="product image"
-        class="h-full w-full object-cover rounded-md cursor-pointer" @click="openModal" />
+      <img
+        :src="productImageUrl"
+        alt="product image"
+        class="h-full w-full object-cover rounded-md cursor-pointer"
+        @click="openModal"
+      />
     </div>
     <div>
       <ReviewIcon />
