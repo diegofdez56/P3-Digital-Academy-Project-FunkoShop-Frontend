@@ -2,10 +2,12 @@
 import { ref, computed } from 'vue'
 import { Dialog, DialogPanel, TransitionChild, TransitionRoot } from '@headlessui/vue'
 import { XMarkIcon } from '@heroicons/vue/24/outline'
-// import { StarIcon } from '@heroicons/vue/20/solid'
+import { StarIcon } from '@heroicons/vue/20/solid'
 import BadgeCard from '../Cards/BadgeCard.vue'
-import { useCartStore } from '../../stores/cart/cartStore'
-import { useI18n } from 'vue-i18n'
+import FavoriteIcon from '../Cards/FavoriteIcon.vue';
+
+import { useCartStore } from '../../stores/cart/cartStore';
+import { useI18n } from 'vue-i18n';
 
 const { t } = useI18n()
 
@@ -56,9 +58,7 @@ const addToCart = () => {
       name: props.product.name,
       price: discountedPrice.value,
       imageHash: props.product.imageHash 
-    };
-    
-    console.log('Producto a añadir:', productToAdd); 
+    }; 
     cartStore.addProduct(productToAdd, quantity.value);
     emit('close');
   } else {
@@ -139,45 +139,35 @@ const productImageUrl = computed(() => {
                     />
                   </div>
                   <div class="sm:col-span-8 lg:col-span-7">
-                    <div class="flex place-items-baseline justify-between pr-10">
-                      <p class="text-sm text-gray-900">
-                        {{ props.product.category?.name || t('category') }}
-                      </p>
-                      <BadgeCard
-                        class="w-24"
-                        :id="product.name"
-                        :stock="product.stock"
-                        :isDiscount="product.discount == null ? false : true"
-                        :isNew="product.new"
-                        :discount="product.discount == null ? null : product.discount"
-                      />
+                    <div class="w-auto flex place-items-center justify-between pr-10">
+                      <div>
+                        <BadgeCard :id="product.name" :stock="product.stock"
+                          :isDiscount="product.discount > 0 ? true : false"
+                          :discount="product.discount > 0 ? product.discount : 0" :isNew="product.new" />
+                      </div>
+                        <FavoriteIcon :productId="product.id"/>
                     </div>
+                    <p class="text-sm text-gray-900 mt-2">
+                      {{ props.product.category?.name || t('category') }}
+                    </p>
                     <h2 class="text-2xl font-bold text-gray-900 sm:pr-12">
                       {{ props.product.name || t('productName') }}
                     </h2>
 
                     <section aria-labelledby="information-heading">
                       <div class="py-4">
-                        <!-- <h4 class="sr-only">Reviews</h4> -->
+                        <h4 class="sr-only">Reviews</h4>
                         <div class="flex items-center">
                           <div class="flex items-center">
-                            <!-- <StarIcon
-                              v-for="rating in 5"
-                              :key="rating"
-                              :class="{
-                                'text-gray-900': (props.product.rating || 0) >= rating,
-                                'text-gray-200': (props.product.rating || 0) < rating,
-                                'h-5 w-5 flex-shrink-0': true
-                              }"
-                              aria-hidden="true"
-                            /> -->
+                            <StarIcon v-for="rating in 5" :key="rating" :class="{
+                              'text-gray-900': (props.product.rating || 0) >= rating,
+                              'text-gray-200': (props.product.rating || 0) < rating,
+                              'h-5 w-5 flex-shrink-0': true
+                            }" aria-hidden="true" />
                           </div>
                           <p class="sr-only">{{ props.product.rating || 0 }} out of 5 stars</p>
-                          <a
-                            href="#"
-                            class="ml-3 text-sm font-medium text-indigo-600 hover:text-indigo-500"
-                          >
-                            <!-- {{ props.product.reviewCount || 0 }} reviews -->
+                          <a href="#" class="ml-3 text-sm font-medium text-indigo-600 hover:text-indigo-500">
+                            {{ props.product.reviewCount || 0 }} reviews
                           </a>
                         </div>
                       </div>
@@ -187,7 +177,9 @@ const productImageUrl = computed(() => {
                       >
                         {{ props.product.price.toFixed(2) }}€
                       </p>
-                      <h3 class="text-2xl text-red-600 font-semibold">{{ discountedPrice }}€</h3>
+                      <h3 class="text-2xl font-semibold" :class="props.product.discount > 0 ? 'text-red-600' : 'text-gray-900'">
+                        {{ discountedPrice }}€
+                      </h3>
                       <div class="py-4">
                         <h4 class="text-lg text-gray-900 font-semibold">{{ t('description') }}</h4>
                         <p class="text-sm text-gray-900">
@@ -208,19 +200,10 @@ const productImageUrl = computed(() => {
                           >
                             -
                           </button>
-                          <input
-                            type="number"
-                            id="quantity"
-                            class="border-t border-b border-gray-300 w-16 text-center"
-                            v-model="quantity"
-                            :max="props.product.stock"
-                            :min="1"
-                          />
-                          <button
-                            @click="incrementQuantity"
-                            :disabled="maxStockReached"
-                            class="px-2 py-1 border rounded-r-md bg-gray-200 hover:bg-gray-300"
-                          >
+                          <input type="number" id="quantity" class="border-t border-b border-gray-300 w-16 text-center"
+                            v-model="quantity" :max="props.product.stock" :min="1" />
+                          <button @click="incrementQuantity" :disabled="maxStockReached"
+                            class="px-2 py-1 border rounded-r-md bg-gray-200 hover:bg-gray-300">
                             +
                           </button>
                         </div>
@@ -254,7 +237,8 @@ input[type='number']::-webkit-inner-spin-button {
   -webkit-appearance: none;
   margin: 0;
 }
-input[type='number'] {
+
+input[type="number"] {
   -moz-appearance: textfield;
 }
 </style>

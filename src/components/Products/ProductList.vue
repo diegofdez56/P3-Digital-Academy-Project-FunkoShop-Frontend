@@ -25,7 +25,7 @@ const goToPage = (page) => {
 
 <template>
   <div class="mx-auto max-w-2xl px-4 sm:px-6 sm:pt-4 lg:max-w-7xl lg:px-8">
-    <div v-if="totalPages > 1" class="flex justify-center items-center space-x-1.5 pt-4 pb-4">
+    <div v-if="totalPages > 1" class=" sm:hidden flex justify-center items-center space-x-1.5 pt-4 pb-4">
       <button @click="goToPage(currentPage - 1)" :disabled="currentPage === 0"
         class="rounded-md border border-slate-300 py-2 px-3 text-center text-sm transition-all shadow-sm hover:shadow-lg text-slate-600 hover:text-white hover:bg-blueFunko-900 hover:border-blueFunko-900 focus:text-white focus:bg-blueFunko-900 focus:border-blueFunko-900 active:border-blueFunko-900 active:text-white active:bg-blueFunko-900 disabled:pointer-events-none disabled:opacity-50">
         <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor"

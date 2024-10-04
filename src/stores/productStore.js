@@ -153,7 +153,9 @@ export const useProductStore = defineStore('products', () => {
     isLoading.value = true;
     error.value = null;
     try {
-      const response = await axios.put(`${BASE_URL}/${id}`, productData);
+      const response = await axios.put(`${BASE_URL}/${id}`, productData, {
+        headers: getAuthHeaders(),
+      });
       product.value = response.data;
       const index = products.value.findIndex((p) => p.id === id);
       if (index !== -1) {
@@ -164,6 +166,7 @@ export const useProductStore = defineStore('products', () => {
       }
     } catch (err) {
       handleError(err);
+      throw err;
     } finally {
       isLoading.value = false;
     }
