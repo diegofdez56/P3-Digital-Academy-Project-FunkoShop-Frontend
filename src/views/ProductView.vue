@@ -2,7 +2,7 @@
 import { onMounted, ref } from 'vue';
 import { useProductStore } from '../stores/productStore';
 import { storeToRefs } from 'pinia';
-import { CategoryStore } from '@/stores/category/CategoryStore';
+import { CategoryStore } from '@/stores/category/categoryStore';
 import ProductLoader from '@/components/Products/ProductLoader.vue';
 import CategoryButtons from '@/components/Category/CategoryButtons.vue';
 
@@ -37,6 +37,8 @@ onMounted(() => {
 const handlePageChange = (newPage) => {
   productStore.fetchAllProducts(newPage);
 };
+
+
 
 const handleCategoryChange = (category) => {
   productStore.setCategory(category);

@@ -3,22 +3,23 @@ import { ref } from 'vue'
 import { useProductStore } from '@/stores/productStore'
 import { storeToRefs } from 'pinia'
 import { CategoryStore } from '@/stores/category/categoryStore'
-import ProductForm from '../ProductForm.vue';
+import ProductForm from '../ProductForm.vue'
 
-defineProps({
-  show: Boolean
+const props = defineProps({
+  show: Boolean,
+  productData: Object,
+  onUpdate: Function
 })
 
-const emit = defineEmits(['close', 'added'])
+defineEmits(['close'])
 
 const productStore = useProductStore()
 const listCategoryStore = CategoryStore()
 const listCategories = ref([])
 
-
 const { isLoading: isLoadingCategories, error: categoryError } = storeToRefs(listCategoryStore)
 
-async function getCategories() {
+const getCategories = async () => {
   const response = await listCategoryStore.getCategories()
   listCategories.value = response
 }
@@ -27,16 +28,11 @@ getCategories()
 
 const handleSubmit = async (formData) => {
   try {
-    await productStore.addProduct(formData)
-    emit('added')
-    closeModal()
+    await productStore.updateProduct(props.productData.id, formData)
+    props.onUpdate();
   } catch (err) {
-    console.error('Failed to add product:', err)
+    console.error('Failed to update product:', err)
   }
-}
-
-const closeModal = () => {
-  emit('close')
 }
 </script>
 
@@ -49,9 +45,9 @@ const closeModal = () => {
       class="bg-white w-full max-w-2xl mx-auto p-6 md:p-10 rounded-lg shadow-lg flex flex-col gap-5 my-8"
     >
       <div class="flex justify-between items-center pb-4 border-b border-slate-200">
-        <h3 class="text-2xl font-semibold text-slate-950">Add New Product</h3>
+        <h3 class="text-2xl font-semibold text-slate-950">Edit Product</h3>
         <button
-          @click="closeModal"
+          @click="$emit('close')"
           class="w-10 h-10 bg-slate-100 rounded-full hover:bg-blueFunko-100 text-blueFunko-600 text-2xl"
         >
           &times;
@@ -59,12 +55,12 @@ const closeModal = () => {
       </div>
 
       <ProductForm
-        :initialProductData="{ name: '', description: '', price: 0.0, stock: 0, category: null, discount: null, imageHash: null }" 
+        :initialProductData="productData" 
         :isLoadingCategories="isLoadingCategories"
         :listCategories="listCategories"
         :categoryError="categoryError"
         @submit="handleSubmit"
-        @cancel="closeModal"
+        @cancel="$emit('close')"
       />
     </div>
   </div>

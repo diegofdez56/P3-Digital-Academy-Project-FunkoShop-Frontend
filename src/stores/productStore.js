@@ -39,7 +39,8 @@ export const useProductStore = defineStore('products', () => {
         const isNew = (currentDate - createdAt) <= (30 * 24 * 60 * 60 * 1000);
         return {
           ...product,
-          isNew
+          isNew,
+          imageHash: product.imageHash
         };
       }) : response.data;
       currentPage.value = response.data.number || 0;
@@ -152,7 +153,9 @@ export const useProductStore = defineStore('products', () => {
     isLoading.value = true;
     error.value = null;
     try {
-      const response = await axios.put(`${BASE_URL}/${id}`, productData);
+      const response = await axios.put(`${BASE_URL}/${id}`, productData, {
+        headers: getAuthHeaders(),
+      });
       product.value = response.data;
       const index = products.value.findIndex((p) => p.id === id);
       if (index !== -1) {
@@ -163,6 +166,7 @@ export const useProductStore = defineStore('products', () => {
       }
     } catch (err) {
       handleError(err);
+      throw err;
     } finally {
       isLoading.value = false;
     }
