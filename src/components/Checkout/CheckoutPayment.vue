@@ -1,26 +1,16 @@
 <script setup>
-const products = [
-  {
-    id: 1,
-    name: 'Product Title',
-    href: '#',
-    category: 'Category',
-    price: '90.00€',
-    quantity: 1,
-    imageSrc: '/src/assets/img/CardImage/Groot.png',
-    imageAlt: 'Product Image Description'
-  },
-  {
-    id: 2,
-    name: 'Product Title',
-    href: '#',
-    category: 'Category',
-    price: '32.00€',
-    quantity: 1,
-    imageSrc: '/src/assets/img/CardImage/Groot.png',
-    imageAlt: 'Product Image Description'
-  }
-]
+import { ref, computed } from 'vue';
+import { useCartStore } from '@/stores/cart/cartStore';
+
+const cartStore = useCartStore();
+
+const cartProducts = computed(() => cartStore.products);
+const totalPrice = computed(() => cartStore.totalPrice);
+
+const shippingCost = ref(5.00); 
+const discount = ref(0.00); 
+
+const totalPayable = computed(() => totalPrice.value + shippingCost.value - discount.value);
 </script>
 
 <template>
@@ -100,35 +90,30 @@ const products = [
         <p class="text-lg font-semibold">Subtotal</p>
       </div>
       <div class="border-t border border-gray-300">
-        <div v-for="product in products" :key="product.id"
+        <div v-for="product in cartProducts" :key="product.id"
           class="flex items-center justify-between border-gray-300 border-b pr-8 py-4">
           <div class="flex items-center">
-            <img :src="product.imageSrc" :alt="product.imageAlt" class="h-24 w-24 rounded-md object-cover" />
+            <img :src="product.imageHash" :alt="product.name" class="h-24 w-24 rounded-md object-cover" />
             <div class="ml-4">
               <h4 class="text-base font-medium">{{ product.name }}</h4>
               <p class="text-sm text-gray-500">Qty: {{ product.quantity }}</p>
             </div>
           </div>
-          <p class="text-base font-medium">{{ product.price }}</p>
+          <p class="text-base font-medium">{{ (product.price * product.quantity).toFixed(2) }}€</p>
         </div>
       </div>
       <div class="border border-gray-300">
         <div class="flex justify-between border-gray-300 px-8 py-3">
           <p class="font-regular text-md">Subtotal</p>
-          <p class="font-medium text-md">29.00€</p>
+          <p class="font-medium text-md">{{ totalPrice }}€</p>
         </div>
         <div class="flex justify-between border-gray-300 px-8 py-3">
           <p class="font-regular text-md">Shipping cost (+)</p>
-          <p class="font-medium text-md">29.00€</p>
+          <p class="font-medium text-md">{{ shippingCost }}€</p>
         </div>
-        <div class="flex justify-between border-gray-300 px-8 py-3">
-          <p class="font-regular text-md">Discount (-)</p>
-          <p class="font-medium text-md text-red-600">-09.00€</p>
-        </div>
-      </div>
       <div class="rounded-b-xl flex justify-between border border-gray-300 px-8 py-6">
         <p class="font-regular text-md">Total Payable</p>
-        <p class="font-medium text-md text-green-700">20.00€</p>
+        <p class="font-medium text-md text-green-700">{{ totalPayable }}€</p>
       </div>
       <div class="mt-10">
         <div class="justify-between bg-slate-950 text-white flex px-8 py-4 rounded-t-xl">
@@ -151,10 +136,13 @@ const products = [
 
       <div class="mt-10">
         <button
+        @click="placeOrder"
+
           class="w-full bg-blueFunko-700 text-white text-semibold text-lg py-3 px-4 rounded-md hover:bg-blueFunko-800">
           Place an order
         </button>
       </div>
+    </div>
     </div>
   </div>
 </template>
