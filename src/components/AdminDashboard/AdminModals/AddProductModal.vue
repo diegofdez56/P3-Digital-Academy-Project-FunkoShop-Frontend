@@ -59,7 +59,7 @@ const closeModal = () => {
       </div>
 
       <ProductForm
-        :initialProductData="{ name: '', description: '', price: 0.0, stock: 0, category: null, discount: null, imageHash: null }" 
+        :initialProductData="{ name: '', description: '', price: 0.0, stock: 0, category: null, discount: null, imageHash: null, imageHash2: null }" 
         :isLoadingCategories="isLoadingCategories"
         :listCategories="listCategories"
         :categoryError="categoryError"

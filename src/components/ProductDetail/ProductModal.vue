@@ -4,10 +4,10 @@ import { Dialog, DialogPanel, TransitionChild, TransitionRoot } from '@headlessu
 import { XMarkIcon } from '@heroicons/vue/24/outline'
 import { StarIcon } from '@heroicons/vue/20/solid'
 import BadgeCard from '../Cards/BadgeCard.vue'
-import FavoriteIcon from '../Cards/FavoriteIcon.vue';
+import FavoriteIcon from '../Cards/FavoriteIcon.vue'
 
-import { useCartStore } from '../../stores/cart/cartStore';
-import { useI18n } from 'vue-i18n';
+import { useCartStore } from '../../stores/cart/cartStore'
+import { useI18n } from 'vue-i18n'
 
 const { t } = useI18n()
 
@@ -18,7 +18,7 @@ const props = defineProps({
   },
   product: {
     type: Object,
-    required: true
+    required: true,
   }
 })
 const emit = defineEmits(['close'])
@@ -57,28 +57,56 @@ const addToCart = () => {
       id: props.product.id,
       name: props.product.name,
       price: discountedPrice.value,
-      imageHash: props.product.imageHash 
-    }; 
-    cartStore.addProduct(productToAdd, quantity.value);
-    emit('close');
+      imageHash: props.product.imageHash
+    }
+    cartStore.addProduct(productToAdd, quantity.value)
+    emit('close')
   } else {
-    console.error('Quantity exceeds stock');
+    console.error('Quantity exceeds stock')
   }
-};
+}
 
-const productImageUrl = computed(() => {
+const productImageUrl1 = computed(() => {
   if (props.product.imageHash) {
-    
-    const isBase64 = props.product.imageHash.startsWith('/') || props.product.imageHash.includes('base64');
-    
+    const isBase64 =
+      props.product.imageHash.startsWith('/') || props.product.imageHash.includes('base64')
+
     if (isBase64) {
-      return `data:image/png;base64,${props.product.imageHash}`;
+      return `data:image/png;base64,${props.product.imageHash}`
     } else {
-      return props.product.imageHash; 
+      return props.product.imageHash
     }
   }
-  return '';
-});
+  return ''
+})
+
+const productImageUrl2 = computed(() => {
+  if (props.product.imageHash2) {
+    const isBase64 =
+      props.product.imageHash2.startsWith('/') || props.product.imageHash2.includes('base64')
+
+    if (isBase64) {
+      return `data:image/png;base64,${props.product.imageHash2}`
+    } else {
+      return props.product.imageHash2
+    }
+  }
+  return ''
+})
+
+// const productImageUrl = computed(() => {
+//   if (props.product.imageHash) {
+//     const isBase64 =
+//       props.product.imageHash.startsWith('/') || props.product.imageHash.includes('base64')
+
+//     if (isBase64) {
+//       return `data:image/png;base64,${props.product.imageHash}`
+//     } else {
+//       return props.product.imageHash
+//     }
+//   }
+//   return ''
+// })
 </script>
 
 <template>
@@ -132,20 +160,37 @@ const productImageUrl = computed(() => {
                   <div
                     class="aspect-h-3 aspect-w-2 overflow-hidden rounded-lg bg-gray-100 sm:col-span-4 lg:col-span-5"
                   >
-                    <img
-                      :src="productImageUrl"
-                      alt="product image"
-                      class="object-cover object-center"
-                    />
-                  </div>
+                      <!-- Imagen 1 -->
+                      <div class="aspect-h-3 aspect-w-2 overflow-hidden rounded-lg bg-gray-100">
+                        <img
+                          :src="productImageUrl1"
+                          alt="Product image 1"
+                          class="object-cover object-center"
+                        />
+                      </div>
+
+                      <!-- Imagen 2 -->
+                     
+                        <img
+                          :src="productImageUrl2"
+                          alt="Product image 2"
+                          class="object-cover object-center"
+                        />
+                     
+                    </div>
+                  
                   <div class="sm:col-span-8 lg:col-span-7">
                     <div class="w-auto flex place-items-center justify-between pr-10">
                       <div>
-                        <BadgeCard :id="product.name" :stock="product.stock"
+                        <BadgeCard
+                          :id="product.name"
+                          :stock="product.stock"
                           :isDiscount="product.discount > 0 ? true : false"
-                          :discount="product.discount > 0 ? product.discount : 0" :isNew="product.new" />
+                          :discount="product.discount > 0 ? product.discount : 0"
+                          :isNew="product.new"
+                        />
                       </div>
-                        <FavoriteIcon :productId="product.id"/>
+                      <FavoriteIcon :productId="product.id" />
                     </div>
                     <p class="text-sm text-gray-900 mt-2">
                       {{ props.product.category?.name || t('category') }}
@@ -159,14 +204,22 @@ const productImageUrl = computed(() => {
                         <h4 class="sr-only">Reviews</h4>
                         <div class="flex items-center">
                           <div class="flex items-center">
-                            <StarIcon v-for="rating in 5" :key="rating" :class="{
-                              'text-gray-900': (props.product.rating || 0) >= rating,
-                              'text-gray-200': (props.product.rating || 0) < rating,
-                              'h-5 w-5 flex-shrink-0': true
-                            }" aria-hidden="true" />
+                            <StarIcon
+                              v-for="rating in 5"
+                              :key="rating"
+                              :class="{
+                                'text-gray-900': (props.product.rating || 0) >= rating,
+                                'text-gray-200': (props.product.rating || 0) < rating,
+                                'h-5 w-5 flex-shrink-0': true
+                              }"
+                              aria-hidden="true"
+                            />
                           </div>
                           <p class="sr-only">{{ props.product.rating || 0 }} out of 5 stars</p>
-                          <a href="#" class="ml-3 text-sm font-medium text-indigo-600 hover:text-indigo-500">
+                          <a
+                            href="#"
+                            class="ml-3 text-sm font-medium text-indigo-600 hover:text-indigo-500"
+                          >
                             {{ props.product.reviewCount || 0 }} reviews
                           </a>
                         </div>
@@ -177,7 +230,10 @@ const productImageUrl = computed(() => {
                       >
                         {{ props.product.price.toFixed(2) }}€
                       </p>
-                      <h3 class="text-2xl font-semibold" :class="props.product.discount > 0 ? 'text-red-600' : 'text-gray-900'">
+                      <h3
+                        class="text-2xl font-semibold"
+                        :class="props.product.discount > 0 ? 'text-red-600' : 'text-gray-900'"
+                      >
                         {{ discountedPrice }}€
                       </h3>
                       <div class="py-4">
@@ -200,10 +256,19 @@ const productImageUrl = computed(() => {
                           >
                             -
                           </button>
-                          <input type="number" id="quantity" class="border-t border-b border-gray-300 w-16 text-center"
-                            v-model="quantity" :max="props.product.stock" :min="1" />
-                          <button @click="incrementQuantity" :disabled="maxStockReached"
-                            class="px-2 py-1 border rounded-r-md bg-gray-200 hover:bg-gray-300">
+                          <input
+                            type="number"
+                            id="quantity"
+                            class="border-t border-b border-gray-300 w-16 text-center"
+                            v-model="quantity"
+                            :max="props.product.stock"
+                            :min="1"
+                          />
+                          <button
+                            @click="incrementQuantity"
+                            :disabled="maxStockReached"
+                            class="px-2 py-1 border rounded-r-md bg-gray-200 hover:bg-gray-300"
+                          >
                             +
                           </button>
                         </div>
@@ -238,7 +303,7 @@ input[type='number']::-webkit-inner-spin-button {
   margin: 0;
 }
 
-input[type="number"] {
+input[type='number'] {
   -moz-appearance: textfield;
 }
 </style>
