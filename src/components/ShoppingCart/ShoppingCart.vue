@@ -38,6 +38,10 @@ const removeFromCart = (id) => {
 }
 
 const checkout = () => {
+  if (!cartProducts.value.length) {
+    alert(t('shoppingCart.emptyCartMessage')); // Puedes mostrar un mensaje o personalizar la acción
+    return;
+  }
   if (authStore.user.isAuthenticated) {
     open.value = false;
     router.push('/checkout');
