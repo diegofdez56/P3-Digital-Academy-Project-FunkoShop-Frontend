@@ -42,6 +42,7 @@ const billingDetails = reactive({
 
 async function getProfile() {
   const response = await store.getProfile(auth.user.access_token)
+  const responseUser = auth.user
 
   if (response.phoneNumber) {
     const splitPhoneNumber = response.phoneNumber.split('-');
@@ -49,9 +50,9 @@ async function getProfile() {
   }
   billingDetails.firstName = response.firstName || '';
   billingDetails.lastName = response.lastName || '';
-  billingDetails.email = response.email || '';
-  billingDetails.address = response.address || '';
-  billingDetails.address2 = response.address2 || '';
+  billingDetails.email = responseUser.email || '';
+  billingDetails.address = response.street || '';
+  billingDetails.region = response.region || '';
   billingDetails.city = response.city || '';
   billingDetails.country = response.country || '';
   billingDetails.postcode = response.postalCode || '';
@@ -102,9 +103,9 @@ const handlePayment = async () => {
       email: billingDetails.email,
       address: {
         city: billingDetails.city,
+        state: billingDetails.region,
         country: billingDetails.country,
-        line1: billingDetails.address,
-        line2: billingDetails.address2,
+        line1: billingDetails.street,
         postal_code: billingDetails.postcode
       },
       phone: billingDetails.phone
@@ -207,14 +208,25 @@ const handlePayment = async () => {
             required
           />
         </div>
+        
+        <div>
+          <input
+            type="text"
+            id="city"
+            v-model="billingDetails.city"
+            class="mt-1 block w-full rounded-md py-2.5 px-4 border-gray-300 border focus:ring-2 focus:ring-inset focus:outline-blueFunko-400/60 focus:ring-blueFunko-300/60 text-sm font-light"
+            placeholder="City / Town*"
+            required
+          />
+        </div>
 
         <div>
           <input
             type="text"
             id="address2"
-            v-model="billingDetails.address2"
+            v-model="billingDetails.region"
             class="mt-1 block w-full rounded-md py-2.5 px-4 border-gray-300 border focus:ring-2 focus:ring-inset focus:outline-blueFunko-400/60 focus:ring-blueFunko-300/60 text-sm font-light"
-            placeholder="Address line 2"
+            placeholder="Region"
           />
         </div>
 
@@ -229,16 +241,6 @@ const handlePayment = async () => {
           />
         </div>
 
-        <div>
-          <input
-            type="text"
-            id="city"
-            v-model="billingDetails.city"
-            class="mt-1 block w-full rounded-md py-2.5 px-4 border-gray-300 border focus:ring-2 focus:ring-inset focus:outline-blueFunko-400/60 focus:ring-blueFunko-300/60 text-sm font-light"
-            placeholder="City / Town*"
-            required
-          />
-        </div>
 
         <div>
           <input
