@@ -143,10 +143,10 @@ const removeFromCart = (id) => {
                     <p class="mt-0.5 text-sm text-gray-500">
                       {{ t('shoppingCart.shipping') }}
                     </p>
-                    <!-- <div class="mt-6">
-                      <a href="#"
+                    <div class="mt-6">
+                      <a href="/checkout"
                         class="flex items-center justify-center rounded-md border border-transparent bg-blueFunko-700 px-6 py-3 text-base font-medium text-white shadow-sm hover:bg-blueFunko-800">Checkout</a>
-                    </div> -->
+                    </div>
                     <div class="mt-6 flex justify-center text-center text-sm text-gray-500">
                       <p>
                         {{ t('shoppingCart.or') }}{{ ' ' }}
