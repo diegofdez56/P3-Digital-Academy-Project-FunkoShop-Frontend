@@ -1,6 +1,6 @@
 <template>
   <div
-    class="grid w-full h-5 place-items-center justify-end pr-3 overflow-x-scroll rounded-lg lg:overflow-visible"
+    class="grid w-full h-5 place-items-center justify-end pr-3 rounded-lg lg:overflow-visible"
   >
     <div class="inline-flex items-center">
       <span
