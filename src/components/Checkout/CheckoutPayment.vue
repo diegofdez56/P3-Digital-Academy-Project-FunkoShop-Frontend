@@ -59,7 +59,7 @@ async function getProfile() {
 
 getProfile();
 
-const selectedPaymentMethod = ref('cod')
+const selectedPaymentMethod = ref('cod');
 
 onMounted(async () => {
   if (!stripePublicKey) {
@@ -154,7 +154,8 @@ const handlePayment = async () => {
       processing.value = false
     }
   }
-}
+};
+
 </script>
 
 <template>
@@ -352,10 +353,9 @@ const handlePayment = async () => {
             </label>
           </div>
 
-          <p class="text-xs px-1 text-ultralight text-gray-700">Paypal / Visa / MasterCard</p>
+          <p class="text-xs px-1 text-ultralight text-gray-700"> Visa / MasterCard</p>
 
-          <!-- Stripe Card Element -->
-          <div id="card-element" class="mt-4 p-3 border border-gray-300 rounded-md"></div>
+          <div v-show="selectedPaymentMethod === 'online'" id="card-element" class="mt-4 p-3 border border-gray-300 rounded-md"></div>
 
           <div id="card-errors" role="alert" class="text-red-500 mt-2"></div>
         </div>
