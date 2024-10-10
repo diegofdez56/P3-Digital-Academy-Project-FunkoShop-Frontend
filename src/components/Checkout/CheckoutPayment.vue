@@ -2,8 +2,13 @@
 import { reactive, ref, computed, onMounted } from 'vue'
 import { useCartStore } from '@/stores/cart/cartStore'
 import { loadStripe } from '@stripe/stripe-js'
+import { useAuthStore } from '@/stores/auth'
+import { ProfileStore } from '@/stores/Profile/ProfileStore'
+
 
 const cartStore = useCartStore()
+const store = ProfileStore()
+const auth = useAuthStore()
 
 const stripePublicKey = import.meta.env.VITE_STRIPE_PUBLIC_KEY
 const apiEndpoint = import.meta.env.VITE_API_ENDPOINT
@@ -35,7 +40,27 @@ const billingDetails = reactive({
   differentAddress: false
 })
 
-const selectedPaymentMethod = ref('cod')
+async function getProfile() {
+  const response = await store.getProfile(auth.user.access_token)
+  const responseUser = auth.user
+
+  if (response.phoneNumber) {
+    const splitPhoneNumber = response.phoneNumber.split('-');
+    billingDetails.phone = splitPhoneNumber[1];
+  }
+  billingDetails.firstName = response.firstName || '';
+  billingDetails.lastName = response.lastName || '';
+  billingDetails.email = responseUser.email || '';
+  billingDetails.address = response.street || '';
+  billingDetails.region = response.region || '';
+  billingDetails.city = response.city || '';
+  billingDetails.country = response.country || '';
+  billingDetails.postcode = response.postalCode || '';
+}
+
+getProfile();
+
+const selectedPaymentMethod = ref('cod');
 
 onMounted(async () => {
   if (!stripePublicKey) {
@@ -78,9 +103,9 @@ const handlePayment = async () => {
       email: billingDetails.email,
       address: {
         city: billingDetails.city,
+        state: billingDetails.region,
         country: billingDetails.country,
-        line1: billingDetails.address,
-        line2: billingDetails.address2,
+        line1: billingDetails.street,
         postal_code: billingDetails.postcode
       },
       phone: billingDetails.phone
@@ -92,7 +117,8 @@ const handlePayment = async () => {
       const response = await fetch(`${apiEndpoint}/payments/create-payment-intent`, {
         method: 'POST',
         headers: {
-          'Content-Type': 'application/json'
+          'Content-Type': 'application/json',
+          'Authorization': `Bearer ${auth.user.access_token}`
         },
         body: JSON.stringify({
           amount: amount,
@@ -129,7 +155,8 @@ const handlePayment = async () => {
       processing.value = false
     }
   }
-}
+};
+
 </script>
 
 <template>
@@ -181,14 +208,25 @@ const handlePayment = async () => {
             required
           />
         </div>
+        
+        <div>
+          <input
+            type="text"
+            id="city"
+            v-model="billingDetails.city"
+            class="mt-1 block w-full rounded-md py-2.5 px-4 border-gray-300 border focus:ring-2 focus:ring-inset focus:outline-blueFunko-400/60 focus:ring-blueFunko-300/60 text-sm font-light"
+            placeholder="City / Town*"
+            required
+          />
+        </div>
 
         <div>
           <input
             type="text"
             id="address2"
-            v-model="billingDetails.address2"
+            v-model="billingDetails.region"
             class="mt-1 block w-full rounded-md py-2.5 px-4 border-gray-300 border focus:ring-2 focus:ring-inset focus:outline-blueFunko-400/60 focus:ring-blueFunko-300/60 text-sm font-light"
-            placeholder="Address line 2"
+            placeholder="Region"
           />
         </div>
 
@@ -203,16 +241,6 @@ const handlePayment = async () => {
           />
         </div>
 
-        <div>
-          <input
-            type="text"
-            id="city"
-            v-model="billingDetails.city"
-            class="mt-1 block w-full rounded-md py-2.5 px-4 border-gray-300 border focus:ring-2 focus:ring-inset focus:outline-blueFunko-400/60 focus:ring-blueFunko-300/60 text-sm font-light"
-            placeholder="City / Town*"
-            required
-          />
-        </div>
 
         <div>
           <input
@@ -245,18 +273,6 @@ const handlePayment = async () => {
           class="mt-1 block w-full rounded-md py-2.5 h-52 px-4 border-gray-300 border focus:ring-2 focus:ring-inset focus:outline-blueFunko-400/60 focus:ring-blueFunko-300/60 text-sm font-light text-start"
           placeholder="Additional information"
         ></textarea>
-      </div>
-
-      <div class="flex items-center">
-        <input
-          type="checkbox"
-          id="different-address"
-          v-model="billingDetails.differentAddress"
-          class="h-4 w-4 text-blue-600 accent-blueFunko-700 border-gray-300 rounded"
-        />
-        <label for="different-address" class="ml-2 block font-light text-sm text-gray-900">
-          Ship to a different address?
-        </label>
       </div>
     </div>
 
@@ -299,15 +315,10 @@ const handlePayment = async () => {
           <p class="font-regular text-md">Shipping cost (+)</p>
           <p class="font-medium text-md">{{ shippingCost.toFixed(2) }}€</p>
         </div>
-
-        <div class="flex justify-between border-gray-300 px-8 py-3">
-          <p class="font-regular text-md">Discount (-)</p>
-          <p class="font-medium text-md text-red-600">{{ discount.toFixed(2) }}€</p>
-        </div>
       </div>
 
       <div class="rounded-b-xl flex justify-between border border-gray-300 px-8 py-6">
-        <p class="font-regular text-md">Total Payable</p>
+        <p class="font-regular text-md">Total</p>
         <p class="font-medium text-md text-green-700">{{ totalPayable.toFixed(2) }}€</p>
       </div>
 
@@ -344,10 +355,9 @@ const handlePayment = async () => {
             </label>
           </div>
 
-          <p class="text-xs px-1 text-ultralight text-gray-700">Paypal / Visa / MasterCard</p>
+          <p class="text-xs px-1 text-ultralight text-gray-700"> Visa / MasterCard</p>
 
-          <!-- Stripe Card Element -->
-          <div id="card-element" class="mt-4 p-3 border border-gray-300 rounded-md"></div>
+          <div v-show="selectedPaymentMethod === 'online'" id="card-element" class="mt-4 p-3 border border-gray-300 rounded-md"></div>
 
           <div id="card-errors" role="alert" class="text-red-500 mt-2"></div>
         </div>
