@@ -2,8 +2,13 @@
 import { reactive, ref, computed, onMounted } from 'vue'
 import { useCartStore } from '@/stores/cart/cartStore'
 import { loadStripe } from '@stripe/stripe-js'
+import { useAuthStore } from '@/stores/auth'
+import { ProfileStore } from '@/stores/Profile/ProfileStore'
+
 
 const cartStore = useCartStore()
+const store = ProfileStore()
+const auth = useAuthStore()
 
 const stripePublicKey = import.meta.env.VITE_STRIPE_PUBLIC_KEY
 const apiEndpoint = import.meta.env.VITE_API_ENDPOINT
@@ -34,6 +39,25 @@ const billingDetails = reactive({
   additionalInfo: '',
   differentAddress: false
 })
+
+async function getProfile() {
+  const response = await store.getProfile(auth.user.access_token)
+
+  if (response.phoneNumber) {
+    const splitPhoneNumber = response.phoneNumber.split('-');
+    billingDetails.phone = splitPhoneNumber[1];
+  }
+  billingDetails.firstName = response.firstName || '';
+  billingDetails.lastName = response.lastName || '';
+  billingDetails.email = response.email || '';
+  billingDetails.address = response.address || '';
+  billingDetails.address2 = response.address2 || '';
+  billingDetails.city = response.city || '';
+  billingDetails.country = response.country || '';
+  billingDetails.postcode = response.postalCode || '';
+}
+
+getProfile();
 
 const selectedPaymentMethod = ref('cod')
 
@@ -92,7 +116,8 @@ const handlePayment = async () => {
       const response = await fetch(`${apiEndpoint}/payments/create-payment-intent`, {
         method: 'POST',
         headers: {
-          'Content-Type': 'application/json'
+          'Content-Type': 'application/json',
+          'Authorization': `Bearer ${auth.user.access_token}`
         },
         body: JSON.stringify({
           amount: amount,
@@ -246,18 +271,6 @@ const handlePayment = async () => {
           placeholder="Additional information"
         ></textarea>
       </div>
-
-      <div class="flex items-center">
-        <input
-          type="checkbox"
-          id="different-address"
-          v-model="billingDetails.differentAddress"
-          class="h-4 w-4 text-blue-600 accent-blueFunko-700 border-gray-300 rounded"
-        />
-        <label for="different-address" class="ml-2 block font-light text-sm text-gray-900">
-          Ship to a different address?
-        </label>
-      </div>
     </div>
 
     <div>
@@ -299,15 +312,10 @@ const handlePayment = async () => {
           <p class="font-regular text-md">Shipping cost (+)</p>
           <p class="font-medium text-md">{{ shippingCost.toFixed(2) }}€</p>
         </div>
-
-        <div class="flex justify-between border-gray-300 px-8 py-3">
-          <p class="font-regular text-md">Discount (-)</p>
-          <p class="font-medium text-md text-red-600">{{ discount.toFixed(2) }}€</p>
-        </div>
       </div>
 
       <div class="rounded-b-xl flex justify-between border border-gray-300 px-8 py-6">
-        <p class="font-regular text-md">Total Payable</p>
+        <p class="font-regular text-md">Total</p>
         <p class="font-medium text-md text-green-700">{{ totalPayable.toFixed(2) }}€</p>
       </div>
 
