@@ -24,7 +24,7 @@ const props = defineProps({
 const emit = defineEmits(['close'])
 
 const quantity = ref(1)
-
+const currentImageIndex = ref(0)
 const cartStore = useCartStore()
 
 const discountedPrice = computed(() => {
@@ -94,19 +94,17 @@ const productImageUrl2 = computed(() => {
   return ''
 })
 
-// const productImageUrl = computed(() => {
-//   if (props.product.imageHash) {
-//     const isBase64 =
-//       props.product.imageHash.startsWith('/') || props.product.imageHash.includes('base64')
+const nextImage = () => {
+  currentImageIndex.value = (currentImageIndex.value + 1) % 2
+}
 
-//     if (isBase64) {
-//       return `data:image/png;base64,${props.product.imageHash}`
-//     } else {
-//       return props.product.imageHash
-//     }
-//   }
-//   return ''
-// })
+const previousImage = () => {
+  currentImageIndex.value = (currentImageIndex.value - 1 + 2) % 2
+}
+
+const currentImageUrl = computed(() => {
+  return currentImageIndex.value === 0 ? productImageUrl1.value : productImageUrl2.value
+})
 </script>
 
 <template>
@@ -158,26 +156,18 @@ const productImageUrl2 = computed(() => {
                   class="grid w-full grid-cols-1 items-start gap-x-6 gap-y-8 sm:grid-cols-12 lg:gap-x-8"
                 >
                   <div
-                    class="aspect-h-3 aspect-w-2 overflow-hidden rounded-lg bg-gray-100 sm:col-span-4 lg:col-span-5"
+                    class="aspect-h-3 aspect-w-2 overflow-hidden rounded-lg  sm:col-span-4 lg:col-span-5"
                   >
-                      <!-- Imagen 1 -->
-                      <div class="aspect-h-3 aspect-w-2 overflow-hidden rounded-lg bg-gray-100">
-                        <img
-                          :src="productImageUrl1"
-                          alt="Product image 1"
-                          class="object-cover object-center"
-                        />
-                      </div>
-
-                      <!-- Imagen 2 -->
-                     
-                        <img
-                          :src="productImageUrl2"
-                          alt="Product image 2"
-                          class="object-cover object-center"
-                        />
-                     
-                    </div>
+                    <img
+                      :src="currentImageUrl"
+                      alt="Product image"
+                      class="object-cover object-center"
+                    />
+                  <div class="flex justify-between">
+                    <button @click="previousImage" class="mt-2 ml-5 text-blue-500">Previous</button>
+                    <button @click="nextImage" class="mt-2 mr-5 text-blue-500">Next</button>
+                  </div>
+                  </div>
                   
                   <div class="sm:col-span-8 lg:col-span-7">
                     <div class="w-auto flex place-items-center justify-between pr-10">
@@ -257,35 +247,30 @@ const productImageUrl2 = computed(() => {
                             -
                           </button>
                           <input
-                            type="number"
                             id="quantity"
-                            class="border-t border-b border-gray-300 w-16 text-center"
+                            type="number"
+                            min="1"
                             v-model="quantity"
-                            :max="props.product.stock"
-                            :min="1"
+                            class="w-16 border text-center"
                           />
                           <button
                             @click="incrementQuantity"
-                            :disabled="maxStockReached"
                             class="px-2 py-1 border rounded-r-md bg-gray-200 hover:bg-gray-300"
                           >
                             +
                           </button>
                         </div>
-                        <p v-if="maxStockReached" class="text-red-500 text-sm mt-1">
-                          {{ t('maxStockReached', { stock: props.product.stock }) }}
+                        <p v-if="maxStockReached" class="text-sm text-red-600 mt-1">
+                          Maximum stock reached!
                         </p>
                       </div>
-                      <div class="mt-6">
-                        <button
-                          type="button"
-                          @click="addToCart"
-                          class="w-full rounded-md border border-transparent bg-blueFunko-700 px-4 py-2 text-base font-medium text-white transition-all hover:bg-blueFunko-600 focus:outline-none"
-                        >
-                          {{ t('addToCart') }}
-                        </button>
-                      </div>
                     </section>
+                    <button
+                      @click="addToCart"
+                      class="mt-4 w-full bg-blue-600 text-white py-2 rounded-md hover:bg-blue-700"
+                    >
+                      {{ t('addToCart') }}
+                    </button>
                   </div>
                 </div>
               </div>
@@ -296,14 +281,4 @@ const productImageUrl2 = computed(() => {
     </Dialog>
   </TransitionRoot>
 </template>
-<style scoped>
-input[type='number']::-webkit-outer-spin-button,
-input[type='number']::-webkit-inner-spin-button {
-  -webkit-appearance: none;
-  margin: 0;
-}
 
-input[type='number'] {
-  -moz-appearance: textfield;
-}
-</style>
