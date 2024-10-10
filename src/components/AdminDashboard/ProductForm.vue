@@ -48,13 +48,25 @@ const handleCancel = () => {
   emit('cancel')
 }
 
-const onFileChange = (product) => {
-  const file = product.target.files[0]
+const onFileChange = (event) => {
+  const file = event.target.files[0]
   if (file) {
     const reader = new FileReader()
     reader.onload = (e) => {
       fileBase64String.value = e.target.result
       form.value.imageHash = fileBase64String.value ? fileBase64String.value.split(',')[1] : null
+    }
+    reader.readAsDataURL(file)
+  }
+}
+
+const onFileChange2 = (event) => {
+  const file = event.target.files[0]
+  if (file) {
+    const reader = new FileReader()
+    reader.onload = (e) => {
+      fileBase64String.value = e.target.result
+      form.value.imageHash2 = fileBase64String.value ? fileBase64String.value.split(',')[1] : null
     }
     reader.readAsDataURL(file)
   }
@@ -156,6 +168,19 @@ const onFileChange = (product) => {
         multiple=""
         accept="image/jpeg, image/png"
         @change="onFileChange"
+        class="mt-1 block w-full px-4 py-2 border-2 border-slate-200 rounded-md focus:outline-none focus:border-blueFunko-600"
+      />
+    </div>
+
+    <div>
+      <label class="block text-sm font-medium text-slate-700">Product Image 2</label>
+      <input
+        ref="upload"
+        type="file"
+        name="file-upload"
+        multiple=""
+        accept="image/jpeg, image/png"
+        @change="onFileChange2"
         class="mt-1 block w-full px-4 py-2 border-2 border-slate-200 rounded-md focus:outline-none focus:border-blueFunko-600"
       />
     </div>
