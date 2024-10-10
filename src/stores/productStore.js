@@ -40,7 +40,8 @@ export const useProductStore = defineStore('products', () => {
         return {
           ...product,
           isNew,
-          imageHash: product.imageHash
+          imageHash: product.imageHash,
+          imageHash2: product.imageHash2
         };
       }) : response.data;
       currentPage.value = response.data.number || 0;
