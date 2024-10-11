@@ -11,7 +11,7 @@
   </template>
   
   <script setup>
-  import { useOrderStore } from '../../stores/order/orderStoreNOP.js';
+  import { useOrderStore } from '../../stores/order/orderStore.js';
   import { onMounted } from 'vue';
   
   const orderStore = useOrderStore();
