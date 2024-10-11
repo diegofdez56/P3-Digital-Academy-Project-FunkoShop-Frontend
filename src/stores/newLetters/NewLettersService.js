@@ -13,4 +13,8 @@ export default class NewLettersService {
         return response
     }
 
+    async unsubscribeNewsletter(code) {
+        return this.#repo.unsubscribeNewsletter(code);
+    }
+
 }

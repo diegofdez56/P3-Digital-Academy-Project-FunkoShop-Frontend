@@ -14,5 +14,14 @@ export const NewLettersStore = defineStore('newLettersStore', () => {
         }
     }
 
-    return { setNewLetters };
+    async function unsubscribeNewsletter(code) {
+        try {
+            const service = new NewLettersService();
+            return await service.unsubscribeNewsletter(code);
+        } catch (error) {
+            console.error('Error unsubscribing:', error);
+        }
+    }
+
+    return { setNewLetters, unsubscribeNewsletter };
 });
