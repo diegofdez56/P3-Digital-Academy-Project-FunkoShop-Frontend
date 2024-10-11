@@ -11,4 +11,14 @@ export default class OrderService {
     const response = await this.#repo.addOrder(accessToken, order)
     return response
   }
+
+  async fetchAllOrdersByUser(accessToken, params) {
+    const response = await this.#repo.fetchAllOrdersByUser(accessToken, params)
+    return response
+  }
+
+  async fetchAllOrdersByAdmin(accessToken, params) {
+    const response = await this.#repo.fetchAllOrdersByAdmin(accessToken, params)
+    return response
+  }
 };

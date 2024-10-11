@@ -4,7 +4,7 @@ import OrderTable from '@/components/UserManagement/UserTables/OrderTable.vue'
 </script>
 <template>
   <div>
-    <userHeading title="My Orders" />
+    <UserHeading title="My Orders" />
     <OrderTable />
   </div>
 </template>
