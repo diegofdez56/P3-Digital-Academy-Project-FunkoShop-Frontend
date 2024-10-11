@@ -179,7 +179,7 @@ const open = ref(false)
             <div class="ml-4 lg:ml-0 lg:flex hidden">
               <RouterLink to="/">
                 <span class="sr-only">FunkoShop</span>
-                <img class="h-10 w-auto" src="../../assets/img/logos/WhiteLogo.svg" alt="" />
+                <img class="h-8 w-auto" src="@/assets/img/logos/WhiteLogo.svg" alt="" />
               </RouterLink>
             </div>
 
