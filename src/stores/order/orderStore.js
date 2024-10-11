@@ -10,6 +10,15 @@ export const OrderStore = defineStore('orderStore', () => {
   const error = ref(null)
   const isLoading = ref(false)
 
+  function addOrder(accessToken, order) {
+    try {
+      const service = new OrderService()
+      return service.addOrder(accessToken, order)
+    } catch (error) {
+      console.error('Error: ', error);
+    }
+  }
+
   async function fetchAllOrdersByUser(accessToken, page = this.currentPage, size = this.pageSize) {
     isLoading.value = true
     error.value = null
@@ -50,5 +59,5 @@ export const OrderStore = defineStore('orderStore', () => {
     }
   }
 
-  return { error, isLoading, currentPage, orders, pageSize, totalPages, fetchAllOrdersByUser, fetchAllOrdersByAdmin }
+  return { error, isLoading, currentPage, orders, pageSize, totalPages, addOrder, fetchAllOrdersByUser, fetchAllOrdersByAdmin }
 });

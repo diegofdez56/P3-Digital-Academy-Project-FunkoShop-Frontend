@@ -28,6 +28,7 @@ async function fetchOrders() {
 
 onMounted(() => {
   fetchOrders();
+  
 });
 
 async function handlePageChange(newPage) {
@@ -49,7 +50,7 @@ async function handlePageChange(newPage) {
     <p>Error: {{ error }}</p>
   </div>
   <div v-else>
-    <BaseTable :headers="['Order ID', 'Total Items', 'Total Price', 'Status']">
+    <BaseTable :headers="['Status', 'Total Items', 'Total Price', 'Details']">
       <OrderTableRow v-for="order in orders" :key="order.order_id" :order="order" />
     </BaseTable>
     <BasePagination v-if="totalPages > 1" :currentPage="currentPage" :totalPages="totalPages"
