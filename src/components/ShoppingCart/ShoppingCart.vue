@@ -39,7 +39,7 @@ const removeFromCart = (id) => {
 
 const checkout = () => {
   if (!cartProducts.value.length) {
-    alert(t('shoppingCart.emptyCartMessage')); // Puedes mostrar un mensaje o personalizar la acción
+    alert(t('shoppingCart.emptyCartMessage')); 
     return;
   }
   if (authStore.user.isAuthenticated) {
@@ -157,8 +157,7 @@ watch(
                     </p>
                     <div class="mt-6">
                       <button @click="checkout"
-                        class="w-full bg-blueFunko-700 text-white py-3 rounded-md hover:bg-blueFunko-800">Got to
-                        checkout</button>
+                        class="w-full bg-blueFunko-700 text-white py-3 rounded-md hover:bg-blueFunko-800">{{t("shoppingCart.checkout") }}</button>
                     </div>
                     <div class="mt-6 flex justify-center text-center text-sm text-gray-500">
                       <p>
