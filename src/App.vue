@@ -17,7 +17,7 @@ const route = useRoute()
       <RouterView />
     </div>
 
-    <footer v-if="route.path != '/404'">
+    <footer v-if="route.path != '/404' && !route.meta.requiresAdmin">
       <FooterComponent />
     </footer>
   </div>

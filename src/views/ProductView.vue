@@ -46,7 +46,7 @@ const handleCategoryChange = (category) => {
 </script>
 
 <template>
-  <div class="min-h-screen">
+  <div>
     <CategoryButtons :categories="listCategories" :selectedCategory="selectedCategory"
       @change-category="handleCategoryChange" />
 
