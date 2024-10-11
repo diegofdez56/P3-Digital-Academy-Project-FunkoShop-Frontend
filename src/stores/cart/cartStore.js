@@ -9,7 +9,8 @@ export const useCartStore = defineStore('cart', () => {
   });
 
   const totalPrice = computed(() => {
-    return (Math.round(products.value.reduce((total, product) => total + product.price * product.quantity, 0) * 100) / 100).toFixed(2);
+    const total = products.value.reduce((sum, product) => sum + product.price * product.quantity, 0);
+    return Math.round(total * 100) / 100;
   });
 
   const addProduct = (product, quantity = 1) => {
