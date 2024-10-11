@@ -1,44 +1,58 @@
 <script setup>
-import { onMounted } from 'vue'
-import { storeToRefs } from 'pinia'
-import BaseTable from '@/components/AdminDashboard/AdminTables/BaseTable.vue'
-import BasePagination from '@/components/BaseComponents/BasePagination.vue'
-import { useOrderStore } from '@/stores/order/orderStore'
-import OrderTableRow from './OrderTableRow.vue'
-const orderStore = useOrderStore()
+import { onMounted } from 'vue';
+import { storeToRefs } from 'pinia';
+import BaseTable from '@/components/AdminDashboard/AdminTables/BaseTable.vue';
+import BasePagination from '@/components/BaseComponents/BasePagination.vue';
+import OrderTableRow from './OrderTableRow.vue';
+import { useAuthStore } from '@/stores/auth';
+import { OrderStore } from '@/stores/order/orderStore';
+
+const auth = useAuthStore();
+const orderStore = OrderStore();
+
 const {
   orders,
   currentPage,
   totalPages,
-  isLoading: orderLoading,
-  error: orderError
-} = storeToRefs(orderStore)
-const itemsPerPage = 10
+  isLoading,
+  error
+} = storeToRefs(orderStore);
 
+async function fetchOrders() {
+  try {
+    await orderStore.fetchAllOrdersByUser(auth.user.access_token, currentPage.value)
+  } catch (err) {
+    console.error("Error fetching orders:", err)
+  }
+};
 
 onMounted(() => {
-  orderStore.fetchOrdersByUser()
-})
-const handlePageChange = (newPage) => {
-  orderStore.fetchOrdersByUser(newPage, itemsPerPage)
+  fetchOrders();
+});
+
+async function handlePageChange(newPage) {
+  try {
+    await orderStore.fetchAllOrdersByUser(auth.user.access_token, newPage)
+  } catch (err) {
+    console.error("Error fetching orders:", err)
+  }
 }
 
+
 </script>
+
 <template>
-  <div v-if="orderLoading" class="flex justify-center">
+  <div v-if="isLoading" class="flex justify-center">
     <p>Loading orders...</p>
   </div>
-  <div v-else-if="orderError" class="text-center mt-2 text-red-500">
-    <p>Error: {{ orderError }}</p>
+  <div v-else-if="error" class="text-center mt-2 text-red-500">
+    <p>Error: {{ error }}</p>
   </div>
   <div v-else>
-    <BaseTable :headers="['Order ID', 'User ID', 'Total Items', 'Total Price', 'Status']">
+    <BaseTable :headers="['Order ID', 'Total Items', 'Total Price', 'Status']">
       <OrderTableRow v-for="order in orders" :key="order.order_id" :order="order" />
     </BaseTable>
-    <BasePagination
-      :currentPage="currentPage"
-      :totalPages="totalPages"
-      @changePage="handlePageChange"
-    />
+    <BasePagination v-if="totalPages > 1" :currentPage="currentPage" :totalPages="totalPages"
+      @changePage="handlePageChange" />
   </div>
 </template>

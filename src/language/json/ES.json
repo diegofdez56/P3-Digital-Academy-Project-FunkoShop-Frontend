@@ -64,5 +64,9 @@
     "continueShopping": "Continuar comprando",
     "shipping": "Envío e impuestos calculados al finalizar la compra.",
     "or": "o"
+  },
+
+  "wishlist": {
+    "wishlist": "LISTA DE DESEOS"
   }
 }
