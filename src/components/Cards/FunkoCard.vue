@@ -58,7 +58,7 @@ const productImageUrl = computed(() => {
       />
     </div>
     <div>
-      <ReviewIcon />
+      <ReviewIcon :average="Math.round(product.averageRating)" />
     </div>
     <div class="p-3">
       <p class="text-slate-600 leading-normal font-light text-xs">

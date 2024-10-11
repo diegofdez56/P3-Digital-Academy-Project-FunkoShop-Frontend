@@ -198,8 +198,8 @@ const currentImageUrl = computed(() => {
                               v-for="rating in 5"
                               :key="rating"
                               :class="{
-                                'text-gray-900': (props.product.rating || 0) >= rating,
-                                'text-gray-200': (props.product.rating || 0) < rating,
+                                'text-yellow-500': (props.product.averageRating || 0) >= rating,
+                                'text-gray-200': (props.product.averageRating || 0) < rating,
                                 'h-5 w-5 flex-shrink-0': true
                               }"
                               aria-hidden="true"
