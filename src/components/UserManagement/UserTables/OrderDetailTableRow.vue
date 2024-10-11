@@ -11,8 +11,8 @@ defineProps({
     <td class="px-4 py-3 font-semibold">{{ item.product.name }}</td>
     <td class="px-4 py-3"><img v-if="item.product.imageHash" :src="item.product.imageHash" class="w-8 h-8" /></td>
     <td class="px-4 py-3">{{ item.quantity }}</td>
-    <td class="px-4 py-3">{{ item.product.discountedPrice ? item.product.discountedPrice : item.product.price }}</td>
-    <td class="px-4 py-3">{{ item.discount ? item.discount + '%' : 'No' }}</td>
+    <td class="px-4 py-3">{{ item.product.discount > 0 ? item.product.discountedPrice : item.product.price }}</td>
+    <td class="px-4 py-3">{{ item.product.discount > 0 ? item.product.discount + '%' : 'No' }}</td>
     <td class="px-4 py-3">{{ item.product.category.name }}</td>
   </tr>
 

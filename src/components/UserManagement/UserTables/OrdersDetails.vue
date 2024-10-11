@@ -9,7 +9,9 @@ const props = defineProps({
     items: {
         type: Array,
         required: true
-    }
+    },
+    totalItems: Number,
+    totalPrice: Number
 })
 console.log(props.orderItems);
 
@@ -27,6 +29,14 @@ const emit = defineEmits(['close'])
             <div class="mt-10 sm:mx-auto sm:w-full sm:max-w-sm lg:max-w-[550px] xl:max-w-[650px] 2xl:max-w-[750px]">
                 <BaseTable :headers="['Name', 'Image', 'Quantity', 'Price', 'Discount', 'Category']">
                     <OrderDetailTableRow v-for="item in items" :key="item.id" :item="item" />
+                    <tr class="bg-slate-50 hover:bg-gray-100 text-slate-900 border-t border-slate-300">
+                        <td class="px-4 py-3 font-semibold">Total</td>
+                        <td class="px-4 py-3"></td>
+                        <td class="px-4 py-3">{{ totalItems }}</td>
+                        <td class="px-4 py-3">{{ totalPrice }}</td>
+                        <td class="px-4 py-3"></td>
+                        <td class="px-4 py-3"></td>
+                    </tr>
                 </BaseTable>
                 <div class="flex justify-center w-full items-center mt-2">
                     <button @click="emit('close')"
