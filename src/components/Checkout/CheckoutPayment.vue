@@ -6,7 +6,7 @@ import { useAuthStore } from '@/stores/auth'
 import { ProfileStore } from '@/stores/Profile/ProfileStore'
 import router from '@/router'
 import { OrderStore } from '@/stores/order/orderStore'
-
+import Alert from '@/components/BaseComponents/AlertPopup.vue'
 
 const cartStore = useCartStore()
 const store = ProfileStore()
@@ -42,27 +42,34 @@ const billingDetails = reactive({
   differentAddress: false
 })
 
+const showAlert = ref(false)
+const alertData = reactive({
+  type: 'success',
+  title: 'Success',
+  message: 'Your payment was successful!'
+})
+
 async function getProfile() {
   const response = await store.getProfile(auth.user.access_token)
   const responseUser = auth.user
 
   if (response.phoneNumber) {
-    const splitPhoneNumber = response.phoneNumber.split('-');
-    billingDetails.phone = splitPhoneNumber[1];
+    const splitPhoneNumber = response.phoneNumber.split('-')
+    billingDetails.phone = splitPhoneNumber[1]
   }
-  billingDetails.firstName = response.firstName || '';
-  billingDetails.lastName = response.lastName || '';
-  billingDetails.email = responseUser.email || '';
-  billingDetails.address = response.street || '';
-  billingDetails.region = response.region || '';
-  billingDetails.city = response.city || '';
-  billingDetails.country = response.country || '';
-  billingDetails.postcode = response.postalCode || '';
+  billingDetails.firstName = response.firstName || ''
+  billingDetails.lastName = response.lastName || ''
+  billingDetails.email = responseUser.email || ''
+  billingDetails.address = response.street || ''
+  billingDetails.region = response.region || ''
+  billingDetails.city = response.city || ''
+  billingDetails.country = response.country || ''
+  billingDetails.postcode = response.postalCode || ''
 }
 
-getProfile();
+getProfile()
 
-const selectedPaymentMethod = ref('cod');
+const selectedPaymentMethod = ref('cod')
 
 onMounted(async () => {
   if (!stripePublicKey) {
@@ -92,8 +99,11 @@ onMounted(async () => {
 
 const handlePayment = async () => {
   if (selectedPaymentMethod.value === 'cod') {
-    alert('Order placed with Cash on Delivery.')
-    orderPayment(false, "Pending")
+    alertData.type = 'success'
+    alertData.title = 'Order Placed'
+    alertData.message = 'Order placed with Cash on Delivery.'
+    showAlert.value = true
+    orderPayment(false, 'Pending')
     cartStore.clearCart()
     return
   }
@@ -121,7 +131,7 @@ const handlePayment = async () => {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
-          'Authorization': `Bearer ${auth.user.access_token}`
+          Authorization: `Bearer ${auth.user.access_token}`
         },
         body: JSON.stringify({
           amount: amount,
@@ -145,51 +155,56 @@ const handlePayment = async () => {
 
       if (result.error) {
         console.error(result.error.message)
-        alert(`Payment failed: ${result.error.message}`)
+        alertData.type = 'error'
+        alertData.title = 'Payment Failed'
+        alertData.message = `Payment failed: ${result.error.message}`
+        showAlert.value = true
       } else if (result.paymentIntent.status === 'succeeded') {
         console.log('Payment succeeded:', result.paymentIntent)
-        alert('Payment successful! Thank you for your purchase.')
+        alertData.type = 'success'
+        alertData.title = 'Payment Successful'
+        alertData.message = 'Payment successful! Thank you for your purchase.'
+        showAlert.value = true
 
-        orderPayment(result.paymentIntent.payment_method_types[0] == 'card' ? true : false, "Paid")
+        orderPayment(result.paymentIntent.payment_method_types[0] == 'card' ? true : false, 'Paid')
       }
     } catch (error) {
       console.error('Error during payment:', error)
-      alert(`An error occurred: ${error.message}`)
+      alertData.type = 'error'
+      alertData.title = 'Error'
+      alertData.message = `An error occurred: ${error.message}`
+      showAlert.value = true
     } finally {
       processing.value = false
     }
   }
-};
+}
 
 async function orderPayment(isPaid, status) {
-
   const products = ref([])
   cartProducts.value.forEach((product) => {
     products.value.push({ id: product.id, quantity: product.quantity })
   })
 
   const neworder = ref({
-    "status": status,
-    "totalPrice": cartStore.totalPrice,
-    "totalItems": cartStore.totalQuantity,
-    "orderItems": products.value,
-    "tracking": null,
-    "paid": isPaid
+    status: status,
+    totalPrice: cartStore.totalPrice,
+    totalItems: cartStore.totalQuantity,
+    orderItems: products.value,
+    tracking: null,
+    paid: isPaid
   })
 
   const response = addOrder(neworder.value)
-  console.log(response);
-  //updated cada product
-
-  //
+  console.log(response)
+ 
   cartStore.clearCart()
   router.push('/orders')
 }
 
 async function addOrder(order) {
   return await OrderStore().addOrder(auth.user.access_token, order)
-};
-
+}
 </script>
 
 <template>
@@ -199,66 +214,112 @@ async function addOrder(order) {
 
       <div class="grid grid-cols-2 gap-4">
         <div>
-          <input type="text" id="first-name" v-model="billingDetails.firstName"
+          <input
+            type="text"
+            id="first-name"
+            v-model="billingDetails.firstName"
             class="mt-1 block w-full rounded-md py-2.5 px-4 border-gray-300 border focus:ring-2 focus:ring-inset focus:outline-blueFunko-400/60 focus:ring-blueFunko-300/60 text-sm font-light"
-            placeholder="First name*" required />
+            placeholder="First name*"
+            required
+          />
         </div>
 
         <div>
-          <input type="text" id="last-name" v-model="billingDetails.lastName"
+          <input
+            type="text"
+            id="last-name"
+            v-model="billingDetails.lastName"
             class="mt-1 block w-full rounded-md py-2.5 px-4 border-gray-300 border focus:ring-2 focus:ring-inset focus:outline-blueFunko-400/60 focus:ring-blueFunko-300/60 text-sm font-light"
-            placeholder="Last name*" required />
+            placeholder="Last name*"
+            required
+          />
         </div>
 
         <div>
-          <input type="email" id="email" v-model="billingDetails.email"
+          <input
+            type="email"
+            id="email"
+            v-model="billingDetails.email"
             class="mt-1 block w-full rounded-md py-2.5 px-4 border-gray-300 border focus:ring-2 focus:ring-inset focus:outline-blueFunko-400/60 focus:ring-blueFunko-300/60 text-sm font-light"
-            placeholder="Email*" required />
+            placeholder="Email*"
+            required
+          />
         </div>
 
         <div>
-          <input type="text" id="address" v-model="billingDetails.address"
+          <input
+            type="text"
+            id="address"
+            v-model="billingDetails.address"
             class="mt-1 block w-full rounded-md py-2.5 px-4 border-gray-300 border focus:ring-2 focus:ring-inset focus:outline-blueFunko-400/60 focus:ring-blueFunko-300/60 text-sm font-light"
-            placeholder="Address*" required />
+            placeholder="Address*"
+            required
+          />
         </div>
 
         <div>
-          <input type="text" id="city" v-model="billingDetails.city"
+          <input
+            type="text"
+            id="city"
+            v-model="billingDetails.city"
             class="mt-1 block w-full rounded-md py-2.5 px-4 border-gray-300 border focus:ring-2 focus:ring-inset focus:outline-blueFunko-400/60 focus:ring-blueFunko-300/60 text-sm font-light"
-            placeholder="City / Town*" required />
+            placeholder="City / Town*"
+            required
+          />
         </div>
 
         <div>
-          <input type="text" id="address2" v-model="billingDetails.region"
+          <input
+            type="text"
+            id="address2"
+            v-model="billingDetails.region"
             class="mt-1 block w-full rounded-md py-2.5 px-4 border-gray-300 border focus:ring-2 focus:ring-inset focus:outline-blueFunko-400/60 focus:ring-blueFunko-300/60 text-sm font-light"
-            placeholder="Region" />
+            placeholder="Region"
+          />
         </div>
 
         <div>
-          <input type="text" id="country" v-model="billingDetails.country"
+          <input
+            type="text"
+            id="country"
+            v-model="billingDetails.country"
             class="mt-1 block w-full rounded-md py-2.5 px-4 border-gray-300 border focus:ring-2 focus:ring-inset focus:outline-blueFunko-400/60 focus:ring-blueFunko-300/60 text-sm font-light"
-            placeholder="Country*" required />
+            placeholder="Country*"
+            required
+          />
         </div>
 
-
         <div>
-          <input type="text" id="postcode" v-model="billingDetails.postcode"
+          <input
+            type="text"
+            id="postcode"
+            v-model="billingDetails.postcode"
             class="mt-1 block w-full rounded-md py-2.5 px-4 border-gray-300 border focus:ring-2 focus:ring-inset focus:outline-blueFunko-400/60 focus:ring-blueFunko-300/60 text-sm font-light"
-            placeholder="Postcode / ZIP*" required />
+            placeholder="Postcode / ZIP*"
+            required
+          />
         </div>
 
         <!-- Phone -->
         <div>
-          <input type="text" id="phone" v-model="billingDetails.phone"
+          <input
+            type="text"
+            id="phone"
+            v-model="billingDetails.phone"
             class="mt-1 block w-full rounded-md py-2.5 px-4 border-gray-300 border focus:ring-2 focus:ring-inset focus:outline-blueFunko-400/60 focus:ring-blueFunko-300/60 text-sm font-light"
-            placeholder="Phone*" required />
+            placeholder="Phone*"
+            required
+          />
         </div>
       </div>
 
       <div>
-        <textarea id="additional-info" v-model="billingDetails.additionalInfo"
+        <textarea
+          id="additional-info"
+          v-model="billingDetails.additionalInfo"
           class="mt-1 block w-full rounded-md py-2.5 h-52 px-4 border-gray-300 border focus:ring-2 focus:ring-inset focus:outline-blueFunko-400/60 focus:ring-blueFunko-300/60 text-sm font-light text-start"
-          placeholder="Additional information"></textarea>
+          placeholder="Additional information"
+        ></textarea>
       </div>
     </div>
 
@@ -271,10 +332,17 @@ async function addOrder(order) {
       </div>
 
       <div class="border-t border border-gray-300">
-        <div v-for="product in cartProducts" :key="product.id"
-          class="flex items-center justify-between border-gray-300 border-b pr-8 py-4">
+        <div
+          v-for="product in cartProducts"
+          :key="product.id"
+          class="flex items-center justify-between border-gray-300 border-b pr-8 py-4"
+        >
           <div class="flex items-center">
-            <img :src="product.imageHash" :alt="product.name" class="h-24 w-24 rounded-md object-cover" />
+            <img
+              :src="product.imageHash"
+              :alt="product.name"
+              class="h-24 w-24 rounded-md object-cover"
+            />
             <div class="ml-4">
               <h4 class="text-base font-medium">{{ product.name }}</h4>
               <p class="text-sm text-gray-500">Qty: {{ product.quantity }}</p>
@@ -300,42 +368,63 @@ async function addOrder(order) {
         <p class="font-regular text-md">Total</p>
         <p class="font-medium text-md text-green-700">{{ totalPayable.toFixed(2) }}€</p>
       </div>
-
+      <div class="mt-10">
+      <Alert v-if="showAlert" :type="alertData.type" :title="alertData.title" :message="alertData.message" @close="showAlert = false" />
+      </div>
       <div class="mt-10">
         <div class="justify-between bg-slate-950 text-white flex px-8 py-4 rounded-t-xl">
           <h3 class="text-lg font-medium">Payment</h3>
         </div>
         <div class="border-gray-300 border py-10 px-14 rounded-b-xl">
           <div class="flex items-center">
-            <input type="radio" id="cod" name="payment-method" v-model="selectedPaymentMethod" value="cod"
-              class="h-4 w-4 text-blue-600 accent-blueFunko-700 border-gray-300" />
+            <input
+              type="radio"
+              id="cod"
+              name="payment-method"
+              v-model="selectedPaymentMethod"
+              value="cod"
+              class="h-4 w-4 text-blue-600 accent-blueFunko-700 border-gray-300"
+            />
             <label for="cod" class="ml-2 block text-md font-light text-gray-900">
               Cash on Delivery
             </label>
           </div>
 
           <div class="flex items-center py-4">
-            <input type="radio" id="online" name="payment-method" v-model="selectedPaymentMethod" value="online"
-              class="h-4 w-4 text-blue-600 accent-blueFunko-700 border-gray-300" />
+            <input
+              type="radio"
+              id="online"
+              name="payment-method"
+              v-model="selectedPaymentMethod"
+              value="online"
+              class="h-4 w-4 text-blue-600 accent-blueFunko-700 border-gray-300"
+            />
             <label for="online" class="ml-2 block text-md font-light text-gray-900">
               Online Gateway
             </label>
           </div>
 
-          <p class="text-xs px-1 text-ultralight text-gray-700"> Visa / MasterCard</p>
+          <p class="text-xs px-1 text-ultralight text-gray-700">Visa / MasterCard</p>
 
-          <div v-show="selectedPaymentMethod === 'online'" id="card-element"
-            class="mt-4 p-3 border border-gray-300 rounded-md"></div>
+          <div
+            v-show="selectedPaymentMethod === 'online'"
+            id="card-element"
+            class="mt-4 p-3 border border-gray-300 rounded-md"
+          ></div>
 
           <div id="card-errors" role="alert" class="text-red-500 mt-2"></div>
         </div>
       </div>
 
       <div class="mt-10">
-        <button @click="handlePayment" :disabled="processing"
-          class="w-full bg-blueFunko-700 text-white font-semibold text-lg py-3 px-4 rounded-md hover:bg-blueFunko-800 disabled:opacity-50">
+        <button
+          @click="handlePayment"
+          :disabled="processing"
+          class="w-full bg-blueFunko-700 text-white font-semibold text-lg py-3 px-4 rounded-md hover:bg-blueFunko-800 disabled:opacity-50"
+        >
           {{ processing ? 'Processing...' : 'Place an order' }}
         </button>
+       
       </div>
     </div>
   </div>
