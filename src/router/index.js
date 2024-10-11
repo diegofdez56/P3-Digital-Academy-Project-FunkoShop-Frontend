@@ -79,6 +79,11 @@ const router = createRouter({
       path: '/404',
       name: 'NotFound', 
       component: () => import('@/views/notFound/NotFoundView.vue'),
+    },
+    {
+      path: '/unsubscribe',
+      name: 'Unsubscribe',
+      component: () => import('@/views/UnsubscribeView.vue'),
     }
   ]
 })

@@ -33,4 +33,23 @@ export default class CategoryRepository {
         }
     }
 
+    async unsubscribeNewsletter(code) {
+        try {
+            let headersList = {
+                "Accept": "*/*",
+            };
+
+            let reqOptions = {
+                url: `${BASE_URL}/unsubscribe?code=${code}`,
+                method: "DELETE",
+                headers: headersList
+            };
+
+            const response = await axios.request(reqOptions);
+            return response.data;
+        } catch (error) {
+            return error.toJSON();
+        }
+    }
+
 }
