@@ -23,7 +23,13 @@ const processing = ref(false)
 const cartProducts = computed(() => cartStore.products)
 const totalPrice = computed(() => cartStore.totalPrice)
 
-const shippingCost = ref(5.0)
+const shippingCost = computed(() => {
+  if (cartProducts.value.length === 0 || totalPrice.value === 0) {
+    return 0; 
+  }
+  return totalPrice.value > 75 ? 0 : 5.99;
+})
+
 const discount = ref(0.0)
 
 const totalPayable = computed(() => totalPrice.value + shippingCost.value - discount.value)
