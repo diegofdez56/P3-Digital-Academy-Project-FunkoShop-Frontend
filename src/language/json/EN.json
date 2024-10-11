@@ -64,5 +64,9 @@
     "continueShopping": "Continue Shopping",
     "shipping": "Shipping and taxes calculated at checkout.",
     "or": "or"
+  },
+
+  "wishlist": {
+    "wishlist": "WISHLIST"
   }
 }
