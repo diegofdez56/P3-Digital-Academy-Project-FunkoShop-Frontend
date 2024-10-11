@@ -7,13 +7,18 @@ const route = useRoute()
 </script>
 
 <template>
-  <header>
-    <NavBar />
-  </header>
-  <div class="wrapper"></div>
+  <div class="flex flex-col min-h-screen">
+    <header>
+      <NavBar />
+    </header>
+    <div class="wrapper"></div>
+    
+    <div class="flex-grow">
+      <RouterView />
+    </div>
 
-  <RouterView />
-  <footer v-if="route.path != '/404'">
-    <FooterComponent />
-  </footer>
+    <footer v-if="route.path != '/404'">
+      <FooterComponent />
+    </footer>
+  </div>
 </template>
