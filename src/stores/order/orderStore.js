@@ -136,15 +136,13 @@ export const useOrderStore = defineStore('orderStore', () => {
     }
   }
 
-  // Order Items management
-
   const addOrderItemToOrder = async (orderId, orderItemData) => {
     loading.value = true
     error.value = null
     try {
-      const response = await axios.post(`${BASE_URL}/${orderId}/items`, orderItemData,{
+      const response = await axios.post(`${BASE_URL}/${orderId}/items`, orderItemData, {
         headers: getAuthHeaders()
-      });
+      })
       const index = orders.value.findIndex((order) => order.id === orderId)
       if (index !== -1) {
         orders.value[index].items.push(response.data)
@@ -160,9 +158,9 @@ export const useOrderStore = defineStore('orderStore', () => {
     loading.value = true
     error.value = null
     try {
-      await axios.delete(`${BASE_URL}/${orderId}/items/${orderItemId}`,{
+      await axios.delete(`${BASE_URL}/${orderId}/items/${orderItemId}`, {
         headers: getAuthHeaders()
-      });
+      })
       const index = orders.value.findIndex((order) => order.id === orderId)
       if (index !== -1) {
         orders.value[index].items = orders.value[index].items.filter(
@@ -176,6 +174,7 @@ export const useOrderStore = defineStore('orderStore', () => {
     }
   }
 
+  
   return {
     orders,
     order,
