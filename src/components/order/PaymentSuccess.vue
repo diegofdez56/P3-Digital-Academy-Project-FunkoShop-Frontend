@@ -57,12 +57,12 @@ onMounted(async () => {
 
       <div class="flex justify-between mb-2">
         <div>
-          <p class="text-sm font-medium text-gray-700">{{ t('Order Number') }}:</p>
-          <p class="text-sm text-gray-600">{{ order.id }}</p>
+          <p class="text-sm font-medium text-gray-600">{{ t('Order Number') }}:</p>
+          <p class="text-sm text-gray-700">{{ order.id }}</p>
         </div>
         <div class="text-right">
-          <p class="text-sm font-medium text-gray-700">{{ t('Total Amount') }}:</p>
-          <p class="text-sm text-gray-600">{{ order.totalPrice }}€</p>
+          <p class="text-sm font-medium text-gray-600">{{ t('Total Amount') }}:</p>
+          <p class="text-sm text-gray-700">{{ order.totalPrice }}€</p>
         </div>
       </div>
     </div>
