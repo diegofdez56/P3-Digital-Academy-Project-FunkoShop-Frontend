@@ -8,7 +8,7 @@ const route = useRoute()
 
 <template>
   <div class="flex flex-col min-h-screen">
-    <header>
+    <header class="sticky top-0 z-50">
       <NavBar />
     </header>
     <div class="wrapper"></div>

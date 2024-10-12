@@ -1,5 +1,5 @@
 <script setup>
-import { ref, watch } from 'vue'
+import { ref, watch, nextTick } from 'vue'
 import useProductValidation from '@/composables/useProductValidation'
 import BaseButton from '@/components/BaseComponents/BaseButton.vue'
 
@@ -13,7 +13,8 @@ const props = defineProps({
       stock: 0,
       category: null,
       discount: null,
-      imageHash: null
+      imageHash: null,
+      imageHash2: null
     })
   },
   isLoadingCategories: Boolean,
@@ -22,6 +23,7 @@ const props = defineProps({
 })
 
 const fileBase64String = ref(null)
+const fileBase64String2 = ref(null)
 
 const emit = defineEmits(['submit', 'cancel'])
 
@@ -29,8 +31,13 @@ const form = ref({ ...props.initialProductData })
 
 watch(
   () => props.initialProductData,
-  (newVal) => {
+  async (newVal) => {
     form.value = { ...newVal }
+
+    form.value.imageHash = form.value.imageHash || null;
+    form.value.imageHash2 = form.value.imageHash2 || null;
+    await nextTick();
+    console.log("Form data updated:", form.value);
   },
   { immediate: true }
 )
@@ -38,12 +45,22 @@ watch(
 const { errors, validateProductForm } = useProductValidation()
 
 const handleSubmit = () => {
+  if (!fileBase64String.value && !props.initialProductData.imageHash) {
+    form.value.imageHash = null;
+  } else if (!fileBase64String.value) {
+    delete form.value.imageHash;
+  }
+  if (!fileBase64String2.value && !props.initialProductData.imageHash2) {
+    form.value.imageHash2 = null;
+  } else if (!fileBase64String2.value) {
+    delete form.value.imageHash2;
+  }
+
   if (!validateProductForm(form.value)) {
     return
   }
   emit('submit', form.value)
 }
-
 const handleCancel = () => {
   emit('cancel')
 }
@@ -57,6 +74,8 @@ const onFileChange = (event) => {
       form.value.imageHash = fileBase64String.value ? fileBase64String.value.split(',')[1] : null
     }
     reader.readAsDataURL(file)
+  } else {
+    form.value.imageHash = props.initialProductData.imageHash || null;
   }
 }
 
@@ -65,10 +84,12 @@ const onFileChange2 = (event) => {
   if (file) {
     const reader = new FileReader()
     reader.onload = (e) => {
-      fileBase64String.value = e.target.result
-      form.value.imageHash2 = fileBase64String.value ? fileBase64String.value.split(',')[1] : null
+      fileBase64String2.value = e.target.result
+      form.value.imageHash2 = fileBase64String2.value ? fileBase64String2.value.split(',')[1] : null
     }
     reader.readAsDataURL(file)
+  } else {
+    form.value.imageHash2 = props.initialProductData.imageHash2 || null;
   }
 }
 </script>
@@ -99,29 +120,31 @@ const onFileChange2 = (event) => {
       <span v-if="errors.description" class="text-red-500 text-sm">{{ errors.description }}</span>
     </div>
 
-    <div>
-      <label class="block text-sm font-medium text-slate-700">Price</label>
-      <input
-        v-model="form.price"
-        type="number"
-        min="0.01"
-        step="0.01"
-        class="mt-1 block w-full px-4 py-2 border-2 border-slate-200 rounded-md focus:outline-none focus:border-blueFunko-600"
-        required
-      />
-      <span v-if="errors.price" class="text-red-500 text-sm">{{ errors.price }}</span>
-    </div>
-
-    <div>
-      <label class="block text-sm font-medium text-slate-700">Stock</label>
-      <input
-        v-model="form.stock"
-        type="number"
-        min="0"
-        class="mt-1 block w-full px-4 py-2 border-2 border-slate-200 rounded-md focus:outline-none focus:border-blueFunko-600"
-        required
-      />
-      <span v-if="errors.stock" class="text-red-500 text-sm">{{ errors.stock }}</span>
+    <div class="grid grid-cols-2 gap-5"> 
+      <div>
+        <label class="block text-sm font-medium text-slate-700">Price</label>
+        <input
+          v-model="form.price"
+          type="number"
+          min="0.01"
+          step="0.01"
+          class="mt-1 block w-full px-4 py-2 border-2 border-slate-200 rounded-md focus:outline-none focus:border-blueFunko-600"
+          required
+        />
+        <span v-if="errors.price" class="text-red-500 text-sm">{{ errors.price }}</span>
+      </div>
+  
+      <div>
+        <label class="block text-sm font-medium text-slate-700">Stock</label>
+        <input
+          v-model="form.stock"
+          type="number"
+          min="0"
+          class="mt-1 block w-full px-4 py-2 border-2 border-slate-200 rounded-md focus:outline-none focus:border-blueFunko-600"
+          required
+        />
+        <span v-if="errors.stock" class="text-red-500 text-sm">{{ errors.stock }}</span>
+      </div>
     </div>
 
     <div>
@@ -159,30 +182,30 @@ const onFileChange2 = (event) => {
       <span v-if="errors.discount" class="text-red-500 text-sm">{{ errors.discount }}</span>
     </div>
 
-    <div>
-      <label class="block text-sm font-medium text-slate-700">Product Image</label>
-      <input
-        ref="upload"
-        type="file"
-        name="file-upload"
-        multiple=""
-        accept="image/jpeg, image/png"
-        @change="onFileChange"
-        class="mt-1 block w-full px-4 py-2 border-2 border-slate-200 rounded-md focus:outline-none focus:border-blueFunko-600"
-      />
-    </div>
-
-    <div>
-      <label class="block text-sm font-medium text-slate-700">Product Image 2</label>
-      <input
-        ref="upload"
-        type="file"
-        name="file-upload"
-        multiple=""
-        accept="image/jpeg, image/png"
-        @change="onFileChange2"
-        class="mt-1 block w-full px-4 py-2 border-2 border-slate-200 rounded-md focus:outline-none focus:border-blueFunko-600"
-      />
+    <div class="grid grid-cols-2 gap-5"> 
+      <div>
+        <label class="block text-sm font-medium text-slate-700">Product Image</label>
+        <input
+          ref="upload"
+          type="file"
+          name="file-upload"
+          accept="image/jpeg, image/png, image/**"
+          @change="onFileChange"
+          class="mt-1 block w-full px-4 py-2 border-2 border-slate-200 rounded-md focus:outline-none focus:border-blueFunko-600"
+        />
+      </div>
+  
+      <div>
+        <label class="block text-sm font-medium text-slate-700">Product Image 2</label>
+        <input
+          ref="upload"
+          type="file"
+          name="file-upload"
+          accept="image/jpeg, image/png, image/**"
+          @change="onFileChange2"
+          class="mt-1 block w-full px-4 py-2 border-2 border-slate-200 rounded-md focus:outline-none focus:border-blueFunko-600"
+        />
+      </div>
     </div>
 
     <div class="mt-4 flex justify-end space-x-2">
