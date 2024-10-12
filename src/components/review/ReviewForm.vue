@@ -4,6 +4,13 @@ import { useReviewStore } from '@/stores/review/reviewStore';
 
 const reviewStore = useReviewStore();
 
+const emit = defineEmits(['close'])
+
+//orderItemId
+const props = defineProps({
+    orderItemId: Number,
+})
+//review
 const review = ref({
   rating: 0,
 });
@@ -19,10 +26,10 @@ const submitReview = async () => {
   try {
     error.value = '';
     message.value = '';
-    
+    //send review to API and get response, TODO: use axios
     await reviewStore.createReview({
       rating: review.value.rating,
-      orderItemId: 1, 
+      orderItem: props.orderItemId
     });
 
     message.value = 'Review send successfully';
@@ -56,7 +63,7 @@ const submitReview = async () => {
         </div>
       </div>
 
-      <button type="submit" class="bg-blue-500 text-white py-2 px-4 rounded hover:bg-blue-600">
+      <button @click="emit('close')" type="submit" class="bg-blue-500 text-white py-2 px-4 rounded hover:bg-blue-600">
         Send 
       </button>
     </form>
