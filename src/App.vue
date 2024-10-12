@@ -11,8 +11,7 @@ const route = useRoute()
     <header class="sticky top-0 z-50">
       <NavBar />
     </header>
-    <div class="wrapper"></div>
-    
+
     <div class="flex-grow">
       <RouterView />
     </div>

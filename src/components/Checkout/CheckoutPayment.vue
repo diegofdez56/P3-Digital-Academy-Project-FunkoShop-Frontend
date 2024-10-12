@@ -4,13 +4,14 @@ import { useCartStore } from '@/stores/cart/cartStore'
 import { loadStripe } from '@stripe/stripe-js'
 import { useAuthStore } from '@/stores/auth'
 import { ProfileStore } from '@/stores/Profile/ProfileStore'
-import router from '@/router'
 import { OrderStore } from '@/stores/order/orderStore'
+import router from '@/router'
 import Alert from '@/components/BaseComponents/AlertPopup.vue'
 
 const cartStore = useCartStore()
 const store = ProfileStore()
 const auth = useAuthStore()
+const orderStore = OrderStore()
 
 const stripePublicKey = import.meta.env.VITE_STRIPE_PUBLIC_KEY
 const apiEndpoint = import.meta.env.VITE_API_ENDPOINT
@@ -25,9 +26,9 @@ const totalPrice = computed(() => cartStore.totalPrice)
 
 const shippingCost = computed(() => {
   if (cartProducts.value.length === 0 || totalPrice.value === 0) {
-    return 0; 
+    return 0
   }
-  return totalPrice.value > 75 ? 0 : 5.99;
+  return totalPrice.value > 75 ? 0 : 5.99
 })
 
 const discount = ref(0.0)
@@ -105,12 +106,38 @@ onMounted(async () => {
 
 const handlePayment = async () => {
   if (selectedPaymentMethod.value === 'cod') {
+    const products = []
+    cartProducts.value.forEach((product) => {
+      products.push({ id: product.id, quantity: product.quantity })
+    })
+
+    const newOrder = {
+      status: 'Pending',
+      totalPrice: totalPayable.value,
+      totalItems: cartStore.totalQuantity,
+      orderItems: products,
+      tracking: null,
+      paid: false
+    }
+
+    try {
+      const response = await orderStore.addOrder(auth.user.access_token, newOrder)
+      if (!response || !response.id) {
+        throw new Error('Failed to create order')
+      }
+      const orderId = response.id
+      setTimeout(() => {
+        router.push({ name: 'home', query: { orderId } })
+      }, 1250)
+      cartStore.clearCart()
+    } catch (error) {
+      console.error('Error adding order:', error)
+    }
+
     alertData.type = 'success'
     alertData.title = 'Order Placed'
     alertData.message = 'Order placed with Cash on Delivery.'
     showAlert.value = true
-    orderPayment(false, 'Pending')
-    cartStore.clearCart()
     return
   }
 
@@ -160,22 +187,19 @@ const handlePayment = async () => {
       })
 
       if (result.error) {
-        console.error(result.error.message)
         alertData.type = 'error'
         alertData.title = 'Payment Failed'
         alertData.message = `Payment failed: ${result.error.message}`
         showAlert.value = true
       } else if (result.paymentIntent.status === 'succeeded') {
-        console.log('Payment succeeded:', result.paymentIntent)
         alertData.type = 'success'
         alertData.title = 'Payment Successful'
         alertData.message = 'Payment successful! Thank you for your purchase.'
         showAlert.value = true
 
-        orderPayment(result.paymentIntent.payment_method_types[0] == 'card' ? true : false, 'Paid')
+        orderPayment(result.paymentIntent.payment_method_types[0] === 'card', 'Paid')
       }
     } catch (error) {
-      console.error('Error during payment:', error)
       alertData.type = 'error'
       alertData.title = 'Error'
       alertData.message = `An error occurred: ${error.message}`
@@ -187,29 +211,33 @@ const handlePayment = async () => {
 }
 
 async function orderPayment(isPaid, status) {
-  const products = ref([])
+  const products = []
   cartProducts.value.forEach((product) => {
-    products.value.push({ id: product.id, quantity: product.quantity })
+    products.push({ id: product.id, quantity: product.quantity })
   })
 
-  const neworder = ref({
+  const newOrder = {
     status: status,
-    totalPrice: cartStore.totalPrice,
+    totalPrice: totalPayable.value,
     totalItems: cartStore.totalQuantity,
-    orderItems: products.value,
+    orderItems: products,
     tracking: null,
     paid: isPaid
-  })
+  }
 
-  const response = addOrder(neworder.value)
-  console.log(response)
- 
-  cartStore.clearCart()
-  router.push('/orders')
-}
-
-async function addOrder(order) {
-  return await OrderStore().addOrder(auth.user.access_token, order)
+  try {
+    const response = await orderStore.addOrder(auth.user.access_token, newOrder)
+    if (!response || !response.id) {
+      throw new Error('Failed to create order')
+    }
+    cartStore.clearCart()
+    const orderId = response.id
+    setTimeout(() => {
+      router.push({ path: '/order/success', query: { orderId } })
+    }, 1250)
+  } catch (error) {
+    console.error('Error adding order:', error)
+  }
 }
 </script>
 
@@ -375,7 +403,13 @@ async function addOrder(order) {
         <p class="font-medium text-md text-green-700">{{ totalPayable.toFixed(2) }}€</p>
       </div>
       <div class="mt-10">
-      <Alert v-if="showAlert" :type="alertData.type" :title="alertData.title" :message="alertData.message" @close="showAlert = false" />
+        <Alert
+          v-if="showAlert"
+          :type="alertData.type"
+          :title="alertData.title"
+          :message="alertData.message"
+          @close="showAlert = false"
+        />
       </div>
       <div class="mt-10">
         <div class="justify-between bg-slate-950 text-white flex px-8 py-4 rounded-t-xl">
@@ -430,7 +464,6 @@ async function addOrder(order) {
         >
           {{ processing ? 'Processing...' : 'Place an order' }}
         </button>
-       
       </div>
     </div>
   </div>
