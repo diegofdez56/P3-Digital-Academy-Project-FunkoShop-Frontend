@@ -5,6 +5,8 @@ import BadgeCard from './BadgeCard.vue'
 import ProductModal from './../ProductDetail/ProductModal.vue'
 import { useProductModal } from '/src/composables/useProductModal.js'
 import { computed } from 'vue'
+import { ArrowsPointingOutIcon, ShoppingCartIcon } from '@heroicons/vue/24/outline';
+import { useCartStore } from '@/stores/cart/cartStore';
 // import { FavoriteStore } from '/src/store/favorite/favoriteStore.js'
 
 const props = defineProps({
@@ -15,6 +17,7 @@ const props = defineProps({
 })
 
 const { isModalOpen, openModal, closeModal } = useProductModal()
+const cartStore = useCartStore()
 
 
 const discountedPrice = computed(() => {
@@ -27,35 +30,45 @@ const discountedPrice = computed(() => {
 
 const productImageUrl = computed(() => {
   if (props.product.imageHash) {
-    
+
     const isBase64 = props.product.imageHash.startsWith('/') || props.product.imageHash.includes('base64');
-    
+
     if (isBase64) {
       return `data:image/png;base64,${props.product.imageHash}`;
     } else {
-      return props.product.imageHash; 
+      return props.product.imageHash;
     }
   }
   return '';
 });
+
+const addToCart = () => {
+  if (1 <= props.product.stock) {
+    const productToAdd = {
+      id: props.product.id,
+      name: props.product.name,
+      price: discountedPrice.value,
+      imageHash: props.product.imageHash
+    }
+    cartStore.addProduct(productToAdd, 1)
+  } else {
+    console.error('Quantity exceeds stock')
+  }
+}
 </script>
 
 <template>
   <div class="relative flex flex-col my-6 bg-white shadow-sm border border-slate-200 rounded-lg w-64">
     <div class="flex justify-between pt-3 px-3">
       <div class="w-full flex place-items-center justify-between">
-          <BadgeCard :id="product.name" :stock="product.stock" :isDiscount="product.discount > 0 ? true : false"
-            :discount="product.discount > 0 ? product.discount : 0" :isNew="product.isNew" />
-          <FavoriteIcon :productId="product.id"/>
+        <BadgeCard :id="product.name" :stock="product.stock" :isDiscount="product.discount > 0 ? true : false"
+          :discount="product.discount > 0 ? product.discount : 0" :isNew="product.isNew" />
+        <FavoriteIcon :productId="product.id" />
       </div>
     </div>
-    <div class="relative p-2 h-60 overflow-hidden rounded-xl bg-clip-border">
-      <img
-        :src="productImageUrl"
-        alt="product image"
-        class="h-full w-full object-cover rounded-md cursor-pointer"
-        @click="openModal"
-      />
+    <div class="relative flex justify-center items-center p-2 h-60 overflow-hidden rounded-xl bg-clip-border">
+      <img :src="productImageUrl" alt="product image" class="h-[230px] w-[230px] object-cover rounded-md cursor-pointer"
+        @click="openModal" />
     </div>
     <div>
       <ReviewIcon :average="Math.round(product.averageRating)" />
@@ -78,14 +91,14 @@ const productImageUrl = computed(() => {
 
           <p v-else class="text-black text-base font-semibold">{{ product.price.toFixed(2) }}€</p>
         </div>
-
-        <button @click="openModal" class="px-2 py-2 bg-gray-200 text-white rounded hover:bg-gray-300">
-          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" class="size-6 text-black">
-            <path fill-rule="evenodd"
-              d="M7.5 6v.75H5.513c-.96 0-1.764.724-1.865 1.679l-1.263 12A1.875 1.875 0 0 0 4.25 22.5h15.5a1.875 1.875 0 0 0 1.865-2.071l-1.263-12a1.875 1.875 0 0 0-1.865-1.679H16.5V6a4.5 4.5 0 1 0-9 0ZM12 3a3 3 0 0 0-3 3v.75h6V6a3 3 0 0 0-3-3Zm-3 8.25a3 3 0 1 0 6 0v-.75a.75.75 0 0 1 1.5 0v.75a4.5 4.5 0 1 1-9 0v-.75a.75.75 0 0 1 1.5 0v.75Z"
-              clip-rule="evenodd" />
-          </svg>
-        </button>
+        <div>
+          <button @click="addToCart" class="px-2 py-2 mr-2 bg-gray-200 text-white rounded hover:bg-gray-300">
+            <ShoppingCartIcon class="size-6 text-black" />
+          </button>
+          <button @click="openModal" class="px-2 py-2 bg-gray-200 text-white rounded hover:bg-gray-300">
+            <ArrowsPointingOutIcon class="size-6 text-black" />
+          </button>
+        </div>
       </div>
     </div>
 

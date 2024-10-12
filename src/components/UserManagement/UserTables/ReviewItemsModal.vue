@@ -1,4 +1,5 @@
 <script setup>
+import ReviewForm from '@/components/review/ReviewForm.vue';
 import {
     Dialog,
     DialogPanel,
@@ -42,7 +43,7 @@ const emit = defineEmits(['close'])
                                     </div>
                                     <div
                                         class="mt-10 sm:mx-auto sm:w-full sm:max-w-sm lg:max-w-[550px] xl:max-w-[650px] 2xl:max-w-[750px]">
-                                        aqui {{ orderItemId }}
+                                        <ReviewForm :orderItemId="orderItemId" />
                                         <div class="flex justify-center w-full items-center mt-2">
                                             <button @click="emit('close')"
                                                 class="border-2 border-black/30 rounded-lg mt-6 py-2 px-12 hover:bg-gray-50">
