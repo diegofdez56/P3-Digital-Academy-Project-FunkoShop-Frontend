@@ -67,7 +67,7 @@ const addToCart = () => {
       </div>
     </div>
     <div class="relative flex justify-center items-center p-2 h-60 overflow-hidden rounded-xl bg-clip-border">
-      <img :src="productImageUrl ? productImageUrl : 'https://via.placeholder.com/230x230/cccccc/ffffff?text=No+Image'" alt="product image" class="h-[230px] w-[230px] object-cover rounded-md cursor-pointer"
+      <img :src="productImageUrl ? productImageUrl : 'https://iili.io/2HTt1PR.jpg'" alt="product image" class="h-[230px] w-[230px] object-cover rounded-md cursor-pointer"
         @click="openModal" />
     </div>
     <div>
