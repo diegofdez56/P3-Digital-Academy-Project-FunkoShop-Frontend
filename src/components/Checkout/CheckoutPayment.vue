@@ -113,7 +113,7 @@ const handlePayment = async () => {
 
     const newOrder = {
       status: 'Pending',
-      totalPrice: cartStore.totalPrice,
+      totalPrice: totalPayable.value,
       totalItems: cartStore.totalQuantity,
       orderItems: products,
       tracking: null,
@@ -125,9 +125,11 @@ const handlePayment = async () => {
       if (!response || !response.id) {
         throw new Error('Failed to create order')
       }
-      cartStore.clearCart()
       const orderId = response.id
-      router.push({ path: '/order/success', query: { orderId } })
+      setTimeout(() => {
+        router.push({ name: 'home', query: { orderId } })
+      }, 1250)
+      cartStore.clearCart()
     } catch (error) {
       console.error('Error adding order:', error)
     }
@@ -216,7 +218,7 @@ async function orderPayment(isPaid, status) {
 
   const newOrder = {
     status: status,
-    totalPrice: cartStore.totalPrice,
+    totalPrice: totalPayable.value,
     totalItems: cartStore.totalQuantity,
     orderItems: products,
     tracking: null,
@@ -230,7 +232,9 @@ async function orderPayment(isPaid, status) {
     }
     cartStore.clearCart()
     const orderId = response.id
-    router.push({ path: '/order/success', query: { orderId } })
+    setTimeout(() => {
+      router.push({ path: '/order/success', query: { orderId } })
+    }, 1250)
   } catch (error) {
     console.error('Error adding order:', error)
   }

@@ -1,14 +1,23 @@
 <script setup>
 import { ref, onMounted } from 'vue'
-import { useRoute } from 'vue-router'
+import { useRoute, useRouter } from 'vue-router'
 import { useI18n } from 'vue-i18n'
 import { useAuthStore } from '@/stores/auth'
 
 const { t } = useI18n()
 const route = useRoute()
+const router = useRouter()
 
 const order = ref(null)
 const auth = useAuthStore()
+
+const goToHome = () => {
+  router.push('/home')
+}
+
+const goToOrders = () => {
+  router.push('/orders')
+}
 
 onMounted(async () => {
   const orderId = route.query.orderId
@@ -48,19 +57,29 @@ onMounted(async () => {
 
       <div class="flex justify-between mb-2">
         <div>
-          <p class="text-sm font-medium text-gray-500">{{ t('Order Number') }}:</p>
+          <p class="text-sm font-medium text-gray-700">{{ t('Order Number') }}:</p>
           <p class="text-sm text-gray-600">{{ order.id }}</p>
         </div>
         <div class="text-right">
-          <p class="text-sm font-medium text-gray-500">{{ t('Total Amount') }}:</p>
+          <p class="text-sm font-medium text-gray-700">{{ t('Total Amount') }}:</p>
           <p class="text-sm text-gray-600">{{ order.totalPrice }}€</p>
         </div>
       </div>
     </div>
 
     <div class="flex justify-between mt-4">
-      <button class="bg-blue-500 px-4 py-2 text-white rounded mx-2">Return to Homepage</button>
-      <button class="bg-blue-500 px-4 py-2 text-white rounded mx-2">Going to My Orders</button>
+      <button
+        @click="goToHome"
+        class="bg-blueFunko-700 px-4 py-2 text-white rounded mx-2 hover:bg-blueFunko-600"
+      >
+        Return to Home
+      </button>
+      <button
+        @click="goToOrders"
+        class="bg-blueFunko-700 px-4 py-2 text-white rounded mx-2 hover:bg-blueFunko-600"
+      >
+        Go to Orders
+      </button>
     </div>
   </div>
 
