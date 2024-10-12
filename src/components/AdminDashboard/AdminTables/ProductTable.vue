@@ -87,7 +87,7 @@ const closeModal = () => {
   </div>
 
   <div v-else>
-    <BaseTable :headers="['Name', 'Category','Stock', 'Price', 'Discount', 'Actions']">
+    <BaseTable :headers="['Name', '', 'Category','Stock', 'Price', 'Discount', 'Actions']">
       <ProductTableRow 
         v-for="product in products" 
         :key="product.id" 
