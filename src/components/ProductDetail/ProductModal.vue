@@ -77,7 +77,7 @@ const productImageUrl1 = computed(() => {
       return props.product.imageHash
     }
   }
-  return ''
+  return 'https://via.placeholder.com/230x230/cccccc/ffffff?text=No+Image'
 })
 
 const productImageUrl2 = computed(() => {
@@ -91,7 +91,7 @@ const productImageUrl2 = computed(() => {
       return props.product.imageHash2
     }
   }
-  return ''
+  return 'https://via.placeholder.com/230x230/cccccc/ffffff?text=No+Image'
 })
 
 const nextImage = () => {
@@ -106,7 +106,6 @@ const currentImageUrl = computed(() => {
   return currentImageIndex.value === 0 ? productImageUrl1.value : productImageUrl2.value
 })
 
-// Estado para manejar el zoom
 const isZoomed = ref(false)
 const zoomStyle = ref({
   width: '250px',
@@ -120,10 +119,8 @@ const zoomStyle = ref({
   left: '0',
 })
 
-// Referencia a la imagen del producto
 const productImage = ref(null)
 
-// Función para calcular la posición del zoom
 const zoomIn = (event) => {
   isZoomed.value = true
   const imageRect = productImage.value.getBoundingClientRect()
@@ -140,7 +137,6 @@ const zoomIn = (event) => {
   }
 }
 
-// Función para ocultar el zoom cuando el mouse sale
 const zoomOut = () => {
   isZoomed.value = false
 }
