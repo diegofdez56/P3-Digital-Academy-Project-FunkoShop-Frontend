@@ -137,6 +137,9 @@ export const useProductStore = defineStore('products', () => {
     isLoading.value = true;
     error.value = null;
     try {
+      productData.imageHash = productData.imageHash || null;
+      productData.imageHash2 = productData.imageHash2 || null;
+
       const response = await axios.post(BASE_URL, productData, {
         headers: getAuthHeaders(),
       });
@@ -157,7 +160,7 @@ export const useProductStore = defineStore('products', () => {
       const response = await axios.put(`${BASE_URL}/${id}`, productData, {
         headers: getAuthHeaders(),
       });
-      product.value = response.data;
+
       const index = products.value.findIndex((p) => p.id === id);
       if (index !== -1) {
         products.value[index] = {
@@ -165,6 +168,7 @@ export const useProductStore = defineStore('products', () => {
           isDiscount: response.data.discount > 0
         };
       }
+      product.value = response.data;
     } catch (err) {
       handleError(err);
       throw err;
@@ -172,7 +176,6 @@ export const useProductStore = defineStore('products', () => {
       isLoading.value = false;
     }
   };
-
   const deleteProduct = async (id) => {
     isLoading.value = true;
     error.value = null;
