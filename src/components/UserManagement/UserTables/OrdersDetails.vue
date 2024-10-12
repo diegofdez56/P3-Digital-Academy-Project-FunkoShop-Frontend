@@ -5,7 +5,7 @@ import OrderDetailTableRow from './OrderDetailTableRow.vue';
 
 const { t } = useI18n()
 
-const props = defineProps({
+defineProps({
     items: {
         type: Array,
         required: true
@@ -13,7 +13,6 @@ const props = defineProps({
     totalItems: Number,
     totalPrice: Number
 })
-console.log(props.orderItems);
 
 const emit = defineEmits(['close'])
 
@@ -27,7 +26,7 @@ const emit = defineEmits(['close'])
                 <p>{{ t('products') }}</p>
             </div>
             <div class="mt-10 sm:mx-auto sm:w-full sm:max-w-sm lg:max-w-[550px] xl:max-w-[650px] 2xl:max-w-[750px]">
-                <BaseTable :headers="['Name', 'Image', 'Quantity', 'Price', 'Discount', 'Category']">
+                <BaseTable :headers="['Name', 'Add Review', 'Image', 'Quantity', 'Price', 'Discount', 'Category']">
                     <OrderDetailTableRow v-for="item in items" :key="item.id" :item="item" />
                     <tr class="bg-slate-50 hover:bg-gray-100 text-slate-900 border-t border-slate-300">
                         <td class="px-4 py-3 font-semibold">Total</td>
