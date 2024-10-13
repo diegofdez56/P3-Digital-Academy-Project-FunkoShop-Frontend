@@ -3,12 +3,14 @@ import { useProductModal } from '@/composables/useProductModal';
 import { StarIcon } from '@heroicons/vue/20/solid';
 import ReviewItemsModal from './ReviewItemsModal.vue';
 
-defineProps({
+const props = defineProps({
   item: {
     type: Object,
     required: true
   }
 })
+
+const average  = Math.round(props.item.product.averageRating * 1.0)
 
 const { isModalOpen, openModal, closeModal } = useProductModal()
 
@@ -19,7 +21,7 @@ const { isModalOpen, openModal, closeModal } = useProductModal()
     <td class="px-4 py-3">
       <button @click="openModal" class="px-1.5 py-1.5 ml-4 lg:ml-4 bg-white rounded-md shadow-md flex">
         <StarIcon class="h-5 w-5 flex-shrink-0 text-yellow-400 group-hover:text-gray-400"
-          aria-hidden="true" /> {{ item.product.averageRating }}
+          aria-hidden="true" /> {{ average }}
       </button>
       <ReviewItemsModal :isOpen="isModalOpen" @close="closeModal" :orderItemId="item.id"/>
     </td>
