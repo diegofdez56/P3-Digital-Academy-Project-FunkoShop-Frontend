@@ -11,11 +11,12 @@ defineProps({
 })
 
 const { isModalOpen, openModal, closeModal } = useProductModal()
-
 </script>
 <template>
   <tr class="bg-slate-50 hover:bg-gray-100 text-slate-900 border-t border-slate-300">
     <td class="px-4 py-3">{{ order.status }}</td>
+    <td class="px-4 py-3">{{ order.id }}</td>
+
     <td class="px-4 py-3">{{ order.totalItems }}</td>
     <td class="px-4 py-3">{{ order.totalPrice }}</td>
     <td>
@@ -26,5 +27,4 @@ const { isModalOpen, openModal, closeModal } = useProductModal()
       <OrderItemsModal :isOpen="isModalOpen" @close="closeModal" :order="order" />
     </td>
   </tr>
-
 </template>
