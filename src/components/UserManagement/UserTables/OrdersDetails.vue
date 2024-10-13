@@ -11,7 +11,8 @@ defineProps({
         required: true
     },
     totalItems: Number,
-    totalPrice: Number
+    totalPrice: Number,
+    isAdmin: Boolean
 })
 
 const emit = defineEmits(['close'])
@@ -27,7 +28,7 @@ const emit = defineEmits(['close'])
             </div>
             <div class="mt-10 sm:mx-auto sm:w-full sm:max-w-sm lg:max-w-[550px] xl:max-w-[650px] 2xl:max-w-[750px]">
                 <BaseTable :headers="['Name', 'Add Review', 'Image', 'Quantity', 'Price', 'Discount', 'Category']">
-                    <OrderDetailTableRow v-for="item in items" :key="item.id" :item="item" />
+                    <OrderDetailTableRow v-for="item in items" :key="item.id" :item="item" :isAdmin="isAdmin" />
                     <tr class="bg-slate-50 hover:bg-gray-100 text-slate-900 border-t border-slate-300">
                         <td class="px-4 py-3 font-semibold">Total</td>
                         <td class="px-4 py-3"></td>

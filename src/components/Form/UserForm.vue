@@ -34,10 +34,12 @@ const textAlert = ref("")
 async function setProfile() {
     const response = await store.setProfile(firstName.value, lastName.value, (countryCode.value + '-' + rigthNumber.value), street.value, city.value, region.value, postalCode.value, country.value, address.value, subscribed.value, shipping.value, auth.user.access_token);
 
-    if (response.user == auth.user.id)
+    if (response.id == auth.user.id)
         textAlert.value = 'Profile updated successfully';
     else
         textAlert.value = 'Error updating profile';
+
+    console.log(response.id);
 
     setTimeout(() => {
         textAlert.value = '';

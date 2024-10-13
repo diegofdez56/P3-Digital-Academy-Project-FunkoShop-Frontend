@@ -7,10 +7,11 @@ const props = defineProps({
   item: {
     type: Object,
     required: true
-  }
+  },
+  isAdmin: Boolean
 })
 
-const average  = Math.round(props.item.product.averageRating * 1.0)
+const average = Math.round(props.item.product.averageRating * 1.0)
 
 const { isModalOpen, openModal, closeModal } = useProductModal()
 
@@ -19,11 +20,19 @@ const { isModalOpen, openModal, closeModal } = useProductModal()
   <tr class="bg-slate-50 hover:bg-gray-100 text-slate-900 border-t border-slate-300">
     <td class="px-4 py-3 font-semibold">{{ item.product.name }}</td>
     <td class="px-4 py-3">
-      <button @click="openModal" class="px-1.5 py-1.5 ml-4 lg:ml-4 bg-white rounded-md shadow-md flex">
-        <StarIcon class="h-5 w-5 flex-shrink-0 text-yellow-400 group-hover:text-gray-400"
-          aria-hidden="true" /> {{ average }}
-      </button>
-      <ReviewItemsModal :isOpen="isModalOpen" @close="closeModal" :orderItemId="item.id"/>
+      <div v-if="!isAdmin">
+        <button @click="openModal" class="px-1.5 py-1.5 ml-4 lg:ml-4 bg-white rounded-md shadow-md flex">
+          <StarIcon class="h-5 w-5 flex-shrink-0 text-yellow-400 group-hover:text-gray-400" aria-hidden="true" /> {{
+            average }}
+        </button>
+        <ReviewItemsModal :isOpen="isModalOpen" @close="closeModal" :orderItemId="item.id" />
+      </div>
+      <div v-else>
+        <button class="px-1.5 py-1.5 ml-4 lg:ml-4 bg-white rounded-md shadow-md flex">
+          <StarIcon class="h-5 w-5 flex-shrink-0 text-yellow-400 group-hover:text-gray-400" aria-hidden="true" /> {{
+            average }}
+        </button>
+      </div>
     </td>
     <td class="px-4 py-3"><img v-if="item.product.imageHash" :src="item.product.imageHash" class="w-8 h-8" /></td>
     <td class="px-4 py-3">{{ item.quantity }}</td>
