@@ -112,7 +112,7 @@ const handlePayment = async () => {
     })
 
     const newOrder = {
-      status: 'Pending',
+      status: 'PENDING',
       totalPrice: totalPayable.value,
       totalItems: cartStore.totalQuantity,
       orderItems: products,
@@ -197,7 +197,7 @@ const handlePayment = async () => {
         alertData.message = 'Payment successful! Thank you for your purchase.'
         showAlert.value = true
 
-        orderPayment(result.paymentIntent.payment_method_types[0] === 'card', 'Paid')
+        orderPayment(result.paymentIntent.payment_method_types[0] === 'card', 'PENDING')
       }
     } catch (error) {
       alertData.type = 'error'

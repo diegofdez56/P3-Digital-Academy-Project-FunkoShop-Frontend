@@ -15,7 +15,8 @@ defineProps({
     order: {
         type: Object,
         required: true
-    }
+    },
+    isAdmin: Boolean
 })
 
 const emit = defineEmits(['close'])
@@ -37,7 +38,7 @@ const emit = defineEmits(['close'])
                         leave-from="opacity-100 translate-y-0 sm:scale-100"
                         leave-to="opacity-0 translate-y-4 sm:translate-y-0 sm:scale-95">
                         <DialogPanel class="shadow-xl transition-all w-full max-w-md lg:max-w-[550px] xl:max-w-[650px] 2xl:max-w-[750px] rounded-2xl">
-                            <OrdersDetails @close="emit('close')" :items="order.orderItems" :totalItems="order.totalItems" :totalPrice="order.totalPrice" :orderId="order.id" />
+                            <OrdersDetails @close="emit('close')" :items="order.orderItems" :totalItems="order.totalItems" :totalPrice="order.totalPrice" :orderId="order.id" :isAdmin="isAdmin" />
                         </DialogPanel>
                     </TransitionChild>
                 </div>
