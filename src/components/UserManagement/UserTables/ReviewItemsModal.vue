@@ -16,6 +16,10 @@ defineProps({
 })
 
 const emit = defineEmits(['close'])
+
+function closeBack() {
+    emit('close')
+}
 </script>
 
 <template>
@@ -40,7 +44,7 @@ const emit = defineEmits(['close'])
                                     class="relative flex h-auto max-w-sm flex-1 flex-col justify-center px-6 py-12 lg:px-8 bg-white border-2 rounded-xl border-gray-300/30 shadow-md">
                                     <div
                                         class="mt-10 sm:mx-auto sm:w-full sm:max-w-sm">
-                                        <ReviewForm :orderItemId="orderItemId" @close="emit('close')"/>
+                                        <ReviewForm :orderItemId="orderItemId" @close="emit('close')" @closeBack="closeBack" />
                                         <div class="flex justify-center w-full items-center mt-2">
                                             <button @click="emit('close')"
                                                 class="border-2 border-black/30 rounded-lg mt-6 py-2 px-12 hover:bg-gray-50">

@@ -77,7 +77,7 @@ const productImageUrl1 = computed(() => {
       return props.product.imageHash
     }
   }
-  return 'https://via.placeholder.com/230x230/cccccc/ffffff?text=No+Image'
+  return 'https://iili.io/2HTt1PR.jpg'
 })
 
 const productImageUrl2 = computed(() => {
@@ -91,7 +91,7 @@ const productImageUrl2 = computed(() => {
       return props.product.imageHash2
     }
   }
-  return 'https://via.placeholder.com/230x230/cccccc/ffffff?text=No+Image'
+  return 'https://iili.io/2HTt1PR.jpg'
 })
 
 const nextImage = () => {
