@@ -28,7 +28,6 @@ async function fetchOrders() {
 
 onMounted(() => {
   fetchOrders();
-  
 });
 
 async function handlePageChange(newPage) {

@@ -1,7 +1,7 @@
 <script setup>
 import { ref, computed, watch } from 'vue'
 import { Dialog, DialogPanel, DialogTitle, TransitionChild, TransitionRoot } from '@headlessui/vue'
-import { XMarkIcon, ShoppingBagIcon } from '@heroicons/vue/24/outline'
+import { XMarkIcon, ShoppingCartIcon } from '@heroicons/vue/24/outline'
 import { useCartStore } from '@/stores/cart/cartStore'
 import { useI18n } from 'vue-i18n'
 import { useRouter } from 'vue-router'
@@ -73,7 +73,7 @@ watch(
 
 <template>
   <button @click="open = true" class="px-1.5 py-1.5">
-    <ShoppingBagIcon class="h-5 w-5 flex-shrink-0 text-black group-hover:text-gray-400" aria-hidden="true" />
+    <ShoppingCartIcon class="h-5 w-5 flex-shrink-0 text-black group-hover:text-gray-400" aria-hidden="true" />
   </button>
   <TransitionRoot as="template" :show="open">
     <Dialog class="relative z-10" @close="open = false">

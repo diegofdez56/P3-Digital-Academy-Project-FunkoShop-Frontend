@@ -1,10 +1,8 @@
 <script setup>
 import { useProductModal } from '@/composables/useProductModal';
 import OrderItemsModal from './OrderItemsModal.vue';
-import { useI18n } from 'vue-i18n';
 import { EllipsisHorizontalCircleIcon } from '@heroicons/vue/20/solid';
 
-const { t } = useI18n()
 defineProps({
   order: {
     type: Object,
@@ -23,7 +21,7 @@ const { isModalOpen, openModal, closeModal } = useProductModal()
     <td>
       <button @click="openModal" class="px-1.5 py-1.5 ml-4 lg:ml-4 bg-white rounded-md shadow-md flex">
         <EllipsisHorizontalCircleIcon class="h-5 w-5 flex-shrink-0 text-gray-700 group-hover:text-gray-400 mr-2" aria-hidden="true" />
-        {{ t('details') }}
+        Details
       </button>
       <OrderItemsModal :isOpen="isModalOpen" @close="closeModal" :order="order" />
     </td>
