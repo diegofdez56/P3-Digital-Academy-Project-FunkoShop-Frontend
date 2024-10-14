@@ -101,13 +101,7 @@ async function register() {
             </button>
           </div>
         </form>
-        <!-- <p class="text-sm text-center mt-10 text-gray-400">——— Or Connect With ———</p>
 
-        <div class="flex justify-center w-full items-center mb-5">
-          <button class="border-2 border-black/30 rounded-lg mt-6 py-2 px-12 hover:bg-gray-50">
-            <img src="../assets/img/logos/GoogleLogo.svg" alt="" />
-          </button>
-        </div> -->
       </div>
       <img src="../assets/img/details/PointShape.svg" alt="" class="w-10 absolute bottom-1 left-1" />
       <img src="../assets/img/details/PointShape.svg" alt="" class="w-10 absolute top-1 right-1" />

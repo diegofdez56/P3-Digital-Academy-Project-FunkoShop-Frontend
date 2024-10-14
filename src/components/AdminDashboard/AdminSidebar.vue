@@ -12,11 +12,6 @@ const sidebarLinks = [
     to: '/admin/products',
     iconPath: productsIcon
   },
-  // {
-  //   label: 'Sales and Billing',
-  //   to: '/admin/sales-billing',
-  //   iconPath: salesBillingIcon
-  // },
   {
     label: 'Categories',
     to: '/admin/categories',
@@ -48,7 +43,6 @@ const sidebarLinks = [
 
         <hr class="border-t-2 border-dashed border-slate-300 mr-5" />
 
-        <!-- TODO: logout logic by auth store -->
         <LogoutButton />
       </div>
     </div>

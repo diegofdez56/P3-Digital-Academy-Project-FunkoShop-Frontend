@@ -1,13 +1,12 @@
 <script setup>
 import { useAuthStore } from '@/stores/auth';
-import { ReviewStore } from '@/stores/review/ReviewStore';
+import { ReviewStore } from '@/stores/review/reviewStore';
 import { onMounted, ref } from 'vue';
 
 
 const reviewStore = ReviewStore()
 const auth = useAuthStore()
 
-//const emit = defineEmits(['close'])
 
 const props = defineProps({
   orderItemId: Number,
@@ -78,7 +77,6 @@ const submitReview = async () => {
 
 </script>
 
-<!-- Form -->
 <template>
   <div class="flex flex-col items-center justify-center">
     <h2 class="text-lg font-semibold mb-4">Leave a review</h2>

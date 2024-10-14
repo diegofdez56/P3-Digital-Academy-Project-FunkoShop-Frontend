@@ -1,6 +1,6 @@
 <script setup>
 import { useAuthStore } from '@/stores/auth';
-import { CategoryStore } from '@/stores/category/CategoryStore';
+import { CategoryStore } from '@/stores/category/categoryStore';
 import { ref } from 'vue';
 
 const TIME_DISMISSED = import.meta.env.VITE_TIME_DISMISSED
