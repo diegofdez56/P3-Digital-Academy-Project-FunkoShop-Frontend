@@ -6,7 +6,6 @@ import ProductModal from './../ProductDetail/ProductModal.vue'
 import { useProductModal } from '/src/composables/useProductModal.js'
 import { computed } from 'vue'
 import { ArrowsPointingOutIcon } from '@heroicons/vue/24/outline';
-//import { useCartStore } from '@/stores/cart/cartStore';
 
 const props = defineProps({
   product: {
@@ -16,7 +15,6 @@ const props = defineProps({
 })
 
 const { isModalOpen, openModal, closeModal } = useProductModal()
-//const cartStore = useCartStore()
 
 
 const discountedPrice = computed(() => {
@@ -41,19 +39,6 @@ const productImageUrl = computed(() => {
   return '';
 });
 
-/* const addToCart = () => {
-  if (1 <= props.product.stock) {
-    const productToAdd = {
-      id: props.product.id,
-      name: props.product.name,
-      price: discountedPrice.value,
-      imageHash: props.product.imageHash
-    }
-    cartStore.addProduct(productToAdd, 1)
-  } else {
-    console.error('Quantity exceeds stock')
-  }
-} */
 </script>
 
 <template>
@@ -91,9 +76,6 @@ const productImageUrl = computed(() => {
           <p v-else class="text-black text-base font-semibold">{{ product.price.toFixed(2) }}€</p>
         </div>
         <div>
-          <!-- <button @click="addToCart" class="px-2 py-2 mr-2 bg-gray-200 text-white rounded hover:bg-gray-300">
-            <ShoppingCartIcon class="size-6 text-black" />
-          </button> -->
           <button @click="openModal" class="px-2 py-2 bg-gray-200 text-white rounded hover:bg-gray-300">
             <ArrowsPointingOutIcon class="size-6 text-black" />
           </button>

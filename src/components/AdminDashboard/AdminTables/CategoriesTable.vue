@@ -1,7 +1,7 @@
 <script setup>
 import { ref, onMounted } from 'vue'
 import BaseTable from '@/components/AdminDashboard/AdminTables/BaseTable.vue'
-import { CategoryStore } from '@/stores/category/CategoryStore'
+import { CategoryStore } from '@/stores/category/categoryStore'
 import CategoryTableRow from './CategoryTableRow.vue';
 import { Dialog, DialogPanel, DialogTitle, TransitionChild, TransitionRoot } from '@headlessui/vue'
 import { ExclamationTriangleIcon } from '@heroicons/vue/24/outline'
@@ -32,7 +32,7 @@ onMounted(() => {
 
 <template>
   <div>
-    <BaseTable :headers="['Name', 'Imagen', 'Highlights']">
+    <BaseTable :headers="['Name', 'Image', 'Highlights']">
       <CategoryTableRow v-for="category in listCategories" :key="category.id" :category="category" :alert="alert" />
     </BaseTable>
   </div>

@@ -1,5 +1,5 @@
 <script setup>
-import { CategoryStore } from '@/stores/category/CategoryStore';
+import { CategoryStore } from '@/stores/category/categoryStore';
 import { ref, onMounted, onUnmounted } from 'vue';
 
 const store = CategoryStore();
@@ -18,17 +18,17 @@ onMounted(() => {
     getCategories();
 });
 
-// Función para actualizar el índice activo
+
 const setActiveIndex = (index) => {
     activeIndex.value = index;
 };
 
-// Función para cambiar al siguiente slide
+
 const nextSlide = () => {
     activeIndex.value = (activeIndex.value + 1) % 2;
 };
 
-// Manejadores del ciclo de vida
+
 let interval;
 onMounted(() => {
     interval = setInterval(() => {

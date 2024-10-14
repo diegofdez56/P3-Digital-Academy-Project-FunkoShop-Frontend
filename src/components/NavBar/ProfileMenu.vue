@@ -27,7 +27,6 @@ const { t } = useI18n()
   <div v-if="!auth.user.isAuthenticated" class="relative">
     <TransitionRoot as="template" :show="modal.openLogin">
       <Dialog class="relative z-10" @close="modal.close()">
-        <!-- Contenido del modal de login -->
         <TransitionChild as="template" enter="ease-out duration-300" enter-from="opacity-0" enter-to="opacity-100"
           leave="ease-in duration-200" leave-from="opacity-100" leave-to="opacity-0">
           <div class="fixed inset-0 bg-gray-500 bg-opacity-75 transition-opacity" />
@@ -49,10 +48,8 @@ const { t } = useI18n()
       </Dialog>
     </TransitionRoot>
 
-    <!-- Modal para registro -->
     <TransitionRoot as="template" :show="modal.openRegister">
       <Dialog class="relative z-10" @close="modal.close()">
-        <!-- Contenido del modal de registro -->
         <TransitionChild as="template" enter="ease-out duration-300" enter-from="opacity-0" enter-to="opacity-100"
           leave="ease-in duration-200" leave-from="opacity-100" leave-to="opacity-0">
           <div class="fixed inset-0 bg-gray-500 bg-opacity-75 transition-opacity" />
@@ -74,13 +71,11 @@ const { t } = useI18n()
       </Dialog>
     </TransitionRoot>
 
-    <!-- Botones para abrir los modales -->
     <button @click="modal.open('register')" class="font-bold">{{ t('register') }}</button>
     <button @click="modal.open('login')" class="font-bold pl-3">{{ t('login') }}</button>
   </div>
 
   <div v-else role="menu" class="relative">
-    <!-- Profile dropdown -->
     <Menu as="div" class="relative">
       <div>
         <MenuButton
