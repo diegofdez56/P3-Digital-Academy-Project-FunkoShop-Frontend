@@ -66,11 +66,6 @@ const router = createRouter({
           component: () => import('@/views/admin/OrdersView.vue')
         },
         {
-          path: 'sales-billing',
-          name: 'admin-sales-billing',
-          component: () => import('@/views/admin/SalesBillingView.vue')
-        },
-        {
           path: 'categories',
           name: 'admin-categories',
           component: () => import('@/views/admin/CategoriesView.vue')

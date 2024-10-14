@@ -21,12 +21,11 @@ const handleDelete = () => {
 </script>
 
 <template>
-  <!-- TODO: ?? show discounted price or not ?? rating ?? -->
+
   <tr class="bg-slate-50 hover:bg-gray-100 text-slate-900 border-t border-slate-300">
     <td class="px-4 py-3 font-semibold">{{ product.name }}</td>
     <td class="px-4 py-3 flex gap-1"><img v-if="product.imageHash" :src="product.imageHash" class="h-10 w-10 object-cover rounded-md" /> <img v-if="product.imageHash2" :src="product.imageHash2" class="h-10 w-10 object-cover rounded-md" /> </td>
     <td class="px-4 py-3">{{ product.category.name }}</td>
-    <!-- <td class="px-4 py-3">{{ product.rating }}</td> -->
     <td class="px-4 py-3">{{ product.stock }}</td>
     <td class="px-4 py-3">{{ product.price }}€</td>
     <td class="px-4 py-3">{{ product.discount ? product.discount + '%' : 'No' }}</td>

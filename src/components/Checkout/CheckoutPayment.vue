@@ -334,7 +334,6 @@ async function orderPayment(isPaid, status) {
           />
         </div>
 
-        <!-- Phone -->
         <div>
           <input
             type="text"
