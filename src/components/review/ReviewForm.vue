@@ -78,10 +78,10 @@ const submitReview = async () => {
 </script>
 
 <template>
-  <div class="flex flex-col items-center justify-center">
-    <h2 class="text-lg font-semibold mb-4">Leave a review</h2>
+  <div class="mx-auto flex flex-col w-60">
+    <h2 class="text-lg font-semibold mb-6 mt-0">Leave a review</h2>
     <form @submit.prevent="submitReview" class="space-y-4 w-full max-w-sm">
-      <div class="flex justify-between">
+      <div class="flex  justify-between">
         <label for="rating" class="block font-medium">Rating:</label>
         <div>
           <button v-for="value in [1, 2, 3, 4, 5]" :key="value" type="button" @click="setRating(value)" :class="{
@@ -92,12 +92,11 @@ const submitReview = async () => {
           </button>
         </div>
       </div>
-
+      <p v-if="message" class="mt-4 text-green-600">{{ message }}</p>
+      <p v-if="error" class="mt-4 text-red-600">{{ error }}</p>
       <button type="submit" class="bg-blue-500 text-white py-2 px-4 rounded hover:bg-blue-600">
         Send
       </button>
     </form>
-    <p v-if="message" class="mt-4 text-green-600">{{ message }}</p>
-    <p v-if="error" class="mt-4 text-red-600">{{ error }}</p>
   </div>
 </template>

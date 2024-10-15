@@ -41,7 +41,7 @@ async function handlePageChange(newPage) {
     <p>Error: {{ error }}</p>
   </div>
   <div v-else>
-    <BaseTable :headers="['Status', 'Order ID', 'Total Items', 'Total Price', 'Details']">
+    <BaseTable :headers="['Order ID', 'Status', 'Paid', 'Total Items', 'Total Price', 'Details']">
       <OrderTableRow v-for="order in orders" :key="order.order_id" :order="order" />
     </BaseTable>
     <BasePagination
