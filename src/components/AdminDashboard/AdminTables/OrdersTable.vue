@@ -50,7 +50,7 @@ const handlePageChange = (newPage) => {
   </div>
 
   <div v-else>
-    <BaseTable :headers="['Status', 'Order ID', 'Total Items', 'Total Price', 'Details']">
+    <BaseTable :headers="['Order ID', 'Status', 'Paid', 'Total Items', 'Total Price', 'Details']">
       <OrdersTableRow
         v-for="order in orders" 
         :key="order.id" 

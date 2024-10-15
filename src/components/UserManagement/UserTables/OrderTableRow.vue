@@ -2,6 +2,7 @@
 import { useProductModal } from '@/composables/useProductModal';
 import OrderItemsModal from './OrderItemsModal.vue';
 import { EllipsisHorizontalCircleIcon } from '@heroicons/vue/20/solid';
+import { CheckIcon, XMarkIcon } from '@heroicons/vue/24/outline';
 
 defineProps({
   order: {
@@ -14,9 +15,9 @@ const { isModalOpen, openModal, closeModal } = useProductModal()
 </script>
 <template>
   <tr class="bg-slate-50 hover:bg-gray-100 text-slate-900 border-t border-slate-300">
-    <td class="px-4 py-3">{{ order.status }}</td>
     <td class="px-4 py-3">{{ order.id }}</td>
-
+    <td class="px-4 py-3">{{ order.status }}</td>
+    <td class="px-4 py-3"><CheckIcon class="h-5 w-5 flex-shrink-0 text-green-600" v-if="order.paid"/> <XMarkIcon class="h-5 w-5 flex-shrink-0 text-red-600" v-else /></td>
     <td class="px-4 py-3">{{ order.totalItems }}</td>
     <td class="px-4 py-3">{{ order.totalPrice }}</td>
     <td>

@@ -1,7 +1,7 @@
 <script setup>
 import OrderItemsModal from '@/components/UserManagement/UserTables/OrderItemsModal.vue';
 import { useProductModal } from '@/composables/useProductModal';
-import { EllipsisHorizontalCircleIcon } from '@heroicons/vue/24/outline';
+import { CheckIcon, EllipsisHorizontalCircleIcon, XMarkIcon } from '@heroicons/vue/24/outline';
 
 
 defineProps({
@@ -16,9 +16,9 @@ const { isModalOpen, openModal, closeModal } = useProductModal()
 
 <template>
   <tr class="bg-slate-50 hover:bg-gray-100 text-slate-900 border-t border-slate-300">
-    <td class="px-4 py-3">{{ order.status }}</td>
     <td class="px-4 py-3">{{ order.id }}</td>
-
+    <td class="px-4 py-3">{{ order.status }}</td>
+    <td class="px-4 py-3"><CheckIcon class="h-5 w-5 flex-shrink-0 text-green-600" v-if="order.paid"/> <XMarkIcon class="h-5 w-5 flex-shrink-0 text-red-600" v-else /></td>
     <td class="px-4 py-3">{{ order.totalItems }}</td>
     <td class="px-4 py-3">{{ order.totalPrice }}</td>
     <td>
