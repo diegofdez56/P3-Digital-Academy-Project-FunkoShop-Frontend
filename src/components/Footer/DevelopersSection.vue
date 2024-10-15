@@ -1,5 +1,8 @@
 <script setup>
+import { useI18n } from 'vue-i18n';
 import Icon from './DeveloperIcon.vue'
+
+const { t } = useI18n();
 
 const developers = [
   {
@@ -38,10 +41,10 @@ const developers = [
 <template>
   <div class="md:col-span-5 flex flex-col justify-center gap-5">
     <div class="mb-2">
-        <img class="h-[104px] w-auto" src="@/assets/img/logos/WhiteLogo.svg" alt="Funko logo" />
+        <img class="h-14 w-auto" src="@/assets/img/logos/WhiteLogo.svg" alt="Funko logo" />
     </div>
 
-    <h3 class="text-blueFunko-50 text-base font-semibold">DEVELOPED BY:</h3>
+    <h3 class="text-blueFunko-50 text-base font-semibold">{{ t('developers.developedBy') }}</h3>
     <div class="flex flex-wrap gap-4">
       <Icon
         v-for="(dev, index) in developers"

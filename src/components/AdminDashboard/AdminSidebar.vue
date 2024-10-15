@@ -2,8 +2,8 @@
 import SidebarLink from './SidebarComponents/SidebarLink.vue'
 import logo from '@/assets/img/logos/BlueLogo.svg'
 import productsIcon from '@/assets/icons/box-open.svg'
-// import ordersIcon from '@/assets/icons/shopping-bag.svg'
-// import salesBillingIcon from '@/assets/icons/euro-sign.svg'
+import ordersIcon from '@/assets/icons/shopping-bag.svg'
+import salesBillingIcon from '@/assets/icons/euro-sign.svg'
 import LogoutButton from './SidebarComponents/LogoutButton.vue'
 
 const sidebarLinks = [
@@ -12,16 +12,16 @@ const sidebarLinks = [
     to: '/admin/products',
     iconPath: productsIcon
   },
-  // {
-  //   label: 'Orders',
-  //   to: '/admin/orders',
-  //   iconPath: ordersIcon
-  // },
-  // {
-  //   label: 'Sales and Billing',
-  //   to: '/admin/sales-billing',
-  //   iconPath: salesBillingIcon
-  // }
+  {
+    label: 'Categories',
+    to: '/admin/categories',
+    iconPath: salesBillingIcon
+  },
+  {
+     label: 'Orders',
+     to: '/admin/orders',
+     iconPath: ordersIcon
+   }
 ]
 </script>
 
@@ -43,7 +43,6 @@ const sidebarLinks = [
 
         <hr class="border-t-2 border-dashed border-slate-300 mr-5" />
 
-        <!-- TODO: logout logic by auth store -->
         <LogoutButton />
       </div>
     </div>

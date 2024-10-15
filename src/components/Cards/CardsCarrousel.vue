@@ -51,8 +51,8 @@ const scrollRight = () => {
       </svg>
     </button>
 
-    <div ref="carousel" class="flex overflow-x-auto scroll-smooth space-x-4 py-4 mx-4">
-      <div v-for="(product, index) in products" :key="product.productId || index" class="flex-none w-64">
+    <div ref="carousel" class="flex overflow-hidden scroll-smooth space-x-4 py-4 mx-4">
+      <div v-for="(product, index) in products" :key="product.productId || index" class="flex-none w-64 overflow-x-auto">
         <FunkoCard :product="product" />
       </div>
     </div>

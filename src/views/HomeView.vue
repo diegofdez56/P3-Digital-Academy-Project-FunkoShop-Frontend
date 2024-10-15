@@ -1,6 +1,6 @@
 <script setup>
 import { useI18n } from 'vue-i18n';
-//import CarrouselBanner from '@/components/HomePage/CarrouselBanner.vue';
+import CarrouselBanner from '@/components/HomePage/CarrouselBanner.vue';
 import CardsCarrousel from '@/components/Cards/CardsCarrousel.vue';
 import NewArrivalsCarrousel from '@/components/Cards/NewArrivalsCarrousel.vue';
 
@@ -9,7 +9,7 @@ const { t } = useI18n();
 
 <template>
   <header>
-    <!-- <CarrouselBanner /> -->
+    <CarrouselBanner />
   </header>
   <main class="flex gap-x-8 flex-col justify-center py-16">
     <div class="mx-auto max-w-full lg:mx-0 text-start px-24">

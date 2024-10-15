@@ -1,38 +1,79 @@
 <script setup>
-import { ref, computed } from 'vue';
-import { Dialog, DialogPanel, DialogTitle, TransitionChild, TransitionRoot } from '@headlessui/vue';
-import { XMarkIcon, ShoppingBagIcon } from '@heroicons/vue/24/outline';
-import { useCartStore } from '@/stores/cart/cartStore';
+import { ref, computed, watch } from 'vue'
+import { Dialog, DialogPanel, DialogTitle, TransitionChild, TransitionRoot } from '@headlessui/vue'
+import { XMarkIcon, ShoppingCartIcon } from '@heroicons/vue/24/outline'
+import { useCartStore } from '@/stores/cart/cartStore'
+import { useI18n } from 'vue-i18n'
+import { useRouter } from 'vue-router'
+import { useAuthStore } from '@/stores/auth'
+import LoginModal from '../auth/LoginModal.vue'
 
-const open = ref(false);
+const open = ref(false)
+const openLogin = ref(false)
+const attemptedCheckout = ref(false)
 
-const cartStore = useCartStore();
+const cartStore = useCartStore()
+const authStore = useAuthStore()
+const router = useRouter()
+
+const { t } = useI18n()
 
 const cartProducts = computed(() => {
-  return cartStore.products;
-});
+  return cartStore.products
+})
 
 const totalPrice = computed(() => {
-  return cartStore.totalPrice;
-});
+  return cartStore.totalPrice
+})
 
 const removeFromCart = (id) => {
   if (!cartProducts.value) {
-    return;
+    return
   }
 
-
-  const productExists = cartProducts.value.find(product => product.id === id);
+  const productExists = cartProducts.value.find((product) => product.id === id)
   if (productExists) {
-    cartStore.removeProduct(id);
+    cartStore.removeProduct(id)
+  }
+}
+
+const checkout = () => {
+  if (!cartProducts.value.length) {
+    alert(t('shoppingCart.emptyCartMessage')); 
+    return;
+  }
+  if (authStore.user.isAuthenticated) {
+    open.value = false;
+    router.push('/checkout');
+  } else {
+    attemptedCheckout.value = true;
+    open.value = false;
+    openLogin.value = true;
   }
 };
 
+const handleLoginSuccess = () => {
+  openLogin.value = false;
+  if (attemptedCheckout.value) {
+    attemptedCheckout.value = false;
+    router.push('/checkout');
+  }
+};
+
+watch(
+  () => authStore.user.isAuthenticated,
+  (isAuthenticated) => {
+    if (isAuthenticated && attemptedCheckout.value) {
+      attemptedCheckout.value = false;
+      router.push('/checkout');
+    }
+  }
+)
 </script>
 
 <template>
   <button @click="open = true" class="px-1.5 py-1.5">
-    <ShoppingBagIcon class="h-5 w-5 flex-shrink-0 text-black group-hover:text-gray-400" aria-hidden="true" />
+    <ShoppingCartIcon class="h-5 w-5 flex-shrink-0 text-black group-hover:text-gray-400" aria-hidden="true" />
   </button>
   <TransitionRoot as="template" :show="open">
     <Dialog class="relative z-10" @close="open = false">
@@ -52,7 +93,9 @@ const removeFromCart = (id) => {
                 <div class="flex h-full flex-col overflow-y-scroll bg-white shadow-xl">
                   <div class="flex-1 overflow-y-auto px-4 py-6 sm:px-6">
                     <div class="flex items-start justify-between">
-                      <DialogTitle class="text-lg font-medium text-gray-900">Shopping cart</DialogTitle>
+                      <DialogTitle class="text-lg font-medium text-gray-900">{{
+                        t('shoppingCart.shoppingCart')
+                      }}</DialogTitle>
                       <div class="ml-3 flex h-7 items-center">
                         <button type="button" class="relative -m-2 p-2 text-gray-400 hover:text-gray-500"
                           @click="open = false">
@@ -66,15 +109,9 @@ const removeFromCart = (id) => {
                     <div class="mt-8">
                       <div class="flow-root">
                         <ul role="list" class="-my-6 divide-y divide-gray-200">
-
                           <li v-for="product in cartProducts" :key="product.id" class="flex py-6">
                             <div class="h-24 w-24 flex-shrink-0 overflow-hidden rounded-md border border-gray-200">
-                              <!-- <img
-                                :src="product.imageSrc" 
-                                :alt="product.imageAlt" 
-                                class="h-full w-full object-cover object-center"
-                              /> -->
-                              <img src="../../assets/img/CardImage/Groot.png" alt="Groot"
+                              <img :src="product.imageHash" :alt="product.name"
                                 class="h-full w-full object-cover object-center" />
                             </div>
 
@@ -102,7 +139,7 @@ const removeFromCart = (id) => {
                           </li>
                           <template v-if="!cartProducts.length">
                             <li class="flex py-6 text-center w-full text-gray-500">
-                              No products in the cart
+                              {{ t('shoppingCart.emptyCart') }}
                             </li>
                           </template>
                         </ul>
@@ -116,18 +153,18 @@ const removeFromCart = (id) => {
                       <p>{{ totalPrice }}€</p>
                     </div>
                     <p class="mt-0.5 text-sm text-gray-500">
-                      Shipping and taxes calculated at checkout.
+                      {{ t('shoppingCart.shipping') }}
                     </p>
-                    <!-- <div class="mt-6">
-                      <a href="#"
-                        class="flex items-center justify-center rounded-md border border-transparent bg-blueFunko-700 px-6 py-3 text-base font-medium text-white shadow-sm hover:bg-blueFunko-800">Checkout</a>
-                    </div> -->
+                    <div class="mt-6">
+                      <button @click="checkout"
+                        class="w-full bg-blueFunko-700 text-white py-3 rounded-md hover:bg-blueFunko-800">{{t("shoppingCart.checkout") }}</button>
+                    </div>
                     <div class="mt-6 flex justify-center text-center text-sm text-gray-500">
                       <p>
-                        or{{ ' ' }}
+                        {{ t('shoppingCart.or') }}{{ ' ' }}
                         <button type="button" class="font-medium text-blueFunko-500 hover:text-blueFunko-600"
                           @click="open = false">
-                          Continue Shopping
+                          {{ t('shoppingCart.continueShopping') }}
                           <span aria-hidden="true"> &rarr;</span>
                         </button>
                       </p>
@@ -141,4 +178,27 @@ const removeFromCart = (id) => {
       </div>
     </Dialog>
   </TransitionRoot>
+  <div v-if="!authStore.user.isAuthenticated" class="relative">
+    <TransitionRoot as="template" :show="openLogin">
+      <Dialog class="relative z-10" @close="openLogin = false">
+        <TransitionChild as="template" enter="ease-in-out duration-300" enter-from="opacity-0" enter-to="opacity-100"
+          leave="ease-in-out duration-200" leave-from="opacity-100" leave-to="opacity-0">
+          <div class="fixed inset-0 bg-gray-500 bg-opacity-75 transition-opacity" />
+        </TransitionChild>
+        <div class="fixed inset-0 z-10 w-screen overflow-y-auto">
+          <div class="flex min-h-full items-end justify-center p-4 text-center sm:items-center sm:p-0">
+            <TransitionChild as="template" enter="ease-out duration-300"
+              enter-from="opacity-0 translate-y-4 sm:translate-y-0 sm:scale-95"
+              enter-to="opacity-100 translate-y-0 sm:scale-100" leave="ease-in duration-200"
+              leave-from="opacity-100 translate-y-0 sm:scale-100"
+              leave-to="opacity-0 translate-y-4 sm:translate-y-0 sm:scale-95">
+              <DialogPanel class="shadow-xl transition-all w-full max-w-md rounded-2xl">
+                <LoginModal @close="openLogin = false" @Login-success="handleLoginSuccess" />
+              </DialogPanel>
+            </TransitionChild>
+          </div>
+        </div>
+      </Dialog>
+    </TransitionRoot>
+  </div>
 </template>
