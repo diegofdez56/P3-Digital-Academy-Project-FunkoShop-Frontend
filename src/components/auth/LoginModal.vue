@@ -50,7 +50,7 @@ async function login() {
       textAlert.value = t("alert2");
     }
   else
-    textAlert.value =  t("alert3") ;
+    textAlert.value = t("alert3");
 }
 </script>
 
@@ -94,8 +94,8 @@ async function login() {
         </form>
 
       </div>
-      <img src="../assets/img/details/PointShape.svg" alt="" class="w-10 absolute bottom-1 left-1" />
-      <img src="../assets/img/details/PointShape.svg" alt="" class="w-10 absolute top-1 right-1" />
+      <img src="/src/assets/img/details/PointShape.svg" alt="" class="w-10 absolute bottom-1 left-1" />
+      <img src="/src/assets/img/details/PointShape.svg" alt="" class="w-10 absolute top-1 right-1" />
     </div>
   </div>
 </template>

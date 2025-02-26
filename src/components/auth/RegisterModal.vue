@@ -103,8 +103,8 @@ async function register() {
         </form>
 
       </div>
-      <img src="../assets/img/details/PointShape.svg" alt="" class="w-10 absolute bottom-1 left-1" />
-      <img src="../assets/img/details/PointShape.svg" alt="" class="w-10 absolute top-1 right-1" />
+      <img src="/src/assets/img/details/PointShape.svg" alt="" class="w-10 absolute bottom-1 left-1" />
+      <img src="/src/assets/img/details/PointShape.svg" alt="" class="w-10 absolute top-1 right-1" />
     </div>
   </div>
 </template>
